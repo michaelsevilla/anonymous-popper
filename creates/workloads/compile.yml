@@ -1,0 +1,76 @@
+---
+
+- hosts: clients[0]
+  become: True
+  tasks:
+  - name: drop the os file cache
+    shell: sudo sh -c "$(which echo) 3 > /proc/sys/vm/drop_caches"
+
+  - name: remove old containers
+    shell: docker rm -f client
+    ignore_errors: True
+
+  - name: run the job
+    shell: >
+           docker run --rm \
+             --name=client \
+             --net=host \
+             --volumes-from cephfs \
+             piha.soe.ucsc.edu:5000/michaelsevilla/kernel-build
+    register: results
+
+  - name: spit reults to a file
+    local_action: >
+      copy 
+      content={{ results }} 
+      dest="{{ playbook_dir|dirname }}/results/compile-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"
+
+- hosts: clients[1]
+  become: True
+  tasks:
+  - name: drop the os file cache
+    shell: sudo sh -c "$(which echo) 3 > /proc/sys/vm/drop_caches"
+
+  - name: remove old containers
+    shell: docker rm -f client
+    ignore_errors: True
+
+  - name: run the job
+    shell: >
+           docker run --rm \
+             --name=client \
+             --net=host \
+             --volumes-from cephfs \
+             piha.soe.ucsc.edu:5000/michaelsevilla/kernel-build
+    register: results
+
+  - name: spit reults to a file
+    local_action: >
+      copy 
+      content={{ results }} 
+      dest="{{ playbook_dir|dirname }}/results/compile-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"
+
+- hosts: clients[2]
+  become: True
+  tasks:
+  - name: drop the os file cache
+    shell: sudo sh -c "$(which echo) 3 > /proc/sys/vm/drop_caches"
+
+  - name: remove old containers
+    shell: docker rm -f client
+    ignore_errors: True
+
+  - name: run the job
+    shell: >
+           docker run --rm \
+             --name=client \
+             --net=host \
+             --volumes-from cephfs \
+             piha.soe.ucsc.edu:5000/michaelsevilla/kernel-build
+    register: results
+
+  - name: spit reults to a file
+    local_action: >
+      copy 
+      content={{ results }} 
+      dest="{{ playbook_dir|dirname }}/results/compile-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"
