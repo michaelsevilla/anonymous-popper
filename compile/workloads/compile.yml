@@ -1,0 +1,16 @@
+---
+
+- hosts: clients[0]
+  become: True
+  tasks:
+  - include: make.yml
+
+- hosts: clients[1]
+  become: True
+  tasks:
+  - include: make.yml
+
+- hosts: clients[2]
+  become: True
+  tasks:
+  - include: make.yml

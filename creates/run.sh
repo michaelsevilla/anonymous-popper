@@ -16,3 +16,9 @@ cp -r site/group_vars site/roles/ceph-ansible/
 $SRL_ANSIBLE cleanup.yml
 $CEPH_ANSIBLE ceph.yml cephfs.yml
 $SRL_ANSIBLE ceph_pgs.yml ceph_monitor.yml ceph_wait.yml
+
+for i in 0 1 2; do 
+  ./ansible-playbook.sh -e nfiles=100000 ../workloads/creates.yml
+done
+
+./ansible-playbook.sh collect.yml

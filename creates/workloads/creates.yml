@@ -1,0 +1,25 @@
+- hosts: clients[0]
+  become: True
+  tasks:
+  - name: check for the number of files
+    fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+
+  - name: create the test directory
+    shell: docker exec cephfs mkdir /cephfs/testdir
+    ignore_errors: True
+
+  - name: sleep 
+    pause: minutes=1
+
+  - include: mdtest.yml
+
+- hosts: clients[1]
+  become: True
+  tasks:
+  - include: mdtest.yml
+
+- hosts: clients[2]
+  become: True
+  tasks:
+  - include: mdtest.yml

@@ -1,0 +1,51 @@
+---
+
+- name: drop the os file cache
+  shell: sudo sh -c "$(which echo) 3 > /proc/sys/vm/drop_caches"
+
+- name: remove old containers
+  shell: docker rm -f client
+  ignore_errors: True
+
+- name: start the job
+  shell: >
+         docker run -d -it \
+           --name=client \
+           --volumes-from cephfs \
+           --entrypoint=/bin/bash \
+           michaelsevilla/mdtest
+
+- name: define the job
+  set_fact:
+    job:
+      - "/mdtest/mdtest -F -C -n 100 -d /cephfs/testdir-100/"
+      - "ls -alh /cephfs/testdir-100/"
+      - "du -sh  /cephfs/testdir-100/"
+      - "rm -rf  /cephfs/testdir-100/"
+      - "mkdir   /cephfs/testdir-100/"
+      - "/mdtest/mdtest -F -C -n 1000 -d /cephfs/testdir-1000/"
+      - "ls -alh /cephfs/testdir-1000/"
+      - "du -sh  /cephfs/testdir-1000/"
+      - "rm -rf  /cephfs/testdir-1000/"
+      - "mkdir   /cephfs/testdir-1000/"
+      - "/mdtest/mdtest -F -C -n 10000 -d /cephfs/testdir-10000/"
+      - "ls -alh /cephfs/testdir-10000/"
+      - "du -sh  /cephfs/testdir-10000/"
+      - "rm -rf  /cephfs/testdir-10000/"
+      - "/mdtest/mdtest -F -C -n 100000 -d /cephfs/testdir-100000/"
+      - "ls -alh /cephfs/testdir-100000/"
+      - "du -sh  /cephfs/testdir-100000/"
+      - "rm -rf  /cephfs/testdir-100000/"
+
+- name: run the job
+  shell: "docker exec client /bin/bash -c \"{{ item.1 }}\""
+  register: results
+  with_nested:
+  - [0]
+  - "{{ job }}"
+
+- name: spit results to a file
+  connection: local
+  template: src=parse.j2 dest="{{ playbook_dir|dirname }}/results/scale-{{ ansible_hostname }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}.txt"
+  with_items:
+  - "{{ results.results }}"

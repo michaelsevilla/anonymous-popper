@@ -4,3 +4,15 @@
 [submodule "creates/site/roles/srl-ansible"]
 	path = creates/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git
+[submodule "compile/site/roles/srl-ansible"]
+	path = compile/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
+[submodule "compile/site/roles/ceph-ansible"]
+	path = compile/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "scale/site/roles/ceph-ansible"]
+	path = scale/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "scale/site/roles/srl-ansible"]
+	path = scale/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
