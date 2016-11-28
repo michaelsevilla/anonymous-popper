@@ -1,0 +1,42 @@
+- name: setup dir
+  set_fact: dir="/mnt/test/{{ ansible_hostname }}"
+
+- name: remove old containers
+  shell: docker rm -f client
+  ignore_errors: True
+
+- name: start the job
+  shell: >
+         docker run -d -it \
+           --name=client \
+           --net=host \
+           --entrypoint=/bin/bash \
+           --volumes-from fuse \
+           piha.soe.ucsc.edu:5000/michaelsevilla/kernel-build
+
+- name: create a directory
+  shell: mkdir -p {{ dir }}
+  ignore_errors: True
+
+- name: define the job
+  set_fact:
+    job:
+      - "wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.9-rc6.tar.xz"
+      - "tar xf linux-4.9-rc6.tar.xz"
+      - "cd linux-4.9-rc6; make allnoconfig"
+      - "cd linux-4.9-rc6; make -j3"
+      - "ls -alh linux-4.9-rc6"
+      - "rm -r linux-4.9-rc6"
+
+- name: run the job
+  shell: "docker exec client /bin/bash -c \"cd {{ dir }}; {{ item.1 }}\""
+  register: results
+  with_nested:
+  - [0]
+  - "{{ job }}"
+
+- name: spit results to a file
+  connection: local
+  template: src=parse.j2 dest="{{ playbook_dir|dirname }}/results/compile-{{ site }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}.txt"
+  with_items:
+  - "{{ results.results }}"

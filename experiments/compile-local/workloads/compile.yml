@@ -1,0 +1,6 @@
+---
+
+- hosts: localhost
+  become: True
+  tasks:
+  - include: make.yml

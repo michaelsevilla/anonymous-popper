@@ -1,0 +1,2 @@
+[localhost]
+192.168.140.85 ansible_ssh_user=msevilla
