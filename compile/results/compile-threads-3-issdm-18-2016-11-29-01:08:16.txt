@@ -1,0 +1,7 @@
+delta,cmd
+"0:00:05.190145","wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.9-rc6.tar.xz"
+"0:06:21.898139","tar xf linux-4.9-rc6.tar.xz"
+"0:00:12.693111","cd linux-4.9-rc6; make allnoconfig"
+"0:08:36.762208","cd linux-4.9-rc6; make -j3"
+"0:00:00.124923","ls -alh linux-4.9-rc6"
+"0:02:28.557185","rm -r linux-4.9-rc6"

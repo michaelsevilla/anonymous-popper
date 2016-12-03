@@ -1,20 +1,22 @@
-2016-11-27 22:06:03  /entrypoint.sh: static: does not generate config
+2016-11-28 21:57:12  /entrypoint.sh: static: does not generate config
 HEALTH_WARN too few PGs per OSD (8 < min 30)
-2016-11-27 22:06:04  /entrypoint.sh: static: does not generate admin key
-2016-11-27 22:06:05  /entrypoint.sh: SUCCESS
-2016-11-27 22:06:05.392082 7f5d38634300  0 set uid:gid to 64045:64045 (ceph:ceph)
-2016-11-27 22:06:05.392125 7f5d38634300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 85
+2016-11-28 21:57:13  /entrypoint.sh: static: does not generate admin key
+2016-11-28 21:57:13  /entrypoint.sh: SUCCESS
+2016-11-28 21:57:13.785479 7f17871f9300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-11-28 21:57:13.785519 7f17871f9300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 84
 starting mds.issdm-15 at -
-2016-11-27 22:06:05.394378 7f5d38634300  0 pidfile_write: ignore empty --pid-file
-2016-11-27 22:07:24.024385 7f5d3103e700  0 mds.2.cache creating system inode with ino:102
-2016-11-27 22:07:24.024537 7f5d3103e700  0 mds.2.cache creating system inode with ino:614
-2016-11-27 22:07:24.025025 7f5d3103e700  0 mds.2.cache creating system inode with ino:615
-2016-11-27 22:07:24.025477 7f5d3103e700  0 mds.2.cache creating system inode with ino:616
-2016-11-27 22:07:24.025851 7f5d3103e700  0 mds.2.cache creating system inode with ino:617
-2016-11-27 22:07:24.026249 7f5d3103e700  0 mds.2.cache creating system inode with ino:618
-2016-11-27 22:07:24.026478 7f5d3103e700  0 mds.2.cache creating system inode with ino:619
-2016-11-27 22:07:24.026683 7f5d3103e700  0 mds.2.cache creating system inode with ino:61a
-2016-11-27 22:07:24.026906 7f5d3103e700  0 mds.2.cache creating system inode with ino:61b
-2016-11-27 22:07:24.027087 7f5d3103e700  0 mds.2.cache creating system inode with ino:61c
-2016-11-27 22:07:24.027300 7f5d3103e700  0 mds.2.cache creating system inode with ino:61d
-2016-11-27 22:07:25.089893 7f5d32fbd700  0 -- 192.168.140.248:6800/3378670759 >> 192.168.140.188:6800/476753291 conn(0x7f5d431c0000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING
+2016-11-28 21:57:13.787374 7f17871f9300  0 pidfile_write: ignore empty --pid-file
+2016-11-28 21:58:33.523669 7f177fc03700  0 mds.2.cache creating system inode with ino:102
+2016-11-28 21:58:33.523823 7f177fc03700  0 mds.2.cache creating system inode with ino:614
+2016-11-28 21:58:33.524078 7f177fc03700  0 mds.2.cache creating system inode with ino:615
+2016-11-28 21:58:33.524200 7f177fc03700  0 mds.2.cache creating system inode with ino:616
+2016-11-28 21:58:33.524316 7f177fc03700  0 mds.2.cache creating system inode with ino:617
+2016-11-28 21:58:33.524614 7f177fc03700  0 mds.2.cache creating system inode with ino:618
+2016-11-28 21:58:33.524769 7f177fc03700  0 mds.2.cache creating system inode with ino:619
+2016-11-28 21:58:33.524913 7f177fc03700  0 mds.2.cache creating system inode with ino:61a
+2016-11-28 21:58:33.525030 7f177fc03700  0 mds.2.cache creating system inode with ino:61b
+2016-11-28 21:58:33.525142 7f177fc03700  0 mds.2.cache creating system inode with ino:61c
+2016-11-28 21:58:33.525319 7f177fc03700  0 mds.2.cache creating system inode with ino:61d
+2016-11-29 06:58:34.615937 7f1781b82700  0 -- 192.168.140.248:6800/2792645706 >> 192.168.140.188:6800/641905211 conn(0x7f178ff50000 :6800 s=STATE_OPEN pgs=10 cs=1 l=0).fault with nothing to send, going to standby
+2016-11-29 11:40:12.532813 7f1782383700  0 -- 192.168.140.248:6800/2792645706 >> 192.168.140.188:6800/641905211 conn(0x7f17904b2000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 1 vs existing csq=1 existing_state=STATE_STANDBY
+2016-11-29 11:40:12.533292 7f1782383700  0 -- 192.168.140.248:6800/2792645706 >> 192.168.140.188:6800/641905211 conn(0x7f17904b2000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 2 vs existing csq=1 existing_state=STATE_STANDBY

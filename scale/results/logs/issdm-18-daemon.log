@@ -1,23 +1,22 @@
-2016-11-28 08:15:52  /entrypoint.sh: static: does not generate config
+2016-11-28 09:16:18  /entrypoint.sh: static: does not generate config
 HEALTH_WARN too few PGs per OSD (8 < min 30)
-2016-11-28 08:15:53  /entrypoint.sh: static: does not generate admin key
-2016-11-28 08:15:54  /entrypoint.sh: SUCCESS
-2016-11-28 08:15:54.444391 7f0a7622d300  0 set uid:gid to 64045:64045 (ceph:ceph)
-2016-11-28 08:15:54.444443 7f0a7622d300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 84
+2016-11-28 09:16:19  /entrypoint.sh: static: does not generate admin key
+2016-11-28 09:16:20  /entrypoint.sh: SUCCESS
+2016-11-28 09:16:20.397194 7fbb3b6f1300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-11-28 09:16:20.397250 7fbb3b6f1300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 85
 starting mds.issdm-18 at -
-2016-11-28 08:15:54.446690 7f0a7622d300  0 pidfile_write: ignore empty --pid-file
-2016-11-28 08:16:33.440424 7f0a6ec37700  0 mds.1.cache creating system inode with ino:101
-2016-11-28 08:16:33.440634 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60a
-2016-11-28 08:16:33.440936 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60b
-2016-11-28 08:16:33.441041 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60c
-2016-11-28 08:16:33.441137 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60d
-2016-11-28 08:16:33.441417 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60e
-2016-11-28 08:16:33.441554 7f0a6ec37700  0 mds.1.cache creating system inode with ino:60f
-2016-11-28 08:16:33.441674 7f0a6ec37700  0 mds.1.cache creating system inode with ino:610
-2016-11-28 08:16:33.441773 7f0a6ec37700  0 mds.1.cache creating system inode with ino:611
-2016-11-28 08:16:33.441874 7f0a6ec37700  0 mds.1.cache creating system inode with ino:612
-2016-11-28 08:16:33.442004 7f0a6ec37700  0 mds.1.cache creating system inode with ino:613
-2016-11-28 08:16:37.814598 7f0a71bb8700  0 -- 192.168.140.230:6800/2675217735 >> 192.168.140.188:6800/4245416801 conn(0x7f0a7fdb4000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
-2016-11-28 08:16:37.814854 7f0a71bb8700  0 -- 192.168.140.230:6800/2675217735 >> 192.168.140.188:6800/4245416801 conn(0x7f0a7fdb4000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
-2016-11-28 08:16:39.042923 7f0a70bb6700  0 -- 192.168.140.230:6800/2675217735 >> 192.168.140.248:6800/377159666 conn(0x7f0a7fdb5800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
-2016-11-28 08:16:39.043443 7f0a70bb6700  0 -- 192.168.140.230:6800/2675217735 >> 192.168.140.248:6800/377159666 conn(0x7f0a7fdb5800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
+2016-11-28 09:16:20.399719 7fbb3b6f1300  0 pidfile_write: ignore empty --pid-file
+2016-11-28 09:16:59.844731 7fbb340fb700  0 mds.1.cache creating system inode with ino:101
+2016-11-28 09:16:59.844889 7fbb340fb700  0 mds.1.cache creating system inode with ino:60a
+2016-11-28 09:16:59.845156 7fbb340fb700  0 mds.1.cache creating system inode with ino:60b
+2016-11-28 09:16:59.845269 7fbb340fb700  0 mds.1.cache creating system inode with ino:60c
+2016-11-28 09:16:59.845373 7fbb340fb700  0 mds.1.cache creating system inode with ino:60d
+2016-11-28 09:16:59.845662 7fbb340fb700  0 mds.1.cache creating system inode with ino:60e
+2016-11-28 09:16:59.845780 7fbb340fb700  0 mds.1.cache creating system inode with ino:60f
+2016-11-28 09:16:59.845922 7fbb340fb700  0 mds.1.cache creating system inode with ino:610
+2016-11-28 09:16:59.846015 7fbb340fb700  0 mds.1.cache creating system inode with ino:611
+2016-11-28 09:16:59.846111 7fbb340fb700  0 mds.1.cache creating system inode with ino:612
+2016-11-28 09:16:59.846239 7fbb340fb700  0 mds.1.cache creating system inode with ino:613
+2016-11-28 09:17:04.336110 7fbb3707c700  0 -- 192.168.140.230:6800/3498625976 >> 192.168.140.188:6800/2984703548 conn(0x7fbb44692000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-11-28 09:17:04.840166 7fbb3607a700  0 -- 192.168.140.230:6800/3498625976 >> 192.168.140.248:6800/4087359382 conn(0x7fbb44696800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_BANNER_AND_IDENTIFY
+2016-11-28 09:32:04.841801 7fbb3607a700  0 -- 192.168.140.230:6800/3498625976 >> 192.168.140.248:6800/4087359382 conn(0x7fbb446e8000 :-1 s=STATE_OPEN pgs=11 cs=1 l=0).fault with nothing to send, going to standby

@@ -18,7 +18,14 @@ $CEPH_ANSIBLE ceph.yml cephfs.yml
 $SRL_ANSIBLE ceph_pgs.yml ceph_monitor.yml ceph_wait.yml
 
 for i in 0 1 2; do
-  ./ansible-playbook.sh ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=1" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=2" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=3" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=4" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=5" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=6" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=7" ../workloads/compile.yml
+  ./ansible-playbook.sh -e "threads=8" ../workloads/compile.yml
 done
 
 ./ansible-playbook.sh collect.yml

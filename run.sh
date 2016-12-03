@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-for w in "scale"; do
+for w in "compile" "creates" "scale"; do
   cd $w
   ./run.sh
   cd -
