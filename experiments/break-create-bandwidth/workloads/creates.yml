@@ -1,0 +1,45 @@
+- hosts: clients[1]
+  become: True
+  tasks:
+  - name: check for the number of files
+    fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+
+  - name: create the test directory
+    shell: docker exec cephfs mkdir /cephfs/testdir
+    ignore_errors: True
+
+  - name: sleep 
+    pause: minutes=1
+
+  - include: mdtest.yml
+
+- hosts: clients[1]
+  become: True
+  tasks:
+  - name: wait for the job to finish
+    shell: "docker inspect -f {% raw %}'{{ .State.Running }}' {% endraw %} client"
+    register: result
+    until:    result.stdout.find("false") != -1
+    retries:  600
+  - debug:    var=result.stdout_lines
+
+  - name: get the output
+    shell: docker logs client
+    register: results
+
+  - name: spit results to a file
+    local_action: >
+      copy 
+      content={{ results }} 
+      dest="{{ playbook_dir|dirname }}/results/mdtest-{{ nfiles }}-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"
+
+  - name: get the status of Ceph
+    shell: docker exec cephfs ceph -s
+    register: results
+
+  - name: 
+    local_action: >
+      copy
+      content={{ results }}
+      dest="{{ playbook_dir|dirname }}/results/ceph-status-{{ nfiles }}-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"

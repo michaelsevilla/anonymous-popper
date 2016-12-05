@@ -1,0 +1,11 @@
+---
+- name: run the hadoop resourcemanager docker image
+  shell: >
+    docker run -dt \
+      --name "hadoop-resourcemanager" \
+      --net "host" \
+      -e "HADOOP_DAEMON=RESOURCEMANAGER" \
+      -e "HADOOP_CLASSPATH=/usr/local/hadoop/share/hadoop/tools/lib/*" \
+      -e "YARN_CLASSPATH=/usr/local/hadoop/share/hadoop/tools/lib/*" \
+      -v "/etc/hadoop:/etc/hadoop" \
+      "{{ hadoop_docker_username }}/{{ hadoop_docker_imagename }}"

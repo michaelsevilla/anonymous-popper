@@ -1,0 +1,7 @@
+---
+# Variables here are applicable to all host groups labeled as 'mon'. For a list
+# of default values, see roles/ceph-ansible/ceph-mon/defaults/main.yml
+
+mon_containerized_deployment: true
+ceph_mon_docker_interface: eth0
+ceph_mon_docker_subnet: 127.0.0.1/24

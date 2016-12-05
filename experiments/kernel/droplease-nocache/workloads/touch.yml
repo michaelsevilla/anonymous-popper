@@ -1,0 +1,48 @@
+- hosts: clients[1]
+  become: True
+  tasks:
+  - name: check for the number of files
+    fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+
+  - name: check for the number of files
+    fail: msg="Uh oh. Please define drop_delay"
+    when: drop_delay is not defined
+
+  - name: create the test directory
+    shell: docker exec cephfs mkdir /cephfs/testdir
+    ignore_errors: True
+
+  - name: sleep 
+    pause: minutes=1
+
+  - include: mdtest.yml
+
+  - name: sleep again
+    pause: minutes={{ drop_delay }}
+
+- hosts: clients[2]
+  become: True
+  tasks:
+  - name: force MDS to drop lease by recursively creating a file in dir
+    shell: docker exec cephfs /bin/bash -c "find /cephfs/testdir -type d -exec touch {}/file \;"
+
+- hosts: clients[1]
+  become: True
+  tasks:
+  - name: wait for the job to finish
+    shell: "docker inspect -f {% raw %}'{{ .State.Running }}' {% endraw %} client"
+    register: result
+    until:    result.stdout.find("false") != -1
+    retries:  600
+  - debug:    var=result.stdout_lines
+
+  - name: get the output
+    shell: docker logs client
+    register: results
+
+  - name: spit results to a file
+    local_action: >
+      copy 
+      content={{ results }} 
+      dest="{{ playbook_dir|dirname }}/results/mdtest-touch-{{ nfiles }}-drop_delay-{{ drop_delay }}-{{ ansible_hostname }}-{{ results.start | replace(' ', '_') }}.txt"

@@ -1,0 +1,20 @@
+# Author: Michael Sevilla
+# Deploy Hadoop on the localhost 
+
+- include: site/site.yml
+- include: site/check.yml
+
+- hosts: namenode
+  tasks:
+    - include_vars: group_vars/client
+
+    - name: activate hdfs (since we reformatted)
+      command: "{{ hadoop }} dfsadmin -safemode leave"
+
+    - name: upload a small file
+      command: "{{ hadoop }} dfs -copyFromLocal entrypoint.sh in"
+
+    - name: run hadoop's wordcount job
+      command: "{{ hadoop }} jar {{ examples }} wordcount in out"
+      register: result
+    - debug: var=result.stderr.split('\n')

@@ -18,18 +18,18 @@ $CEPH_ANSIBLE ceph.yml cephfs.yml
 $SRL_ANSIBLE ceph_pgs.yml ceph_monitor.yml ceph_wait.yml
 
 # warmup and get baseline
-for i in `seq 0 3`; do
-  ./ansible-playbook.sh -e nfiles=100000 ../workloads/creates.yml
-done
+#for i in `seq 0 3`; do
+#  ./ansible-playbook.sh -e nfiles=100000 ../workloads/creates.yml
+#done
 
-# baseline the drop delays
-for i in 2 4 6; do
-  ./ansible-playbook.sh -e nfiles=100000 -e drop_delay=${i} ../workloads/stat.yml
-done
-
-# scale the length fo the test (do we see open/close spike?)
-for i in 10000 50000 100000; do
-  ./ansible-playbook.sh -e nfiles=${i} ../workloads/creates.yml
-done
-
-./ansible-playbook.sh collect.yml
+## baseline the drop delays
+#for i in 2 4 6; do
+#  ./ansible-playbook.sh -e nfiles=100000 -e drop_delay=${i} ../workloads/stat.yml
+#done
+#
+## scale the length fo the test (do we see open/close spike?)
+#for i in 10000 50000 100000; do
+#  ./ansible-playbook.sh -e nfiles=${i} ../workloads/creates.yml
+#done
+#
+#./ansible-playbook.sh collect.yml

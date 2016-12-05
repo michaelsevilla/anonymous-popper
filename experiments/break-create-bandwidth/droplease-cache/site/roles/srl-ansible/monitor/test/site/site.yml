@@ -1,0 +1,12 @@
+# Author: Michael Sevilla
+# Deploy the monitoring framework
+
+- hosts: graphite
+  become: True
+  roles:
+    - monitor/graphite
+
+- hosts: workers
+  become: True
+  roles:
+    - monitor/collectl

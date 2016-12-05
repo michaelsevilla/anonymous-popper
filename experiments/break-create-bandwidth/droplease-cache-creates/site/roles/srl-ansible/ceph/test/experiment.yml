@@ -1,0 +1,13 @@
+---
+- include: site/setup.yml
+- include: site/site.yml
+
+- hosts: localhost
+  tasks: 
+
+    - pause: minutes=1
+
+    - name: get the status of the ceph cluster
+      command: docker exec {{ ansible_hostname }} ceph -s
+      register: result
+    - debug: var=result.stdout_lines

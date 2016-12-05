@@ -1,0 +1,14 @@
+---
+- name: run the keystone docker image
+  shell:
+    docker run -d \
+      --name "keystone" \
+      --net host \
+      -e "OS_USERNAME=admin" \
+      -e "OS_PASSWORD=ssmssm99" \
+      -e "OS_PROJECT_NAME=root" \
+      -e "OS_AUTH_URL=http://localhost:35357/v2.0" \
+      -e "OS_SERVICE_ENDPOINT=http://localhost:35357/v2.0" \
+      -e "OS_SERVICE_TOKEN=ADMIN" \
+      -e "OS_REGION_NAME=RegionOne" \
+      "{{ keystone_docker_username }}/{{ keystone_docker_imagename }}"

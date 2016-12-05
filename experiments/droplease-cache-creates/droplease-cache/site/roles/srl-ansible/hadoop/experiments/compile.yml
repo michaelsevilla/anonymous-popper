@@ -1,0 +1,10 @@
+# Author: Michael Sevilla
+# Compile Hadoop on the localhost
+
+- hosts: all
+  roles:
+    - role: emaster/cleanup
+      containers: hadoop hadoop-build
+
+- hosts: localhost
+  roles: [hadoop/build]

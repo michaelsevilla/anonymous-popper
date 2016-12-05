@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: True
+  roles:
+    - role: cleanup
+      delete:
+        - /etc/ceph
+        - /var/lib/ceph
+      #images:
+      #  - ceph/daemon

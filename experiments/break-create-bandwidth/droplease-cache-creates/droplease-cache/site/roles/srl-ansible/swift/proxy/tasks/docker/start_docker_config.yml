@@ -1,0 +1,29 @@
+---
+- name: generate Swift configs 
+  shell: >
+         docker run \
+         --name "{{ ansible_hostname }}-config" \
+         --net host \
+         -e "SWIFT_DAEMON=CONFIG" \
+         -v "/etc/swift:/etc/swift" \
+         "{{ swift_docker_username }}/{{ swift_docker_imagename }}"
+
+- name: wait for the container to populate the configs
+  shell: docker wait {{ ansible_hostname }}-config
+
+- name: prune the configuration files
+  set_fact:
+    server_types: [container, account, object]
+    conf: "/etc/swift"
+
+- name: grab the first configuration file and make it the template
+  command: mv {{ conf }}/{{ item }}-server/1.conf {{ conf }}/{{ item }}-server.template
+  with_items: server_types
+
+- name: remove all other confs
+  file: path={{ conf }}/{{ item }}-server state=absent
+  with_items: server_types
+
+- name: create the proxy conf
+  command: mv {{ conf }}/proxy-server.conf {{ conf }}/proxy-server.template
+

@@ -1,0 +1,43 @@
+---
+dist: trusty
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo pip install docker-py ansible
+
+service:
+  - docker
+
+env:
+  - JOB="hadoop"
+  - JOB="gassyfs"
+  - JOB="swift"
+  - JOB="monitor"
+  - JOB="keystone"
+
+script:
+  # setup: passwordless ssh, hosts configuration, change to dir
+  - ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+  - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+  - cd $JOB/test
+  - cp hosts.template hosts
+
+  # TEST: Experiment Syntax
+  - ansible-playbook --syntax-check site/cleanup.yml experiment.yml
+
+  # TEST: Experiment Deploy
+  - ansible-playbook --connection=local experiment.yml
+  - docker rm --force `docker ps -qa`
+  - ansible-playbook --connection=local site/cleanup.yml
+
+  # TEST: Experiment Deploy Idempotence
+  - ansible-playbook --connection=local experiment.yml
+  - docker rm --force `docker ps -qa`
+  - ansible-playbook --connection=local site/cleanup.yml
+
+  # TEST: Experiment Cleanup Idempotence
+  - >
+    ansible-playbook --connection=local site/cleanup.yml
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
