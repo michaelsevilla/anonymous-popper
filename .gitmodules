@@ -22,21 +22,12 @@
 [submodule "experiments/droplease-nocache/site/roles/ceph-ansible"]
 	path = experiments/droplease-nocache/site/roles/ceph-ansible
 	url = https://github.com/michaelsevilla/ceph-ansible.git
-[submodule "experiments/droplease-cache/site/roles/srl-ansible"]
-	path = experiments/droplease-cache/site/roles/srl-ansible
-	url = https://github.com/systemslab/srl-roles.git
 [submodule "experiments/droplease-nocache/site/roles/srl-ansible"]
 	path = experiments/droplease-nocache/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git
-[submodule "experiments/kernel/droplease-nocache/site/roles/ceph-ansible"]
-	path = experiments/kernel/droplease-nocache/site/roles/ceph-ansible
-	url = https://github.com/michaelsevilla/ceph-ansible.git
 [submodule "experiments/kernel/droplease-cache/site/roles/ceph-ansible"]
-	path = experiments/kernel/droplease-cache/site/roles/ceph-ansible
+	path = experiments/kernel/droplease/site/roles/ceph-ansible
 	url = https://github.com/michaelsevilla/ceph-ansible.git
 [submodule "experiments/kernel/droplease-cache/site/roles/srl-ansible"]
-	path = experiments/kernel/droplease-cache/site/roles/srl-ansible
-	url = https://github.com/systemslab/srl-roles.git
-[submodule "experiments/kernel/droplease-nocache/site/roles/srl-ansible"]
-	path = experiments/kernel/droplease-nocache/site/roles/srl-ansible
+	path = experiments/kernel/droplease/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git

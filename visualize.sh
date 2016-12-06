@@ -9,4 +9,4 @@ docker run \
   -v `pwd`/tmp:/tmp \
   --entrypoint=whisper-dump.py \
   michaelsevilla/graphite \
-  /$1 > out
+  /$1 > `basename $1`.out
