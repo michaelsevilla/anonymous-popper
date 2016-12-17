@@ -1,5 +1,0 @@
----
-- hosts: all
-  become: True
-  tasks:
-    - script: "./bootstrap-ubuntu-precise.sh"

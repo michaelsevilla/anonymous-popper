@@ -1,5 +1,0 @@
-- name: "Install docker"
-  hosts: all
-  roles:
-  - role: docker.ubuntu
-    docker_opts: "--host tcp://0.0.0.0:2375"
