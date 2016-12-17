@@ -1,0 +1,21 @@
+2016-12-15 00:30:06  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-15 00:30:07  /entrypoint.sh: static: does not generate admin key
+2016-12-15 00:30:07  /entrypoint.sh: SUCCESS
+2016-12-15 00:30:07.475910 7f7ff9676300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-15 00:30:07.475949 7f7ff9676300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 87
+starting mds.issdm-18 at -
+2016-12-15 00:30:07.479989 7f7ff9676300  0 pidfile_write: ignore empty --pid-file
+2016-12-15 00:30:57.961796 7f7ff2080700  0 mds.1.cache creating system inode with ino:101
+2016-12-15 00:30:57.961955 7f7ff2080700  0 mds.1.cache creating system inode with ino:60a
+2016-12-15 00:30:57.962237 7f7ff2080700  0 mds.1.cache creating system inode with ino:60b
+2016-12-15 00:30:57.962341 7f7ff2080700  0 mds.1.cache creating system inode with ino:60c
+2016-12-15 00:30:57.962458 7f7ff2080700  0 mds.1.cache creating system inode with ino:60d
+2016-12-15 00:30:57.962708 7f7ff2080700  0 mds.1.cache creating system inode with ino:60e
+2016-12-15 00:30:57.962851 7f7ff2080700  0 mds.1.cache creating system inode with ino:60f
+2016-12-15 00:30:57.963015 7f7ff2080700  0 mds.1.cache creating system inode with ino:610
+2016-12-15 00:30:57.963187 7f7ff2080700  0 mds.1.cache creating system inode with ino:611
+2016-12-15 00:30:57.963298 7f7ff2080700  0 mds.1.cache creating system inode with ino:612
+2016-12-15 00:30:57.963405 7f7ff2080700  0 mds.1.cache creating system inode with ino:613
+2016-12-15 00:31:02.976257 7f7ff5001700  0 -- 192.168.140.230:6800/3641433399 >> 192.168.140.188:6800/1509075546 conn(0x7f80034f2000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-15 00:31:02.976666 7f7ff5001700  0 -- 192.168.140.230:6800/3641433399 >> 192.168.140.188:6800/1509075546 conn(0x7f80034f2000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed

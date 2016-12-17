@@ -1,0 +1,29 @@
+2016-12-13 02:14:47  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-13 02:14:47  /entrypoint.sh: static: does not generate admin key
+2016-12-13 02:14:48  /entrypoint.sh: SUCCESS
+2016-12-13 02:14:48.339542 7f13fc927300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-13 02:14:48.339583 7f13fc927300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 88
+starting mds.issdm-15 at -
+2016-12-13 02:14:48.341515 7f13fc927300  0 pidfile_write: ignore empty --pid-file
+2016-12-13 02:16:42.240492 7f13f5331700  0 mds.2.cache creating system inode with ino:102
+2016-12-13 02:16:42.240624 7f13f5331700  0 mds.2.cache creating system inode with ino:614
+2016-12-13 02:16:42.240859 7f13f5331700  0 mds.2.cache creating system inode with ino:615
+2016-12-13 02:16:42.240976 7f13f5331700  0 mds.2.cache creating system inode with ino:616
+2016-12-13 02:16:42.241218 7f13f5331700  0 mds.2.cache creating system inode with ino:617
+2016-12-13 02:16:42.241333 7f13f5331700  0 mds.2.cache creating system inode with ino:618
+2016-12-13 02:16:42.241461 7f13f5331700  0 mds.2.cache creating system inode with ino:619
+2016-12-13 02:16:42.241571 7f13f5331700  0 mds.2.cache creating system inode with ino:61a
+2016-12-13 02:16:42.241663 7f13f5331700  0 mds.2.cache creating system inode with ino:61b
+2016-12-13 02:16:42.241754 7f13f5331700  0 mds.2.cache creating system inode with ino:61c
+2016-12-13 02:16:42.241861 7f13f5331700  0 mds.2.cache creating system inode with ino:61d
+2016-12-13 02:31:44.872405 7f13f82b2700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.230:6800/1954504330 conn(0x7f1405f92800 :6800 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby
+2016-12-13 02:46:44.873935 7f13f7ab1700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f1405f8e000 :6800 s=STATE_OPEN pgs=17 cs=1 l=0).fault with nothing to send, going to standby
+2016-12-13 02:55:40.091004 7f13f72b0700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f14062e1000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 1 vs existing csq=1 existing_state=STATE_STANDBY
+2016-12-13 02:55:40.091450 7f13f72b0700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f14062e1000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 2 vs existing csq=1 existing_state=STATE_STANDBY
+2016-12-13 03:40:40.097880 7f13f72b0700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f1405f8e000 :6800 s=STATE_OPEN pgs=25 cs=3 l=0).fault with nothing to send, going to standby
+2016-12-13 03:49:28.641118 7f13f82b2700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f14062df800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 3 vs existing csq=3 existing_state=STATE_STANDBY
+2016-12-13 03:49:28.641408 7f13f82b2700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f14062df800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 4 vs existing csq=3 existing_state=STATE_STANDBY
+2016-12-13 05:04:28.644371 7f13f82b2700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f1405f8e000 :6800 s=STATE_OPEN pgs=35 cs=5 l=0).fault with nothing to send, going to standby
+2016-12-13 05:15:18.370942 7f13f7ab1700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f140600b000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 5 vs existing csq=5 existing_state=STATE_STANDBY
+2016-12-13 05:15:18.371286 7f13f7ab1700  0 -- 192.168.140.248:6800/1949107964 >> 192.168.140.188:6800/1166228637 conn(0x7f140600b000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 6 vs existing csq=5 existing_state=STATE_STANDBY

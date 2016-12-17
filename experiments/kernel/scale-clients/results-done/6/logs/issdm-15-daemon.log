@@ -1,0 +1,27 @@
+2016-12-12 22:34:09  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-12 22:34:09  /entrypoint.sh: static: does not generate admin key
+2016-12-12 22:34:10  /entrypoint.sh: SUCCESS
+2016-12-12 22:34:10.323134 7f82fcb98300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-12 22:34:10.323175 7f82fcb98300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 88
+starting mds.issdm-15 at -
+2016-12-12 22:34:10.325120 7f82fcb98300  0 pidfile_write: ignore empty --pid-file
+2016-12-12 22:35:58.352086 7f82f55a2700  0 mds.2.cache creating system inode with ino:102
+2016-12-12 22:35:58.352270 7f82f55a2700  0 mds.2.cache creating system inode with ino:614
+2016-12-12 22:35:58.352572 7f82f55a2700  0 mds.2.cache creating system inode with ino:615
+2016-12-12 22:35:58.352707 7f82f55a2700  0 mds.2.cache creating system inode with ino:616
+2016-12-12 22:35:58.352976 7f82f55a2700  0 mds.2.cache creating system inode with ino:617
+2016-12-12 22:35:58.353079 7f82f55a2700  0 mds.2.cache creating system inode with ino:618
+2016-12-12 22:35:58.353212 7f82f55a2700  0 mds.2.cache creating system inode with ino:619
+2016-12-12 22:35:58.353323 7f82f55a2700  0 mds.2.cache creating system inode with ino:61a
+2016-12-12 22:35:58.353415 7f82f55a2700  0 mds.2.cache creating system inode with ino:61b
+2016-12-12 22:35:58.353511 7f82f55a2700  0 mds.2.cache creating system inode with ino:61c
+2016-12-12 22:35:58.353619 7f82f55a2700  0 mds.2.cache creating system inode with ino:61d
+2016-12-12 22:36:02.759364 7f82f8523700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077a8000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-12 22:36:02.759729 7f82f8523700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077a8000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
+2016-12-12 23:06:02.757694 7f82f7521700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077ef800 :-1 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
+2016-12-12 23:10:56.626505 7f82f7d22700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077a9800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 1 vs existing csq=1 existing_state=STATE_STANDBY
+2016-12-12 23:10:56.626918 7f82f7d22700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077a9800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 2 vs existing csq=1 existing_state=STATE_STANDBY
+2016-12-13 01:10:56.639351 7f82f7d22700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f83077ef800 :-1 s=STATE_OPEN pgs=23 cs=3 l=0).fault with nothing to send, going to standby
+2016-12-13 01:17:49.172970 7f82f7521700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f8307b37800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 3 vs existing csq=3 existing_state=STATE_STANDBY
+2016-12-13 01:17:49.173405 7f82f7521700  0 -- 192.168.140.248:6800/37222244 >> 192.168.140.188:6800/1729105331 conn(0x7f8307b37800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 4 vs existing csq=3 existing_state=STATE_STANDBY

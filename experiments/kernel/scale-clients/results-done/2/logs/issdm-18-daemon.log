@@ -1,0 +1,21 @@
+2016-12-12 13:37:22  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-12 13:37:23  /entrypoint.sh: static: does not generate admin key
+2016-12-12 13:37:23  /entrypoint.sh: SUCCESS
+2016-12-12 13:37:23.893737 7f626e7af300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-12 13:37:23.893776 7f626e7af300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 88
+starting mds.issdm-18 at -
+2016-12-12 13:37:23.895702 7f626e7af300  0 pidfile_write: ignore empty --pid-file
+2016-12-12 13:38:08.157116 7f62671b9700  0 mds.1.cache creating system inode with ino:101
+2016-12-12 13:38:08.157289 7f62671b9700  0 mds.1.cache creating system inode with ino:60a
+2016-12-12 13:38:08.157583 7f62671b9700  0 mds.1.cache creating system inode with ino:60b
+2016-12-12 13:38:08.157764 7f62671b9700  0 mds.1.cache creating system inode with ino:60c
+2016-12-12 13:38:08.157885 7f62671b9700  0 mds.1.cache creating system inode with ino:60d
+2016-12-12 13:38:08.158134 7f62671b9700  0 mds.1.cache creating system inode with ino:60e
+2016-12-12 13:38:08.158265 7f62671b9700  0 mds.1.cache creating system inode with ino:60f
+2016-12-12 13:38:08.158385 7f62671b9700  0 mds.1.cache creating system inode with ino:610
+2016-12-12 13:38:08.158481 7f62671b9700  0 mds.1.cache creating system inode with ino:611
+2016-12-12 13:38:08.158590 7f62671b9700  0 mds.1.cache creating system inode with ino:612
+2016-12-12 13:38:08.158698 7f62671b9700  0 mds.1.cache creating system inode with ino:613
+2016-12-12 13:38:09.302853 7f626a13a700  0 -- 192.168.140.230:6800/1836099394 >> 192.168.140.188:6800/253973508 conn(0x7f6277958000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-12 13:53:10.228475 7f6269138700  0 -- 192.168.140.230:6800/1836099394 >> 192.168.140.248:6800/2530848567 conn(0x7f6277982000 :-1 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby

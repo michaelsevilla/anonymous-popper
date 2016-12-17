@@ -1,0 +1,1 @@
+{"start": "2016-12-12 15:16:20.281049", "delta": "0:09:19.155911", "cmd": "docker exec cephfs ls -alhR /cephfs/testdir | wc -l", "end": "2016-12-12 15:25:39.436960", "stderr": "", "stdout": "300058", "stdout_lines": ["300058"], "changed": true, "rc": 0, "warnings": []}

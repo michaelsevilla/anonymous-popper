@@ -1,0 +1,1 @@
+{"start": "2016-12-12 19:16:48.970751", "delta": "0:07:57.185999", "cmd": "docker exec cephfs /bin/bash -c \"find /cephfs/testdir/ -type d -exec touch {}/file \\;\"", "end": "2016-12-12 19:24:46.156750", "stderr": "", "stdout": "", "stdout_lines": [], "changed": true, "rc": 0, "warnings": []}

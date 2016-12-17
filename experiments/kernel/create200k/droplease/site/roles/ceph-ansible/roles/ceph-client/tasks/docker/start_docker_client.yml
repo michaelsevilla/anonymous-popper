@@ -1,0 +1,25 @@
+---
+- name: run the ceph fuse docker image
+  shell: >
+         docker run -d -it \
+           --name=cephfs \
+           --net=host \
+           --privileged \
+           -v /dev:/dev \
+           -v /run:/run \
+           -v /sys:/sys \
+           -v /etc/ceph:/etc/ceph \
+           -v {{ mount_point }}:/cephfs:shared \
+           --entrypoint="/bin/bash" \
+           "{{ ceph_client_docker_username }}/{{ ceph_client_docker_imagename }}:{{ ceph_client_docker_image_tag }}"
+
+- name: setup ceph mount point
+  shell: docker exec cephfs /bin/bash -c "ceph osd crush tunables legacy"
+
+- name: start the kernel client
+  shell: docker exec cephfs /bin/bash -c "sudo mount.ceph issdm-3:6789:/ /cephfs -v -o name=admin,secret=\`ceph-authtool -p /etc/ceph/ceph.client.admin.keyring\`"
+
+- name: check to make sure it got mounted
+  shell: docker run --rm --volumes-from cephfs alpine sh -c "mount" | grep "cephfs"
+  register: mount_out
+  failed_when: mount_out.rc != 0

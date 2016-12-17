@@ -1,0 +1,36 @@
+2016-12-12 22:33:31  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (8 < min 30)
+2016-12-12 22:33:32  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2016-12-12 22:33:36  /entrypoint.sh: SUCCESS
+2016-12-12 22:33:36.356583 7fef93339300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-12 22:33:36.356626 7fef93339300  0 ceph version 11.0.2-1332-gf628bac (f628bac31aa0b5b2696b8defc4aa18d4bc2ef757), process ceph-mds, pid 197
+starting mds.issdm-12 at -
+2016-12-12 22:33:36.358575 7fef93339300  0 pidfile_write: ignore empty --pid-file
+2016-12-12 22:33:40.502392 7fef8bd43700  0 mds.0.cache creating system inode with ino:1
+2016-12-12 22:33:40.502700 7fef8bd43700  0 mds.0.cache creating system inode with ino:100
+2016-12-12 22:33:40.502722 7fef8bd43700  0 mds.0.cache creating system inode with ino:600
+2016-12-12 22:33:40.502926 7fef8bd43700  0 mds.0.cache creating system inode with ino:601
+2016-12-12 22:33:40.503482 7fef8bd43700  0 mds.0.cache creating system inode with ino:602
+2016-12-12 22:33:40.503764 7fef8bd43700  0 mds.0.cache creating system inode with ino:603
+2016-12-12 22:33:40.503951 7fef8bd43700  0 mds.0.cache creating system inode with ino:604
+2016-12-12 22:33:40.504062 7fef8bd43700  0 mds.0.cache creating system inode with ino:605
+2016-12-12 22:33:40.504154 7fef8bd43700  0 mds.0.cache creating system inode with ino:606
+2016-12-12 22:33:40.504249 7fef8bd43700  0 mds.0.cache creating system inode with ino:607
+2016-12-12 22:33:40.504343 7fef8bd43700  0 mds.0.cache creating system inode with ino:608
+2016-12-12 22:33:40.504479 7fef8bd43700  0 mds.0.cache creating system inode with ino:609
+2016-12-12 22:35:47.294353 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d9f5800 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.150:0/4063736710 (socket is -)
+2016-12-12 22:35:47.410820 7fef8e4c3700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d9f8800 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.187:0/2073598529 (socket is -)
+2016-12-12 22:35:47.434369 7fef8ecc4700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d98e800 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.197:0/1775728162 (socket is -)
+2016-12-12 22:35:47.467105 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d98b800 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.240:0/2692067118 (socket is -)
+2016-12-12 22:35:47.470161 7fef8e4c3700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d998800 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.176:0/2382446800 (socket is -)
+2016-12-12 22:35:47.478242 7fef8ecc4700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9d997000 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.156:0/612598067 (socket is -)
+2016-12-12 22:35:47.506237 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> - conn(0x7fef9da11000 :6800 s=STATE_ACCEPTING_WAIT_BANNER_ADDR pgs=0 cs=0 l=0)._process_connection accept peer addr is really 192.168.140.164:0/4029058239 (socket is -)
+2016-12-12 22:35:59.500089 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.230:6800/4038320804 conn(0x7fef9da30800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING
+2016-12-12 22:36:02.760843 7fef8e4c3700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.248:6800/37222244 conn(0x7fef9da2f000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-12 23:05:59.500453 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.230:6800/4038320804 conn(0x7fef9d9d9000 :-1 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby
+2016-12-12 23:06:02.759915 7fef8e4c3700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.248:6800/37222244 conn(0x7fef9d9d7800 :-1 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby
+2016-12-13 01:10:56.639930 7fef8dcc2700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.230:6800/4038320804 conn(0x7fef9d9d9000 :-1 s=STATE_OPEN pgs=20 cs=3 l=0).fault with nothing to send, going to standby
+2016-12-13 01:10:56.640414 7fef8e4c3700  0 -- 192.168.140.188:6800/1729105331 >> 192.168.140.248:6800/37222244 conn(0x7fef9d9d7800 :-1 s=STATE_OPEN pgs=16 cs=3 l=0).fault with nothing to send, going to standby
