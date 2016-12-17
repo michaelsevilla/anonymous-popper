@@ -1,3 +1,0 @@
----
-- name: wait for the SSH port on the container to become active
-  wait_for: port={{ keystone_port }} host={{ ansible_ssh_host | default(inventory_hostname) }}
