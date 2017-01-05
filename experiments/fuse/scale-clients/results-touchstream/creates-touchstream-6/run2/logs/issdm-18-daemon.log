@@ -1,0 +1,22 @@
+2016-12-24 02:40:42  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-24 02:40:42  /entrypoint.sh: static: does not generate admin key
+2016-12-24 02:40:43  /entrypoint.sh: SUCCESS
+2016-12-24 02:40:43.329570 7f2147042300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-24 02:40:43.329611 7f2147042300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 88
+starting mds.issdm-18 at -
+2016-12-24 02:40:43.331480 7f2147042300  0 pidfile_write: ignore empty --pid-file
+2016-12-24 02:41:45.105190 7f213fa4c700  0 mds.1.cache creating system inode with ino:101
+2016-12-24 02:41:45.105336 7f213fa4c700  0 mds.1.cache creating system inode with ino:60a
+2016-12-24 02:41:45.105606 7f213fa4c700  0 mds.1.cache creating system inode with ino:60b
+2016-12-24 02:41:45.105711 7f213fa4c700  0 mds.1.cache creating system inode with ino:60c
+2016-12-24 02:41:45.105932 7f213fa4c700  0 mds.1.cache creating system inode with ino:60d
+2016-12-24 02:41:45.106213 7f213fa4c700  0 mds.1.cache creating system inode with ino:60e
+2016-12-24 02:41:45.106335 7f213fa4c700  0 mds.1.cache creating system inode with ino:60f
+2016-12-24 02:41:45.106455 7f213fa4c700  0 mds.1.cache creating system inode with ino:610
+2016-12-24 02:41:45.106550 7f213fa4c700  0 mds.1.cache creating system inode with ino:611
+2016-12-24 02:41:45.106659 7f213fa4c700  0 mds.1.cache creating system inode with ino:612
+2016-12-24 02:41:45.106768 7f213fa4c700  0 mds.1.cache creating system inode with ino:613
+2016-12-24 02:41:46.168170 7f21419cb700  0 -- 192.168.140.230:6800/1780575637 >> 192.168.140.188:6800/3315503653 conn(0x7f215132c000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-24 02:41:49.992042 7f21421cc700  0 -- 192.168.140.230:6800/1780575637 >> 192.168.140.248:6800/3009788048 conn(0x7f2151349800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-24 02:56:49.992386 7f21421cc700  0 -- 192.168.140.230:6800/1780575637 >> 192.168.140.248:6800/3009788048 conn(0x7f215139b800 :-1 s=STATE_OPEN pgs=10 cs=1 l=0).fault with nothing to send, going to standby

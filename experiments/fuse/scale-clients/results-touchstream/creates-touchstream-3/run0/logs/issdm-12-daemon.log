@@ -1,0 +1,24 @@
+2016-12-23 16:16:17  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (8 < min 30)
+2016-12-23 16:16:18  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2016-12-23 16:16:21  /entrypoint.sh: SUCCESS
+2016-12-23 16:16:21.735716 7f202986a300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-23 16:16:21.735756 7f202986a300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 198
+starting mds.issdm-12 at -
+2016-12-23 16:16:21.737543 7f202986a300  0 pidfile_write: ignore empty --pid-file
+2016-12-23 16:16:25.959858 7f2022274700  0 mds.0.cache creating system inode with ino:1
+2016-12-23 16:16:25.960199 7f2022274700  0 mds.0.cache creating system inode with ino:100
+2016-12-23 16:16:25.960230 7f2022274700  0 mds.0.cache creating system inode with ino:600
+2016-12-23 16:16:25.960431 7f2022274700  0 mds.0.cache creating system inode with ino:601
+2016-12-23 16:16:25.960582 7f2022274700  0 mds.0.cache creating system inode with ino:602
+2016-12-23 16:16:25.960911 7f2022274700  0 mds.0.cache creating system inode with ino:603
+2016-12-23 16:16:25.961068 7f2022274700  0 mds.0.cache creating system inode with ino:604
+2016-12-23 16:16:25.961220 7f2022274700  0 mds.0.cache creating system inode with ino:605
+2016-12-23 16:16:25.961332 7f2022274700  0 mds.0.cache creating system inode with ino:606
+2016-12-23 16:16:25.961440 7f2022274700  0 mds.0.cache creating system inode with ino:607
+2016-12-23 16:16:25.961556 7f2022274700  0 mds.0.cache creating system inode with ino:608
+2016-12-23 16:16:25.961823 7f2022274700  0 mds.0.cache creating system inode with ino:609
+2016-12-23 16:18:27.317337 7f20241f3700  0 -- 192.168.140.188:6800/3303948119 >> 192.168.140.248:6800/1350906388 conn(0x7f203374c000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING

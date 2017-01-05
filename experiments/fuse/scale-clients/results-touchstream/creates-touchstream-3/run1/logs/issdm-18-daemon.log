@@ -1,0 +1,21 @@
+2016-12-23 17:08:47  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-23 17:08:48  /entrypoint.sh: static: does not generate admin key
+2016-12-23 17:08:49  /entrypoint.sh: SUCCESS
+2016-12-23 17:08:49.125966 7fbdb12d2300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-23 17:08:49.126005 7fbdb12d2300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 88
+starting mds.issdm-18 at -
+2016-12-23 17:08:49.127697 7fbdb12d2300  0 pidfile_write: ignore empty --pid-file
+2016-12-23 17:09:33.779841 7fbda9cdc700  0 mds.1.cache creating system inode with ino:101
+2016-12-23 17:09:33.779979 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60a
+2016-12-23 17:09:33.780228 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60b
+2016-12-23 17:09:33.780325 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60c
+2016-12-23 17:09:33.780438 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60d
+2016-12-23 17:09:33.780711 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60e
+2016-12-23 17:09:33.780823 7fbda9cdc700  0 mds.1.cache creating system inode with ino:60f
+2016-12-23 17:09:33.780935 7fbda9cdc700  0 mds.1.cache creating system inode with ino:610
+2016-12-23 17:09:33.781029 7fbda9cdc700  0 mds.1.cache creating system inode with ino:611
+2016-12-23 17:09:33.781139 7fbda9cdc700  0 mds.1.cache creating system inode with ino:612
+2016-12-23 17:09:33.781248 7fbda9cdc700  0 mds.1.cache creating system inode with ino:613
+2016-12-23 17:09:34.835662 7fbdabc5b700  0 -- 192.168.140.230:6800/2496517619 >> 192.168.140.188:6800/1039743042 conn(0x7fbdbb52c000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_RE
+2016-12-23 17:24:36.156972 7fbdac45c700  0 -- 192.168.140.230:6800/2496517619 >> 192.168.140.248:6800/3426978909 conn(0x7fbdbb563800 :-1 s=STATE_OPEN pgs=8 cs=1 l=0).fault with nothing to send, going to standby

@@ -55,3 +55,15 @@
 [submodule "experiments/kernel/scale-clients/site/roles/srl-ansible"]
 	path = experiments/kernel/scale-clients/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/fuse/scale-clients/site/roles/srl-ansible"]
+	path = experiments/fuse/scale-clients/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/fuse/consistency/site/roles/srl-ansible"]
+	path = experiments/fuse/consistency/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/fuse/scale-clients/site/roles/ceph-ansible"]
+	path = experiments/fuse/scale-clients/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "experiments/fuse/consistency/site/roles/ceph-ansible"]
+	path = experiments/fuse/consistency/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git

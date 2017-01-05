@@ -1,0 +1,21 @@
+2016-12-23 17:35:23  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-23 17:35:23  /entrypoint.sh: static: does not generate admin key
+2016-12-23 17:35:24  /entrypoint.sh: SUCCESS
+2016-12-23 17:35:24.273518 7ffb3cdaa300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-23 17:35:24.273560 7ffb3cdaa300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 87
+starting mds.issdm-15 at -
+2016-12-23 17:35:24.275601 7ffb3cdaa300  0 pidfile_write: ignore empty --pid-file
+2016-12-23 17:36:48.998097 7ffb357b4700  0 mds.2.cache creating system inode with ino:102
+2016-12-23 17:36:48.998231 7ffb357b4700  0 mds.2.cache creating system inode with ino:614
+2016-12-23 17:36:48.998490 7ffb357b4700  0 mds.2.cache creating system inode with ino:615
+2016-12-23 17:36:48.998606 7ffb357b4700  0 mds.2.cache creating system inode with ino:616
+2016-12-23 17:36:48.998925 7ffb357b4700  0 mds.2.cache creating system inode with ino:617
+2016-12-23 17:36:48.999038 7ffb357b4700  0 mds.2.cache creating system inode with ino:618
+2016-12-23 17:36:48.999168 7ffb357b4700  0 mds.2.cache creating system inode with ino:619
+2016-12-23 17:36:48.999313 7ffb357b4700  0 mds.2.cache creating system inode with ino:61a
+2016-12-23 17:36:48.999427 7ffb357b4700  0 mds.2.cache creating system inode with ino:61b
+2016-12-23 17:36:48.999543 7ffb357b4700  0 mds.2.cache creating system inode with ino:61c
+2016-12-23 17:36:48.999677 7ffb357b4700  0 mds.2.cache creating system inode with ino:61d
+2016-12-23 17:36:50.060612 7ffb37f34700  0 -- 192.168.140.248:6800/4192917331 >> 192.168.140.188:6800/1403592248 conn(0x7ffb45cd6000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING
+2016-12-23 17:51:50.467390 7ffb38735700  0 -- 192.168.140.248:6800/4192917331 >> 192.168.140.230:6800/877844801 conn(0x7ffb45cea800 :-1 s=STATE_OPEN pgs=10 cs=1 l=0).fault with nothing to send, going to standby

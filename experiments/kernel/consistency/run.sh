@@ -9,8 +9,9 @@ CEPH_ANSIBLE="$RUN -v `pwd`/site/roles/ceph-ansible:/root $ANSIBLE"
 SRL_ANSIBLE="$RUN -v `pwd`/site:/root $ANSIBLE"
 
 #for site in "nojournal-cache" "nojournal-nocache" "journal-cache" "journal-nocache"; do
-for site in "nojournal-nocache"; do
-  nclients=1
+#for site in "nojournal-cache" "nojournal-nocache"; do
+for site in "nojournal-cache"; do
+  nclients=3
 
   # configure ceph and setup results directory
   mkdir -p results/$site/logs || true
@@ -21,13 +22,13 @@ for site in "nojournal-nocache"; do
   cp inventory/${nclients}client site/roles/ceph-ansible/hosts
 
   # cleanup and start ceph
-  #$SRL_ANSIBLE cleanup.yml
+  $SRL_ANSIBLE cleanup.yml
   #$CEPH_ANSIBLE ceph.yml cephfs.yml
   #$SRL_ANSIBLE ceph_pgs.yml ceph_monitor.yml ceph_wait.yml
   
   # warmup and get baseline
   #for i in `seq 0 2`; do
-    ./ansible-playbook.sh -e site=$site -e nfiles=200000 ../workloads/creates.yml
+  #  ./ansible-playbook.sh -e site=$site -e nfiles=98000 ../workloads/creates.yml
   #done
   
   # baseline the drop delays

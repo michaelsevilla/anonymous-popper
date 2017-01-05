@@ -1,0 +1,23 @@
+2016-12-27 14:00:07  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-27 14:00:08  /entrypoint.sh: static: does not generate admin key
+2016-12-27 14:00:08  /entrypoint.sh: SUCCESS
+2016-12-27 14:00:08.886148 7ff3dd53f300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-27 14:00:08.886187 7ff3dd53f300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 90
+starting mds.issdm-18 at -
+2016-12-27 14:00:08.888318 7ff3dd53f300  0 pidfile_write: ignore empty --pid-file
+2016-12-27 14:01:20.315135 7ff3d5f49700  0 mds.1.cache creating system inode with ino:101
+2016-12-27 14:01:20.315275 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60a
+2016-12-27 14:01:20.315548 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60b
+2016-12-27 14:01:20.315748 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60c
+2016-12-27 14:01:20.315890 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60d
+2016-12-27 14:01:20.316281 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60e
+2016-12-27 14:01:20.316423 7ff3d5f49700  0 mds.1.cache creating system inode with ino:60f
+2016-12-27 14:01:20.316551 7ff3d5f49700  0 mds.1.cache creating system inode with ino:610
+2016-12-27 14:01:20.316646 7ff3d5f49700  0 mds.1.cache creating system inode with ino:611
+2016-12-27 14:01:20.316739 7ff3d5f49700  0 mds.1.cache creating system inode with ino:612
+2016-12-27 14:01:20.316850 7ff3d5f49700  0 mds.1.cache creating system inode with ino:613
+2016-12-27 14:01:21.378396 7ff3d8eca700  0 -- 192.168.140.230:6800/222139024 >> 192.168.140.188:6800/3490139993 conn(0x7ff3e7812000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING
+2016-12-27 14:01:25.197405 7ff3d7ec8700  0 -- 192.168.140.230:6800/222139024 >> 192.168.140.248:6800/3476781305 conn(0x7ff3e7816800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_BANNER_AND_IDENTIFY
+2016-12-27 14:01:25.197617 7ff3d7ec8700  0 -- 192.168.140.230:6800/222139024 >> 192.168.140.248:6800/3476781305 conn(0x7ff3e7816800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
+2016-12-27 14:16:25.201156 7ff3d7ec8700  0 -- 192.168.140.230:6800/222139024 >> 192.168.140.248:6800/3476781305 conn(0x7ff3e786c000 :-1 s=STATE_OPEN pgs=11 cs=1 l=0).fault with nothing to send, going to standby

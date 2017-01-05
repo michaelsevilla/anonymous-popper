@@ -1,0 +1,19 @@
+2016-12-27 09:44:57  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-27 09:44:58  /entrypoint.sh: static: does not generate admin key
+2016-12-27 09:44:58  /entrypoint.sh: SUCCESS
+2016-12-27 09:44:58.703596 7f0c5ca3c300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-27 09:44:58.703642 7f0c5ca3c300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 87
+starting mds.issdm-15 at -
+2016-12-27 09:44:58.705929 7f0c5ca3c300  0 pidfile_write: ignore empty --pid-file
+2016-12-27 09:46:47.252353 7f0c55446700  0 mds.2.cache creating system inode with ino:102
+2016-12-27 09:46:47.252529 7f0c55446700  0 mds.2.cache creating system inode with ino:614
+2016-12-27 09:46:47.252794 7f0c55446700  0 mds.2.cache creating system inode with ino:615
+2016-12-27 09:46:47.253081 7f0c55446700  0 mds.2.cache creating system inode with ino:616
+2016-12-27 09:46:47.253216 7f0c55446700  0 mds.2.cache creating system inode with ino:617
+2016-12-27 09:46:47.253331 7f0c55446700  0 mds.2.cache creating system inode with ino:618
+2016-12-27 09:46:47.253482 7f0c55446700  0 mds.2.cache creating system inode with ino:619
+2016-12-27 09:46:47.253752 7f0c55446700  0 mds.2.cache creating system inode with ino:61a
+2016-12-27 09:46:47.253916 7f0c55446700  0 mds.2.cache creating system inode with ino:61b
+2016-12-27 09:46:47.254092 7f0c55446700  0 mds.2.cache creating system inode with ino:61c
+2016-12-27 09:46:47.254226 7f0c55446700  0 mds.2.cache creating system inode with ino:61d

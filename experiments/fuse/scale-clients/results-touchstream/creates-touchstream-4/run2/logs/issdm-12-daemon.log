@@ -1,0 +1,28 @@
+2016-12-23 20:40:50  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (8 < min 30)
+2016-12-23 20:40:51  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2016-12-23 20:40:55  /entrypoint.sh: SUCCESS
+2016-12-23 20:40:55.176545 7fe8174fc300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-23 20:40:55.176585 7fe8174fc300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 199
+starting mds.issdm-12 at -
+2016-12-23 20:40:55.178569 7fe8174fc300  0 pidfile_write: ignore empty --pid-file
+2016-12-23 20:40:59.633366 7fe80ff06700  0 mds.0.cache creating system inode with ino:1
+2016-12-23 20:40:59.633667 7fe80ff06700  0 mds.0.cache creating system inode with ino:100
+2016-12-23 20:40:59.633689 7fe80ff06700  0 mds.0.cache creating system inode with ino:600
+2016-12-23 20:40:59.633890 7fe80ff06700  0 mds.0.cache creating system inode with ino:601
+2016-12-23 20:40:59.634000 7fe80ff06700  0 mds.0.cache creating system inode with ino:602
+2016-12-23 20:40:59.634281 7fe80ff06700  0 mds.0.cache creating system inode with ino:603
+2016-12-23 20:40:59.634418 7fe80ff06700  0 mds.0.cache creating system inode with ino:604
+2016-12-23 20:40:59.634672 7fe80ff06700  0 mds.0.cache creating system inode with ino:605
+2016-12-23 20:40:59.634781 7fe80ff06700  0 mds.0.cache creating system inode with ino:606
+2016-12-23 20:40:59.634877 7fe80ff06700  0 mds.0.cache creating system inode with ino:607
+2016-12-23 20:40:59.634970 7fe80ff06700  0 mds.0.cache creating system inode with ino:608
+2016-12-23 20:40:59.635099 7fe80ff06700  0 mds.0.cache creating system inode with ino:609
+2016-12-23 20:43:00.620739 7fe812686700  0 -- 192.168.140.188:6800/2517178368 >> 192.168.140.248:6800/1685593300 conn(0x7fe8216d0800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-23 20:43:00.621303 7fe812686700  0 -- 192.168.140.188:6800/2517178368 >> 192.168.140.248:6800/1685593300 conn(0x7fe8216d0800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
+2016-12-23 20:43:05.191865 7fe80ff06700  0 mds.0.bal   mds.0 mdsload<[0,0 0]/[0,0 0], req 5, hr 0, qlen 0, cpu 0.01> = 0.01 ~ 0
+2016-12-23 20:43:05.191963 7fe80ff06700  0 mds.0.bal   mds.1 mdsload<[0,0 0]/[0,0 0], req 0, hr 0, qlen 0, cpu 0.18> = 0.18 ~ 0
+2016-12-23 20:43:05.191991 7fe80ff06700  0 mds.0.bal   mds.2 mdsload<[0,0 0]/[0,0 0], req 0, hr 0, qlen 0, cpu 0> = 0 ~ 0

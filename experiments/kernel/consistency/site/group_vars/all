@@ -36,30 +36,30 @@ ceph_conf_overrides:
      mds bal mode: 2
      mds log max expiring: -1
      mds log max segments: -1
-     mds cache size: 100000
+     mds cache size: 1000000
      mds bal fragment size max: 200000
    client:
      debug client: 0
-     client cache size: 100000
+     client cache size: 1000000
 
 ################
 # docker stuff #
 ################
 ceph_docker_username: piha.soe.ucsc.edu:5000/ceph
 ceph_docker_imagename: daemon
-ceph_docker_image_tag: f628bac
+ceph_docker_image_tag: ec12610
 ceph_mon_docker_username: piha.soe.ucsc.edu:5000/ceph
 ceph_mon_docker_imagename: daemon
-ceph_mon_docker_image_tag: f628bac
+ceph_mon_docker_image_tag: ec12610
 ceph_osd_docker_username: piha.soe.ucsc.edu:5000/ceph
 ceph_osd_docker_imagename: daemon
-ceph_osd_docker_image_tag: f628bac
+ceph_osd_docker_image_tag: ec12610
 ceph_mds_docker_username: piha.soe.ucsc.edu:5000/ceph
 ceph_mds_docker_imagename: daemon
-ceph_mds_docker_image_tag: f628bac
+ceph_mds_docker_image_tag: ec12610
 ceph_client_docker_username: piha.soe.ucsc.edu:5000/ceph
 ceph_client_docker_imagename: daemon
-ceph_client_docker_image_tag: f628bac
+ceph_client_docker_image_tag: ec12610
 
 ####################
 # experiment stuff #

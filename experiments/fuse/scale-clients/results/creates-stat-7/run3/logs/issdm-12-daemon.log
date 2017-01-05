@@ -1,0 +1,27 @@
+2016-12-27 11:08:31  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (8 < min 30)
+2016-12-27 11:08:32  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2016-12-27 11:08:36  /entrypoint.sh: SUCCESS
+2016-12-27 11:08:36.503060 7fceb9121300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-27 11:08:36.503102 7fceb9121300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 197
+starting mds.issdm-12 at -
+2016-12-27 11:08:36.542938 7fceb9121300  0 pidfile_write: ignore empty --pid-file
+2016-12-27 11:08:40.792919 7fceb1b2b700  0 mds.0.cache creating system inode with ino:1
+2016-12-27 11:08:40.872243 7fceb1b2b700  0 mds.0.cache creating system inode with ino:100
+2016-12-27 11:08:40.872275 7fceb1b2b700  0 mds.0.cache creating system inode with ino:600
+2016-12-27 11:08:40.872480 7fceb1b2b700  0 mds.0.cache creating system inode with ino:601
+2016-12-27 11:08:40.872580 7fceb1b2b700  0 mds.0.cache creating system inode with ino:602
+2016-12-27 11:08:40.881799 7fceb1b2b700  0 mds.0.cache creating system inode with ino:603
+2016-12-27 11:08:40.881922 7fceb1b2b700  0 mds.0.cache creating system inode with ino:604
+2016-12-27 11:08:40.882055 7fceb1b2b700  0 mds.0.cache creating system inode with ino:605
+2016-12-27 11:08:40.882152 7fceb1b2b700  0 mds.0.cache creating system inode with ino:606
+2016-12-27 11:08:40.882248 7fceb1b2b700  0 mds.0.cache creating system inode with ino:607
+2016-12-27 11:08:40.882371 7fceb1b2b700  0 mds.0.cache creating system inode with ino:608
+2016-12-27 11:08:40.882562 7fceb1b2b700  0 mds.0.cache creating system inode with ino:609
+2016-12-27 11:10:59.832581 7fceb4aac700  0 -- 192.168.140.188:6800/871665277 >> 192.168.140.248:6800/1268731207 conn(0x7fcec2bca800 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_BANNER_AND_IDENTIFY
+2016-12-27 11:11:03.084533 7fceb4aac700  0 -- 192.168.140.188:6800/871665277 >> 192.168.140.230:6800/2419149107 conn(0x7fcec2bc6000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2016-12-27 11:39:12.174586 7fceb1b2b700  0 mds.beacon.issdm-12 handle_mds_beacon no longer laggy
+2016-12-27 11:39:12.183395 7fceaf326700  1 heartbeat_map reset_timeout 'MDSRank' had timed out after 15

@@ -3,12 +3,11 @@
   shell: sudo sh -c "$(which echo) 3 > /proc/sys/vm/drop_caches"
 
 - name: remove old containers
-  shell: docker rm -f client-{{ item }}
+  shell: docker rm -f client
   ignore_errors: True
-  with_sequence: start=1 end={{ nclients }}
 
 - name: remove old testdir
-  shell: docker exec cephfs-1 mv /cephfs/testdir /cephfs/testdir-nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}
+  shell: docker exec cephfs mv /cephfs/testdir /cephfs/testdir-nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}
   ignore_errors: True
 
 - name: create the test directory
@@ -21,9 +20,9 @@
 - name: run the metadata benchmark
   shell: >
          docker run -d \
-           --name=client-{{ item }} \
-           --volumes-from cephfs-{{ item }} \
+           --name=client \
+           --volumes-from cephfs \
            michaelsevilla/mdtest \
-           -F -C -n {{ nfiles }} -d /cephfs/testdir/nfiles-{{ nfiles }}-{{ ansible_hostname }}-client-{{ item }}
-  with_sequence: start=1 end={{ nclients }}
+           -F -C -n {{ nfiles }} -S -d /cephfs/testdir/
 #-F -C -n {{ nfiles }} -d /cephfs/testdir/nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}-client{{ item }}
+           #-F -C -n {{ nfiles }} -d /cephfs/testdir/nfiles-{{ nfiles }}-{{ ansible_hostname }}-client-{{ item }}

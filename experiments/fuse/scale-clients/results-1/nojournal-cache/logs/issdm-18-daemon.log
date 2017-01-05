@@ -1,0 +1,21 @@
+2016-12-21 03:14:31  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2016-12-21 03:14:32  /entrypoint.sh: static: does not generate admin key
+2016-12-21 03:14:32  /entrypoint.sh: SUCCESS
+2016-12-21 03:14:32.531280 7fad33e94300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2016-12-21 03:14:32.531323 7fad33e94300  0 ceph version 9.0.0-18991-gec12610 (ec12610bb1358fb2eab74cb7b0483c2613bae38f), process ceph-mds, pid 88
+starting mds.issdm-18 at -
+2016-12-21 03:14:32.533453 7fad33e94300  0 pidfile_write: ignore empty --pid-file
+2016-12-21 03:15:36.166858 7fad2c89e700  0 mds.1.cache creating system inode with ino:101
+2016-12-21 03:15:36.167039 7fad2c89e700  0 mds.1.cache creating system inode with ino:60a
+2016-12-21 03:15:36.167295 7fad2c89e700  0 mds.1.cache creating system inode with ino:60b
+2016-12-21 03:15:36.167393 7fad2c89e700  0 mds.1.cache creating system inode with ino:60c
+2016-12-21 03:15:36.167504 7fad2c89e700  0 mds.1.cache creating system inode with ino:60d
+2016-12-21 03:15:36.167791 7fad2c89e700  0 mds.1.cache creating system inode with ino:60e
+2016-12-21 03:15:36.167905 7fad2c89e700  0 mds.1.cache creating system inode with ino:60f
+2016-12-21 03:15:36.168018 7fad2c89e700  0 mds.1.cache creating system inode with ino:610
+2016-12-21 03:15:36.168130 7fad2c89e700  0 mds.1.cache creating system inode with ino:611
+2016-12-21 03:15:36.168223 7fad2c89e700  0 mds.1.cache creating system inode with ino:612
+2016-12-21 03:15:36.168333 7fad2c89e700  0 mds.1.cache creating system inode with ino:613
+2016-12-21 03:15:37.227061 7fad2f81f700  0 -- 192.168.140.230:6800/3312399736 >> 192.168.140.188:6800/1210642981 conn(0x7fad3db1c000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_BANNER_AND_IDENTIFY
+2016-12-21 03:30:39.744535 7fad2e81d700  0 -- 192.168.140.230:6800/3312399736 >> 192.168.140.248:6800/3437908157 conn(0x7fad3db56000 :-1 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby
