@@ -1,0 +1,22 @@
+#!/bin/bash
+set -x
+
+# Build the paper
+docker rm -f latex || true
+docker run \
+  --name latex \
+  --entrypoint=/bin/bash \
+  -v `pwd`/:/mnt \
+  ivotron/texlive:latest -c \
+    "cd /mnt ; pdflatex paper && bibtex paper && pdflatex paper && pdflatex paper" &> build.log
+
+if [ $? != "0" ] ; then
+  echo "ERROR"
+  cat build.log
+  exit 1
+fi
+
+echo "SUCCESS"
+#open paper.pdf
+
+exit 0

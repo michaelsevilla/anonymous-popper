@@ -1,0 +1,57 @@
+\begin{thebibliography}{1}
+
+\bibitem{bent_plfs_2009}
+John Bent, Garth Gibson, Gary Grider, Ben McClelland, Paul Nowoczynski, James
+  Nunez, Milo Polte, and Meghan Wingate.
+\newblock {{PLFS}}: a checkpoint filesystem for parallel applications.
+\newblock In {\em Proceedings of the {{Conference}} on {{High Performance
+  Computing Networking}}, {{Storage}} and {{Analysis}}}, SC '09.
+
+\bibitem{bent:login16-hpc-trends}
+John Bent, Brad Settlemyer, and Gary Grider.
+\newblock {S}erving {D}ata to the {L}unatic {F}ringe.
+
+\bibitem{ren:atc2013-tablefs}
+Kai Ren and Garth Gibson.
+\newblock {TABLEFS}: {E}nhancing {M}etadata {E}fficiency in the {L}ocal {F}ile
+  {S}ystem.
+\newblock In {\em Proceedings of the 2013 USENIX Conference on Annual Technical
+  Conference}, USENIX ATC'13, 2013.
+
+\bibitem{ren:sc2014-indexfs}
+Kai Ren, Qing Zheng, Swapnil Patil, and Garth Gibson.
+\newblock {I}ndex{FS}: {S}caling {F}ile {S}ystem {M}etadata {P}erformance with
+  {S}tateless {C}aching and {B}ulk {I}nsertion.
+\newblock In {\em Proceedings of the 20th ACM/IEEE Conference on
+  Supercomputing}, SC '14, 2014.
+
+\bibitem{sevilla:sc15-mantle}
+Michael~A. Sevilla, Noah Watkins, Carlos Maltzahn, Ike Nassi, Scott~A. Brandt,
+  Sage~A. Weil, Greg Farnum, and Sam Fineberg.
+\newblock Mantle: A programmable metadata load balancer for the ceph file
+  system.
+\newblock In {\em Proceedings of the International Conference for High
+  Performance Computing, Networking, Storage and Analysis}, SC '15, 2015.
+
+\bibitem{weil:sc2004-dyn-metadata}
+Sage~A. Weil, Kristal~T. Pollack, Scott~A. Brandt, and Ethan~L. Miller.
+\newblock {D}ynamic {M}etadata {M}anagement for {P}etabyte-{S}cale {F}ile
+  {S}ystems.
+\newblock In {\em Proceedings of the 17th ACM/IEEE Conference on
+  Supercomputing}, SC'04, 2004.
+
+\bibitem{zheng:pdsw2014-batchfs}
+Qing Zheng, Kai Ren, and Garth Gibson.
+\newblock {B}atch{FS}: {S}caling the {F}ile {S}ystem {C}ontrol {P}lane with
+  {C}lient-funded {M}etadata {S}ervers.
+\newblock In {\em Proceedings of the 9th Workshop on Parallel Data Storage},
+  PDSW' 14, 2014.
+
+\bibitem{zheng:pdsw2015-deltafs}
+Qing Zheng, Kai Ren, Garth Gibson, Bradley~W. Settlemyer, and Gary Grider.
+\newblock {D}elta{FS}: {E}xascale {F}ile {S}ystems {S}cale {B}etter {W}ithout
+  {D}edicated {S}ervers.
+\newblock In {\em Proceedings of the 10th Workshop on Parallel Data Storage},
+  PDSW' 15, 2015.
+
+\end{thebibliography}
