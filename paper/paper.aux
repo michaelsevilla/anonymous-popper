@@ -1,0 +1,58 @@
+\relax 
+\citation{sevilla:sc15-mantle,ren:sc2014-indexfs}
+\citation{bent:login16-hpc-trends}
+\citation{zheng:pdsw2014-batchfs}
+\citation{zheng:pdsw2015-deltafs}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Administrators can assign consistency and fault tolerance policies to subtrees to get the benefits of some of the state-of-the-art HPC architectures. }}{1}}
+\newlabel{fig:subtree-policies}{{1}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{1}}
+\citation{ren:atc2013-tablefs}
+\citation{zheng:pdsw2014-batchfs,zheng:pdsw2015-deltafs}
+\citation{weil:sc2004-dyn-metadata,ren:sc2014-indexfs}
+\citation{bent_plfs_2009}
+\citation{}
+\citation{}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Each technique for handling the namespace has its trade-offs. Decoupled namespaces have the highest throughput because they have weaker consistency and fault tolerance semantics. }}{2}}
+\newlabel{table:namespaces}{{1}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Create-heavy workloads (untar) incurr the highest disk, network, and CPU utilization because the metadata server is managing consistency and fault tolerance.}}{2}}
+\newlabel{fig:creates-motivation}{{2}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}POSIX Overheads}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Fault Tolerance}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Performance improves with larger journal segments because the metadata server spends less time flushing the journal }}{3}}
+\newlabel{fig:throughput-journal}{{3}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Strong Consistency}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Journalling metadata updates has a bigger overhead than maintaining the inode cache. For create-heavy workloads the inode cache offers no performance benefits. }}{4}}
+\newlabel{fig:throughput-cache-journal}{{4}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The inode cache improves metadata read performance but for our create-heavy workload it is only an overhead. Most of the time maintaining the cache is spent evicting and adding inodes.}}{4}}
+\newlabel{fig:inode-cache}{{5}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Consistency Overhead}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces When a client create stream is ``isolated" then lookups resolve locally but when a second client ``interferes" by creating in the same directory, the directory inode capability is revoked forcing all clients to centralize lookups at the metadata server. }}{5}}
+\newlabel{fig:throughput-droplease}{{6}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces An underloaded metadata server adaquately services conflicting clients; the create speeds are similar while the interferring operations are limited by the cost of RPCs.}}{5}}
+\newlabel{fig:exp0-underloaded}{{7}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Decoupled Namespaces in CephFS}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Scaling clients shows increased variability when another client interferes; zooming in on runs iwth 7 clients we see that different types of interferring operations have different effects on performance variability and predictability. }}{6}}
+\newlabel{fig:runtime-consistency-scale}{{8}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Applications that can tolerate weaker consistency can decouple the namespace, write updates to a local file, and delay metadata updates. The merge and replay steps are optional if there is no need for a global namespace. }}{6}}
+\newlabel{fig:decouple}{{9}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Leveraging the Journal Tool}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Operating on Snapshots}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}notes}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Experiments}{7}}
+\bibdata{paper}
+\bibcite{bent_plfs_2009}{{1}{}{{}}{{}}}
+\bibcite{bent:login16-hpc-trends}{{2}{}{{}}{{}}}
+\bibcite{ren:atc2013-tablefs}{{3}{}{{}}{{}}}
+\bibcite{ren:sc2014-indexfs}{{4}{}{{}}{{}}}
+\bibcite{sevilla:sc15-mantle}{{5}{}{{}}{{}}}
+\bibcite{weil:sc2004-dyn-metadata}{{6}{}{{}}{{}}}
+\bibcite{zheng:pdsw2014-batchfs}{{7}{}{{}}{{}}}
+\bibcite{zheng:pdsw2015-deltafs}{{8}{}{{}}{{}}}
+\bibstyle{plain}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Baseline}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Journaling Overhead}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Macrobenchmarks}{8}}
+\newlabel{sigplanconf@finalpage}{{6.3}{8}}
