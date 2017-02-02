@@ -1,0 +1,50 @@
+- hosts: clients[0]
+  become: True
+  tasks:
+  - fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+  - name: benchmark baseline creates 
+    include: mdtest.yml
+  - pause: minutes=1
+  - name: wait for the job to finish
+    shell: "docker inspect -f {% raw %}'{{ .State.Running }}' {% endraw %} client"
+    register: result
+    until: result.stdout.find("false") != -1
+    retries: 6000
+  - name: get the output for mdtest
+    shell: docker logs client
+    register: results
+  - local_action: copy content="{{ results }}" dest="{{ playbook_dir|dirname }}/results/{{ nfiles }}/baseline-touch.txt"
+
+- hosts: mons[0]
+  become: True
+  tasks:
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ nfiles }}/summary.txt"
+
+  - name: test just writing to memory
+    copy: src="{{ playbook_dir|dirname }}/site/basejournal.bin" dest="/etc/ceph/basejournal.bin"
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal import /etc/ceph/basejournal.bin
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event write list --nfiles {{ nfiles }} --persist false
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="decoupled-nomerge,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal reset
+
+  - name: test entire merge
+    copy: src="{{ playbook_dir|dirname }}/site/basejournal.bin" dest="/etc/ceph/basejournal.bin"
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal import /etc/ceph/basejournal.bin
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event write list --nfiles {{ nfiles }} --persist true
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="decoupled-persist,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event apply list
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="decoupled-apply,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
+  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal reset
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="decoupled-reset,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
+  - shell: docker exec {{ ansible_hostname }} ceph mds fail {{ item }}
+    with_items: groups['mdss']
+  - command:  docker exec {{ ansible_hostname }} ceph -s
+    register: result
+    until:    result.stdout.find("up:active") != -1
+    retries:  120
+  - local_action: lineinfile dest="{{ output }}" line="decoupled-fail,{{ ansible_date_time.time }},0" create="yes" 

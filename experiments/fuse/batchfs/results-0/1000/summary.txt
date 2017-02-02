@@ -1,0 +1,5 @@
+decoupled-nomerge,06:50:27,0:00:00.189642
+decoupled-persist,06:50:27,0:00:12.937928
+decoupled-apply,06:50:27,0:00:00.160972
+decoupled-reset,06:50:27,0:00:00.149555
+decoupled-fail,06:50:27,0
