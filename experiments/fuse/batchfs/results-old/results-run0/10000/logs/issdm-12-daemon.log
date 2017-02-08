@@ -1,0 +1,28 @@
+2017-01-31 17:54:53  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2017-01-31 17:54:53  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2017-01-31 17:54:57  /entrypoint.sh: SUCCESS
+2017-01-31 17:54:57.486860 7f807fc8f300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-01-31 17:54:57.486905 7f807fc8f300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 197
+starting mds.issdm-12 at -
+2017-01-31 17:54:57.488783 7f807fc8f300  0 pidfile_write: ignore empty --pid-file
+2017-01-31 17:55:02.326595 7f8078697700  0 mds.0.cache creating system inode with ino:1
+2017-01-31 17:55:02.326922 7f8078697700  0 mds.0.cache creating system inode with ino:100
+2017-01-31 17:55:02.326943 7f8078697700  0 mds.0.cache creating system inode with ino:600
+2017-01-31 17:55:02.327141 7f8078697700  0 mds.0.cache creating system inode with ino:601
+2017-01-31 17:55:02.327236 7f8078697700  0 mds.0.cache creating system inode with ino:602
+2017-01-31 17:55:02.327505 7f8078697700  0 mds.0.cache creating system inode with ino:603
+2017-01-31 17:55:02.327623 7f8078697700  0 mds.0.cache creating system inode with ino:604
+2017-01-31 17:55:02.327748 7f8078697700  0 mds.0.cache creating system inode with ino:605
+2017-01-31 17:55:02.327841 7f8078697700  0 mds.0.cache creating system inode with ino:606
+2017-01-31 17:55:02.327932 7f8078697700  0 mds.0.cache creating system inode with ino:607
+2017-01-31 17:55:02.328026 7f8078697700  0 mds.0.cache creating system inode with ino:608
+2017-01-31 17:55:02.328154 7f8078697700  0 mds.0.cache creating system inode with ino:609
+2017-01-31 18:08:09.412192 7f807a616700  0 -- 192.168.140.188:6800/2285011943 >> 192.168.140.155:0/1836045020 conn(0x7f808a168800 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standbyignoring --setuser ceph since I am not root
+ignoring --setgroup ceph since I am not root
+2017-01-31 18:08:09.434185 7f10b5243300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process exe, pid 197
+starting mds.issdm-12 at -
+2017-01-31 18:08:09.436184 7f10b5243300  0 pidfile_write: ignore empty --pid-file

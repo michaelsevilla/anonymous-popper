@@ -9,15 +9,9 @@
   become: True
   roles:
     - monitor/collectl
-    - ceph/ceph-stats
 
 - hosts: mdss
   become: True
   roles:
     - monitor/collectl
     - ceph/ceph-stats
-
-- hosts: clients
-  become: True
-  roles:
-    - monitor/collectl

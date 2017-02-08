@@ -1,8 +1,11 @@
 - hosts: clients[0]
   become: True
   tasks:
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ nfiles }}/summary.txt"
+
   - fail: msg="Uh oh. Please define nfiles"
     when: nfiles is not defined
+
   - name: benchmark baseline creates 
     include: mdtest.yml
   - pause: minutes=1
@@ -11,40 +14,62 @@
     register: result
     until: result.stdout.find("false") != -1
     retries: 6000
+
   - name: get the output for mdtest
     shell: docker logs client
     register: results
-  - local_action: copy content="{{ results }}" dest="{{ playbook_dir|dirname }}/results/{{ nfiles }}/baseline-touch.txt"
+  - local_action: copy content="{{ results }}" dest="{{ playbook_dir|dirname }}/results/{{ nfiles }}/summary-global.txt"
 
-- hosts: mons[0]
-  become: True
-  tasks:
-  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ nfiles }}/summary.txt"
-
-  - name: test just writing to memory
+  - name: decouple subtree and copy the journal of events to the client
     copy: src="{{ playbook_dir|dirname }}/site/basejournal.bin" dest="/etc/ceph/basejournal.bin"
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal import /etc/ceph/basejournal.bin
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event write list --nfiles {{ nfiles }} --persist false
-    register: results
-  - local_action: lineinfile dest="{{ output }}" line="decoupled-nomerge,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal reset
 
-  - name: test entire merge
-    copy: src="{{ playbook_dir|dirname }}/site/basejournal.bin" dest="/etc/ceph/basejournal.bin"
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal import /etc/ceph/basejournal.bin
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event write list --nfiles {{ nfiles }} --persist true
+  - name: materialize the snapshot in client memory
+    shell: docker exec cephfs cephfs-journal-tool journal import /etc/ceph/basejournal.bin
     register: results
-  - local_action: lineinfile dest="{{ output }}" line="decoupled-persist,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool event apply list
+  - local_action: lineinfile dest="{{ output }}" line="snapshot,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: add events to the in memory journal (the flag SHOULD be save)
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --persist false
     register: results
-  - local_action: lineinfile dest="{{ output }}" line="decoupled-apply,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
-  - shell: docker exec {{ ansible_hostname }} cephfs-journal-tool journal reset
+  - local_action: lineinfile dest="{{ output }}" line="create,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: do the same thing but save the journal this time
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --persist true --file "/tmp/journal.bin"
     register: results
-  - local_action: lineinfile dest="{{ output }}" line="decoupled-reset,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
-  - shell: docker exec {{ ansible_hostname }} ceph mds fail {{ item }}
+  - local_action: lineinfile dest="{{ output }}" line="save,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: persist (and make redundant) our journal of additional events
+    shell: docker exec cephfs rados -p cephfs_metadata put bogusjournal.bin /tmp/journal.bin
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="persist,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: add events to the in memory journal and apply them to the metadata store
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --memapply true
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="apply1,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: apply the events again (required for correctness -- it is a bug)
+    shell: docker exec cephfs cephfs-journal-tool event apply summary
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="apply2,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: replay by clearing the journal
+    shell: docker exec cephfs cephfs-journal-tool journal reset
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="replay1,{{ ansible_date_time.time }},{{ results.delta }}" create="yes" 
+
+  - name: mark when we start the replay process
+    shell: date +"%T"
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="replay2-start,{{ ansible_date_time.time }},{{ results.stdout }}" create="yes" 
+  - name: replay by restarting the metadata servers
+    shell: docker exec cephfs ceph mds fail {{ item }}
     with_items: groups['mdss']
-  - command:  docker exec {{ ansible_hostname }} ceph -s
+  - command:  docker exec cephfs ceph -s
     register: result
     until:    result.stdout.find("up:active") != -1
     retries:  120
-  - local_action: lineinfile dest="{{ output }}" line="decoupled-fail,{{ ansible_date_time.time }},0" create="yes" 
+  - name: mark when we stop process
+    shell: date +"%T"
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="replay2-stop,{{ ansible_date_time.time }},{{ results.stdout }}" create="yes" 

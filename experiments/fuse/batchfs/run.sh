@@ -14,8 +14,8 @@ cp -r site/group_vars site/roles/ceph-ansible/
 cp site/hosts site/roles/ceph-ansible/hosts
 
 # cleanup and start ceph
-for i in "bogus"; do
-  for nfiles in 100000; do # 10000 1000 100 10; do
+for i in 0 1 2; do
+  for nfiles in 10 100 1000 10000 100000; do
     mkdir -p results/${nfiles}/logs || true
     $SRL_ANSIBLE cleanup.yml
     $CEPH_ANSIBLE ceph.yml cephfs.yml

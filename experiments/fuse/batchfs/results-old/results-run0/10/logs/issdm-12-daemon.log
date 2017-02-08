@@ -1,0 +1,30 @@
+2017-01-31 18:43:42  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2017-01-31 18:43:43  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2017-01-31 18:43:46  /entrypoint.sh: SUCCESS
+2017-01-31 18:43:46.830783 7fc46d1e1300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-01-31 18:43:46.830825 7fc46d1e1300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 198
+starting mds.issdm-12 at -
+2017-01-31 18:43:46.832617 7fc46d1e1300  0 pidfile_write: ignore empty --pid-file
+2017-01-31 18:43:51.062213 7fc465be9700  0 mds.0.cache creating system inode with ino:1
+2017-01-31 18:43:51.062499 7fc465be9700  0 mds.0.cache creating system inode with ino:100
+2017-01-31 18:43:51.062519 7fc465be9700  0 mds.0.cache creating system inode with ino:600
+2017-01-31 18:43:51.062733 7fc465be9700  0 mds.0.cache creating system inode with ino:601
+2017-01-31 18:43:51.062830 7fc465be9700  0 mds.0.cache creating system inode with ino:602
+2017-01-31 18:43:51.063097 7fc465be9700  0 mds.0.cache creating system inode with ino:603
+2017-01-31 18:43:51.063212 7fc465be9700  0 mds.0.cache creating system inode with ino:604
+2017-01-31 18:43:51.063342 7fc465be9700  0 mds.0.cache creating system inode with ino:605
+2017-01-31 18:43:51.063434 7fc465be9700  0 mds.0.cache creating system inode with ino:606
+2017-01-31 18:43:51.063528 7fc465be9700  0 mds.0.cache creating system inode with ino:607
+2017-01-31 18:43:51.063618 7fc465be9700  0 mds.0.cache creating system inode with ino:608
+2017-01-31 18:43:51.063742 7fc465be9700  0 mds.0.cache creating system inode with ino:609
+ignoring --setuser ceph since I am not root
+ignoring --setgroup ceph since I am not root
+2017-01-31 18:54:58.753895 7f413b208300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process exe, pid 198
+starting mds.issdm-12 at -
+2017-01-31 18:54:58.756095 7f413b208300  0 pidfile_write: ignore empty --pid-file
+2017-01-31 18:55:03.295462 7f412ec40700  0 mds.0.cache creating system inode with ino:100
+2017-01-31 18:55:03.295661 7f412ec40700  0 mds.0.cache creating system inode with ino:1

@@ -1,0 +1,35 @@
+2017-01-31 18:12:23  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2017-01-31 18:12:24  /entrypoint.sh: static: does not generate admin key
+pool 'cephfs_data' created
+pool 'cephfs_metadata' created
+new fs with metadata pool 2 and data pool 1
+2017-01-31 18:12:27  /entrypoint.sh: SUCCESS
+2017-01-31 18:12:27.840846 7f76f2f10300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-01-31 18:12:27.840888 7f76f2f10300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 198
+starting mds.issdm-12 at -
+2017-01-31 18:12:27.842979 7f76f2f10300  0 pidfile_write: ignore empty --pid-file
+2017-01-31 18:12:32.041503 7f76eb918700  0 mds.0.cache creating system inode with ino:1
+2017-01-31 18:12:32.041783 7f76eb918700  0 mds.0.cache creating system inode with ino:100
+2017-01-31 18:12:32.041803 7f76eb918700  0 mds.0.cache creating system inode with ino:600
+2017-01-31 18:12:32.041986 7f76eb918700  0 mds.0.cache creating system inode with ino:601
+2017-01-31 18:12:32.042082 7f76eb918700  0 mds.0.cache creating system inode with ino:602
+2017-01-31 18:12:32.042339 7f76eb918700  0 mds.0.cache creating system inode with ino:603
+2017-01-31 18:12:32.042454 7f76eb918700  0 mds.0.cache creating system inode with ino:604
+2017-01-31 18:12:32.042580 7f76eb918700  0 mds.0.cache creating system inode with ino:605
+2017-01-31 18:12:32.042672 7f76eb918700  0 mds.0.cache creating system inode with ino:606
+2017-01-31 18:12:32.042844 7f76eb918700  0 mds.0.cache creating system inode with ino:607
+2017-01-31 18:12:32.042934 7f76eb918700  0 mds.0.cache creating system inode with ino:608
+2017-01-31 18:12:32.043060 7f76eb918700  0 mds.0.cache creating system inode with ino:609
+2017-01-31 18:23:53.573857 7f76ed897700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.187:0/376890395 conn(0x7f76fbc25000 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.573951 7f76ed897700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.155:0/1086665016 conn(0x7f76fbc91800 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.574004 7f76ed897700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.197:0/2228251095 conn(0x7f76fbc3e000 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.574384 7f76ee098700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.156:0/4294086038 conn(0x7f76fbc23800 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.574387 7f76ee899700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.240:0/3117130266 conn(0x7f76fbc41000 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.574500 7f76ee098700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.164:0/3485355367 conn(0x7f76fbc42800 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+2017-01-31 18:23:53.574733 7f76ee899700  0 -- 192.168.140.188:6800/4250009941 >> 192.168.140.150:0/1378984374 conn(0x7f76fbc94800 :6800 s=STATE_OPEN pgs=2 cs=1 l=0).fault with nothing to send, going to standby
+ignoring --setuser ceph since I am not root
+ignoring --setgroup ceph since I am not root
+2017-01-31 18:23:53.600389 7fd524a7d300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process exe, pid 198
+starting mds.issdm-12 at -
+2017-01-31 18:23:53.602612 7fd524a7d300  0 pidfile_write: ignore empty --pid-file

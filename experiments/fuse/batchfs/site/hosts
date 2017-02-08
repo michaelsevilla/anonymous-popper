@@ -29,8 +29,8 @@ issdm-27 ansible_ssh_user=issdm
 issdm-29 ansible_ssh_user=issdm
 #issdm-34 ansible_ssh_user=issdm
 
-[interfere]
-issdm-45 ansible_ssh_user=issdm
+#[interfere]
+#issdm-45 ansible_ssh_user=issdm
 
 [graphite]
 192.168.140.2 ansible_ssh_user=issdm

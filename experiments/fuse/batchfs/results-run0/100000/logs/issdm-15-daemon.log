@@ -1,10 +1,8 @@
-2017-01-31 17:19:29  /entrypoint.sh: static: does not generate config
+2017-02-06 23:01:45  /entrypoint.sh: static: does not generate config
 HEALTH_WARN too few PGs per OSD (13 < min 30)
-2017-01-31 17:19:30  /entrypoint.sh: static: does not generate admin key
-2017-01-31 17:19:30  /entrypoint.sh: SUCCESS
-2017-01-31 17:19:30.934810 7f7959426300  0 set uid:gid to 64045:64045 (ceph:ceph)
-2017-01-31 17:19:30.934853 7f7959426300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 87
+2017-02-06 23:01:45  /entrypoint.sh: static: does not generate admin key
+2017-02-06 23:01:46  /entrypoint.sh: SUCCESS
+2017-02-06 23:01:46.231438 7f9ef7ec0300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-02-06 23:01:46.231483 7f9ef7ec0300  0 ceph version 9.0.0-18994-g1fdfa94 (1fdfa94459026b70e8925c0a530005456c526260), process ceph-mds, pid 88
 starting mds.issdm-15 at -
-2017-01-31 17:19:30.936754 7f7959426300  0 pidfile_write: ignore empty --pid-file
-2017-01-31 17:50:11.425853 7f794c623700  0 mds.0.cache creating system inode with ino:100
-2017-01-31 17:50:11.425967 7f794c623700  0 mds.0.cache creating system inode with ino:1
+2017-02-06 23:01:46.233476 7f9ef7ec0300  0 pidfile_write: ignore empty --pid-file

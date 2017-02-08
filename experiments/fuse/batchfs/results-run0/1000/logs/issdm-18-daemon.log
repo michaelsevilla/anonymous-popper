@@ -1,29 +1,27 @@
-2017-01-31 18:13:36  /entrypoint.sh: static: does not generate config
+2017-02-06 22:28:40  /entrypoint.sh: static: does not generate config
 HEALTH_WARN too few PGs per OSD (13 < min 30)
-2017-01-31 18:13:37  /entrypoint.sh: static: does not generate admin key
-2017-01-31 18:13:37  /entrypoint.sh: SUCCESS
-2017-01-31 18:13:37.687744 7f046efb7300  0 set uid:gid to 64045:64045 (ceph:ceph)
-2017-01-31 18:13:37.687789 7f046efb7300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 88
+2017-02-06 22:28:40  /entrypoint.sh: static: does not generate admin key
+2017-02-06 22:28:41  /entrypoint.sh: SUCCESS
+2017-02-06 22:28:41.232995 7f7ab2f57300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-02-06 22:28:41.233038 7f7ab2f57300  0 ceph version 9.0.0-18994-g1fdfa94 (1fdfa94459026b70e8925c0a530005456c526260), process ceph-mds, pid 88
 starting mds.issdm-18 at -
-2017-01-31 18:13:37.689855 7f046efb7300  0 pidfile_write: ignore empty --pid-file
-2017-01-31 18:23:53.647233 7f04621b4700  0 mds.0.cache creating system inode with ino:100
-2017-01-31 18:23:53.647421 7f04621b4700  0 mds.0.cache creating system inode with ino:1
-2017-01-31 18:23:54.737881 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4150 192.168.140.197:0/2228251095 (session is closed)
-2017-01-31 18:23:54.737992 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4151 192.168.140.164:0/3485355367 (session is closed)
-2017-01-31 18:23:54.738253 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4152 192.168.140.240:0/3117130266 (session is closed)
-2017-01-31 18:23:54.738302 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4156 192.168.140.155:0/1086665016 (session is closed)
-2017-01-31 18:23:54.738411 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4153 192.168.140.187:0/376890395 (session is closed)
-2017-01-31 18:23:54.738591 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4155 192.168.140.150:0/1378984374 (session is closed)
-2017-01-31 18:23:54.738604 7f046993e700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.164:0/3485355367 conn(0x7f047814a800 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.738600 7f046a13f700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.197:0/2228251095 conn(0x7f0478147800 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.738832 7f046a940700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.240:0/3117130266 conn(0x7f047815b000 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.738867 7f046a940700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.155:0/1086665016 conn(0x7f0478158000 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.738970 7f046a940700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.150:0/1378984374 conn(0x7f0478166000 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.739267 7f046a13f700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.187:0/376890395 conn(0x7f047816a800 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
-2017-01-31 18:23:54.754534 7f04679bf700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4154 192.168.140.156:0/4294086038 (session is closed)
-2017-01-31 18:23:54.755185 7f046993e700  0 -- 192.168.140.230:6800/2601621110 >> 192.168.140.156:0/4294086038 conn(0x7f0478159800 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
+2017-02-06 22:28:41.234907 7f7ab2f57300  0 pidfile_write: ignore empty --pid-file
+2017-02-06 22:38:59.384171 7f7aa6151700  0 mds.0.cache creating system inode with ino:100
+2017-02-06 22:38:59.384434 7f7aa6151700  0 mds.0.cache creating system inode with ino:1
+2017-02-06 22:39:00.469075 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4150 192.168.140.187:0/1627337264 (session is closed)
+2017-02-06 22:39:00.469148 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4154 192.168.140.197:0/2684231550 (session is closed)
+2017-02-06 22:39:00.469525 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4152 192.168.140.240:0/220923113 (session is closed)
+2017-02-06 22:39:00.469889 7f7aad8dc700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.197:0/2684231550 conn(0x7f7abc5ad800 :6800 s=STATE_OPEN pgs=19 cs=1 l=0).fault with nothing to send, going to standby
+2017-02-06 22:39:00.469949 7f7aad8dc700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.187:0/1627337264 conn(0x7f7abc588800 :6800 s=STATE_OPEN pgs=19 cs=1 l=0).fault server, going to standby
+2017-02-06 22:39:00.470002 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4151 192.168.140.164:0/3059993883 (session is closed)
+2017-02-06 22:39:00.470193 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4155 192.168.140.155:0/1999630844 (session is closed)
+2017-02-06 22:39:00.470585 7f7aae0dd700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.164:0/3059993883 conn(0x7f7abc5af000 :6800 s=STATE_OPEN pgs=19 cs=1 l=0).fault with nothing to send, going to standby
+2017-02-06 22:39:00.470706 7f7aae8de700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.240:0/220923113 conn(0x7f7abc587000 :6800 s=STATE_OPEN pgs=19 cs=1 l=0).fault with nothing to send, going to standby
+2017-02-06 22:39:00.470951 7f7aae0dd700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.155:0/1999630844 conn(0x7f7abc5ac000 :6800 s=STATE_OPEN pgs=19 cs=1 l=0).fault with nothing to send, going to standby
+2017-02-06 22:39:00.502746 7f7aab95c700  0 log_channel(cluster) log [INF] : denied reconnect attempt (mds is up:reconnect) from client.4153 192.168.140.156:0/832274672 (session is closed)
+2017-02-06 22:39:00.503395 7f7aae0dd700  0 -- 192.168.140.230:6800/4218694046 >> 192.168.140.156:0/832274672 conn(0x7f7abc585800 :6800 s=STATE_OPEN pgs=18 cs=1 l=0).fault with nothing to send, going to standby
 ignoring --setuser ceph since I am not root
 ignoring --setgroup ceph since I am not root
-2017-01-31 18:23:55.807179 7efede04c300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process exe, pid 88
+2017-02-06 22:39:01.564222 7fb37657c300  0 ceph version 9.0.0-18994-g1fdfa94 (1fdfa94459026b70e8925c0a530005456c526260), process exe, pid 88
 starting mds.issdm-18 at -
-2017-01-31 18:23:55.809165 7efede04c300  0 pidfile_write: ignore empty --pid-file
+2017-02-06 22:39:01.566446 7fb37657c300  0 pidfile_write: ignore empty --pid-file
