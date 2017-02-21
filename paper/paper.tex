@@ -1,5 +1,6 @@
 \documentclass[preprint]{sigplanconf-eurosys}
 \usepackage{graphicx}
+\usepackage{arydshln}
 
 \title{Global Namespaces Scale as Well as Decoupled Namespaces}
 \authorinfo{Paper ID: 165}
@@ -316,6 +317,15 @@ Decoupling the namespace delays metadata consistency and sacrifices fault
 tolerance. As shown in Table~\ref{table:namespaces}, metadata consistency is
 provided by capabilities and fault tolerance is addressed with a journal.
 
+\begin{tabular}{ r | l | l | l }
+              & Decoupled & Global    & Implied   \\
+              & Namespace & Namespace & Namespace \\\hline
+  Example     & BatchFS & CephFS & PLFS \\
+              & DeltaFS & IndexFS &     \\
+  Consistency & eventual & strong & none? \\
+  Fault Tol.  & node local & journal & journal \\
+\end{tabular}
+
 \section{POSIX Overheads}
 
 \begin{figure}[tb]
@@ -341,7 +351,20 @@ is characterized by many creates and has the highest resource usage, indicating
 that it is stressing the consistency and journalling subsystems of the metadata
 server. Also of note: a create-heavy workload does not help for caching indoes.
 
+In this section, we quantify the costs of consistency and fault tolerance in
+CephFS. If the components that ensure these semantics (i.e. capabilities and
+journals, respectively) can be mitigated or delayed, then global namespaces
+perform as well as decoupled namespaces. We run our experiments on a 9 OSD, 3
+MDS, 1 MON Ceph cluster. The clients use the Ceph kernel client, which has been
+in the mainline Linux kernel since TODO. We use the kernel client so that we
+can find the true create speed of the server; our experiments show a low CPU
+utilziation for the clients which indicates that we are stressing the servers
+more. We also turn caching off becuase, as shown in figureX there is little
+difference, in terms of performance between caching and not caching when using
+the kernel client.
+
 \subsection{Fault Tolerance}
+\label{sec:fault-tolerance}
 \begin{figure*}[tb] \centering
 \includegraphics[width=1\textwidth]{./figures/journal.png} 
 \caption{CephFS uses a journal to stage updates and tracks dirty metadata in
@@ -584,11 +607,9 @@ Figure~\ref{fig:exp0-behaviour}(a)). This reflects how fast the local client
 can get into the queue of requests, presumably because it bypasses capability
 checks.
 
-From this experiment we make 2 conclusions:
-\begin{itemize}
-  \item the metadata server is not overloaded because it can handle both workloads
-  \item the metadata server needs to get global consistency from only 1 client
-\end{itemize}
+From this experiment we make 2 conclusions: (1) the metadata server is not
+overloaded because it can handle both workloads and (2) the metadata server
+needs to get global consistency from only 1 client
 
 \textbf{Comparison to decoupled namespaces}: Decoupled namespaces merge batches
 of metadata operations into the global namespaces when the job completes.  In
@@ -600,29 +621,268 @@ ground truth and consistent namespaces are constructed and resolved at
 application read time or when a 3rd party system (e.g., middleware, scheduler,
 etc.) needs a view of the metadata.
 
-\section{Methodology}
-
-\subsection{Decoupled Namespaces in CephFS}
+\section{Methodology: Decoupled Namespaces}
 
 \begin{figure}[tb]
+\caption{Applications can decouple the namespace, write updates to a local
+journal, and delay metadata updates.  Table~\ref{table:spectrum} shows how
+these phases (represented by the arrows) can be combined to provide weaker
+consistency or fault tolerance semantics.  }\label{fig:decouple}
 \centering
 \includegraphics[width=90mm]{figures/fig-decouple.png}
-\caption{Applications that can tolerate weaker consistency can decouple the
-namespace, write updates to a local file, and delay metadata updates. The merge
-and replay steps are optional if there is no need for a global namespace.
-}\label{fig:decouple}
 \end{figure}
 
-%- How it works (timestamps)
-Recall that CephFS uses RADOS (1) as a metadata store for all information about
-files including the hierarchical namespace and (2) as a staging area for the
-journal of updates before they are applied to the metadata store.  The journal
-tool is used for disaster recovery and lets administrators view and modify the
-journal of metadata updates; it can read the journal, erase events from the
-journal, and apply the updates in the journal to the metadata store.  To apply
-journal updates to the metadata store, the journal tool reads the journal
-segments from RADOS objects and applies the update to the metadata store (which
-are also stored as RADOS objects).
+In this section we describe Cudele, our prototype system that lets future
+programmers compose mechanisms (Section~\S\ref{sec:cudeles-mechanisms}) to
+provide the necessary guarantees
+(Section~\S\ref{sec:setting-policies-with-cudele}) for their application.
+
+\subsection{Cudele's Mechanisms}
+\label{sec:cudeles-mechanisms}
+
+% describe the figure
+Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
+which entity they are performed by (gray boxes). The metadata store and journal
+are different ways of representing the namespace. The metadata store represents
+the namespace as a tree of directory fragments and is easier to read/traverse.
+On the other hand, the journal represent the namespace as a list of events. It
+a ``pile system"; writes are fast but reads are slow because state must be
+reconstructed.  Specifically, reads are slow because there is more data to
+read, it is unorganized, and many of the updates may be redundant.
+
+% describe the mechanisms
+Cudele presents 6 mechanisms: RPCs, Stream, Create, Volatile Apply, Save, and
+Persist. ``RPCs" does round trip remote procedure calls to establish
+consistency; it is the default implementation for complying with POSIX in
+CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
+into the object store. ``Create" allows clients to append metadata events to an
+in-memory journal. ``Volatile apply" takes the in-memory journal on the client
+and applies it directly to the in-memory metadata store of the metadata server
+cluster. ``Save" takes the in-memory journal and writes it to the client's
+disk. ``Persist" saves the journal as a an object in the object store from the
+client.
+
+Next, we discuss how these mechanisms can be composed to get different
+consistency and fault tolerance semantics. 
+
+%\begin{tabular}{ r | l }
+%  \(\Rightarrow\)   & Description \\\hline
+%  create            & events appended to in-memory journal \\
+%  v.apply           & journal volatily applied to in-memory metadata store \\
+%  save              & journal saved to client's disk \\
+%  persist           & journal saved in object store \\
+%  replay            & metadata servers materialize namespace \\
+%  RPCs              & round trip remote procedure calls \\
+%  stream            & metadata server streams journal into RADOS \\
+%\end{tabular}
+
+\subsection{Setting Policies with Cudele}
+\label{sec:setting-policies-with-cudele}
+
+\begin{table}[t]
+\begin{center}
+\caption{Cudele lets future programmers explore the spectrum of consistency and
+fault tolerance semantics shown below.\label{table:spectrum}}
+\begin{tabular}{ r | l | l | l }
+  consistency     \(\rightarrow\) &&& \\  
+  fault tolerance \(\downarrow\)  & none & eventual & global \\\hline
+  none   & create   & create   & RPCs    \\
+         &          & +v.apply &         \\\hdashline
+  local  & create   & create   & RPCs    \\
+         & +save    & +save    & +save   \\
+         &          & +v.apply &         \\\hdashline
+  global & create   & create   & RPCs    \\
+         & +persist & +persist & +stream \\
+         &          & +v.apply &         \\
+\end{tabular}
+\end{center}
+\end{table}
+
+% describe table
+The spectrum of consistency and fault tolerance guarantees that adminstrators
+can construct is shown in Table~\ref{table:spectrum}. The columns are the
+different consistency semantics and the rows cover the spectrum of fault
+tolerance guantees. For consistency: ``none" means the system does not handle
+merging updates into a global namespace and it is assumed that middleware or
+the application manages consistency lazily; ``eventual" merges updates either
+when the system has time (e.g., by a background daemon) or when the client is
+done writing; and updates in ``global" consistency are seen immediately by all
+clients. For fault tolerance, ``none" means that updates are volatile and will
+be lost on a crash of any component. Stronger guarantees are made with
+``local", which means updates will be retained if the client node recovers, and
+``global", where all updates are always recoverable.
+
+% which system they represent and which are impossible
+The cells in Table~\ref{table:spectrum} encompass many exisiting storage
+systems. POSIX systems like CephFS and IndexFS have global consistency and
+fault tolerance; DeltaFS has consistency and fault tolerance set to ``none";
+and BatchFS uses ``eventual" consistency and ``local" fault tolerance. These
+are just a few of the HPC examples.  
+
+% how its done
+To compose the mechanisms administrators inject which steps (described in
+Section~\S\ref{sec:cudeles-mechanisms}) to run and which to use in parallel
+using a domain specific language. For example, to get the semantics of BatchFS,
+the administrator would inject the following pipeline:\\
+
+\noindent \texttt{create+save+v.apply}\\
+
+% what is impossible
+Although we can achieve all permutations of the different guarantees in
+Table~\ref{table:spectrum}, not all of them make much sense. For example, it
+makes little sense to do \texttt{creates+RPCs} since both steps do the same
+thing or \texttt{stream+save} since global fault tolerance is stronger and has
+more overhead than local fault tolerance.  Formulaically, valid steps
+include:\\
+
+\noindent \texttt{<create|RPCs> [+v.apply][+save][+persist][+stream]}
+
+\subsection{Cudele as a Programmable Storage System}
+
+% Programmability
+We use a programmable storage approach to expose internal subsystem
+abstractions as ``interfaces" for applications to create higher level
+functionality and services.
+
+\subsubsection{No Changes: Turning Knobs}
+
+RPCs is the default behavior of the storage system. Depending on the cache
+state and configuration each operation incurrs at least RPC. For example, if a
+client or metadata server is not caching the directory inode, all creates
+within that directory will result in a lookup and a create request. If the
+directory inode is cached then only the create needs to be sent.
+
+Re-using the debugging and testing features in the storage system, we can turn
+``stream" on and off. If it is off, then the metadata servers will not save
+journals in the object store and the daemons that apply the journal to the
+metadata store will never run. Performance numbers for enabling and disabling
+the stream phase are presented back in Section~\S\ref{sec:fault-tolerance}.
+
+\subsubsection{External Library: Reads/Writes Journal Events}
+
+% How it works
+For ``create", ``save", and ``persist" Cudele provides a library for clients to
+link into.  Recall that CephFS uses the object store (1) as a metadata store
+for all information about files including the hierarchical namespace and (2) as
+a staging area for the journal of updates before they are applied to the
+metadata store. As discussed previously, the metadata store is optimized for
+reading while the journal is optimized for writing.  Cudele re-uses the journal
+tool to read/write log events to memory and persistent storage.
+
+
+% creates
+The journal tool is used for disaster recovery and lets administrators view and
+modify the journal of metadata updates; it can read the journal, erase events
+from the journal, and apply the updates in the journal to the metadata store.
+To apply journal updates to the metadata store, the journal tool reads the
+journal segments from object store objects and applies the update to the
+metadata store (which are also stored as object store objects).  For create,
+clients write to an in-memory journal and updates are merged into the global
+namespace by replaying them onto the metadata store in the object store.  
+
+% persist/save
+For save, clients write serialized log events to a file on local disk and for
+persist, clients store the file in the objects store. The overheads for save
+and persist is the write bandwidth of the local disk and object store,
+respectively.
+
+% Level of intrusion
+This required no changes to Ceph because the metadata server knows how to read
+the events we were writing into the object store.  The client writes metadata
+updates locally and merges the updates with the journal tool. The client that
+decouples the namespace operates without any consistency and any conflicts at
+the merge are resolved in favor of this client. Updates by other clients ({\it
+i.e.} metadata writes to the global namespace) are overwritten.  We leverage
+the journal tool's ability to reconstruct metadata events in memory. The client
+library is shown in Figure~\ref{fig:decouple}.  Cudele adopts the following
+process when an application decouples the namespace:
+
+\begin{enumerate}
+  \item ``\textbf{decoupled}": metadata server exports the journal events to a file
+  \item ``\textbf{transfer}": the file is pulled by the client from the metadata server
+  \item ``\textbf{snapshot}": client reads the file and materializes a snapshot of the
+        namespace in memory
+\end{enumerate}
+
+% Why we re-use stuff
+By using re-using the journal subsystem to implement the namespace decoupling,
+Cudele leverages the write/read optimized data structures, the formats for
+persisting events (similar to TableFS's SSTables), and the functions for
+replaying events onto the internal namespace data structures.  
+
+%Step 3 is the most complicated and requires understanding how the snapshot is
+%materialized in memory. 
+%
+%\subsubsection{Operating on Snapshots} 
+%
+%Our first implementation attempted to re-create journal events using the same
+%libraries that the metadata server uses. To construct a \texttt{mkdir} we tried
+%to instantiate a Ceph inode and directory entry for the current file/dir and
+%its parent.  This is too hard because there are too many moving parts in the
+%metadata server (e.g., a mdlog class, stuff in memory, assumption that we can
+%traverse up and down namespace, etc.). So when I tried add dentries and inodes
+%it was trying to traverse up/down and it would almost always segfault when it
+%was looking for something. These metablobs are supposed to be self container --
+%the problem is I do not know what is supposed to go *inside* them. 
+%
+%Our second idea was to copy the metadata blog and change just what we needed.
+%For example, we would save a binary dump of a generic \texttt{mkdir} event on
+%disk. When the application makes a directory, this dump would be loaded and the
+%fields would be changed before being written back to disk. Rather than
+%traversing up and down a namespace in memory of a metadata server, we should
+%traverse up and down the namespace *inside* the metadata blob. This
+%implementation requires disk IO and editing the log event is non-trivial for
+%two reasons:
+%
+%\begin{itemize}
+%
+%  \item methods do not edit events; they just write them
+%
+%  \item the metadata that the event touches (e.g., the metablob) is unorganized
+%  on disk for performance -- it is trade-off for writing data faster serially and
+%  reconstructing information slowly since failure is not considered the norm
+%
+%\end{itemize}
+%
+%Faced with these challenges we landed on our final implementation: load the
+%snapshot into the the data structures used to examine and replay journals, edit
+%those data structures, and write them out to disk as binary.
+
+\subsubsection{Storage System Changes: Volatile Merge}
+
+%The metadata objects are located with naming schemes (200.000* for journal
+%objects and 1.inode for metadata storage objects). 
+
+% How it works: socket for changing daemon's internal state (debugging, logging, behaviour)
+% 1. API for putting state into the daemon dynamically
+% 2. Documentation all the tunables
+% 3. Hooks directly into daemon code so we can use any parsing functionality in there
+
+\section{Implementation}
+\label{sec:implementation}
+
+% What we actually implemented
+Of these 6 mechanisms only 4 had to implemented. ``RPCs" and ``Stream" can be
+achieved with tunables in configuration files for the storage system (e.g., metadata cache size,
+logging on/off, etc.). 
+``Persist", ``Save", and ``Create" are implemented in
+separate programs and libraries and do not require modifications to the storage
+system. ``Volatile Apply" requires changes to the metadata server to inject
+updates back into the global namespace. 
+
+
+% Outline of the section
+In this section, we describe how we decoupled the consistency and fault
+tolerance policies from their mechanisms to allow applications to choose the
+semantics they need. Each section corresponds ot the labeled arrows in
+Figure~\ref{fig:decouple}.
+
+
+\subsection{RPCs (Existing CephFS Implementation)}
+
+CephFS uses round-trip remote procedure calls (RPCs) for most of 
+
+\subsection{Stream (Existing Implementation)}
 
 % General information about the journal
 The journal segments are saved as objects in RADOS.  The journal has 4
@@ -652,6 +912,8 @@ iterates over each metadata blob in the events and builds mappings of inodes to
 directory entries (for directories) and parent inodes to child inodes/directory
 entries.
 
+\subsection{Create}
+
 % Journal import
 The journal tool imports journals from binary files stored on disk.  First the
 header of the dump is sanity checked and written into RADOS to the ``header"
@@ -674,29 +936,7 @@ The journal tool exports journals to binary files stored on disk. First the
 journal is scanned for the header and then journal is recovered. To recover the
 journal the ``header" object is read off disk and then objects are probed in
 order and starting from the write position saved in the header. Probing will
-update the write position if it finds objects with data in them. There are two
-types of objects:
-
-1. journal objects (e.g., 200.000*)
-
-2. metadata store objects (e.g., 1.inode)
-
-We need to update the journal objects with the new events! How do we write out
-new objects to RADOS (e.g., 200.000*)? These should be the corect sizes (e.g.,
-4980 bytes) -- these log events that we are adding are not making them into
-the journal objects... do we have to explicitly read them and then re-write
-them?
-
-TODO: pull the object, read it, append to it, make sure size changes. It looks
-like we can only read these objects and apply doesn't actually touch them... it
-only touches the metadata store objects (e.g., 1.inode*).
-
-
-% TODO: figure out how import saves the journal on the metadata server
-% - they aren't -- everything is stored in RADOS
-% - we never touch the metadata servers!!!
-% TODO: figure out how to read the header object
-% TODO: figure out the mapping objects to journal segments (not 1x1)
+update the write position if it finds objects with data in them. 
 
 % Journal export
 When exporting a journal of events, the journal tool first scans the journal to
@@ -704,8 +944,6 @@ check for corruption. Then it recovers the journal by reading the ``header"
 object out of RADOS.  After reading the header, the journal tool can pull
 journal segments from RADOS because it knows how many objects to pull and how
 far to seek within those objects.
-
-
 
 %% The data structures
 %The metadata that the event touches, including inodes, paths, and timestamps,
@@ -723,84 +961,30 @@ far to seek within those objects.
 %children tell us which dentry names an inode has and the inode locations map
 %the parent inode to its child inode and dentry.  
 
-\subsubsection{Leveraging the Journal Tool}
-
 %- How we leverage it
-We leverage the journal tool's ability to reconstruct the namespace for the
-metadata blob. First we scan journal and store all events in a map. Next we
-create a new event and copy the root inode directory lump from another journal
-event into the event's metadata blob. Finally, we add a new directory lump for
-our new file or directory.
 
-
-If decoupled namespaces are turned on, the client writes metadata updates
-locally and merges the updates with the journal tool. The client that decouples
-the namespace operates without any consistency and any conflicts at the merge
-are resolved in favor of this client. Updates by other clients ({\it i.e.}
-metadata writes to the global namespace) are overwritten. Cudele adopts the
-following process when an application decouples the namespace:
-
-\begin{enumerate}
-  \item metadata server exports a snapshot of the file system to a binary file
-  \item client materializes the snapshot in memory
-  \item client operates on the data structures in memory
-  \item client exports the new snapshot to a binary file
-  \item metadata server merges the snapshot into the global namespace
-\end{enumerate}
-
-Step 3 is the most complicated and requires understanding how the snapshot is
-materialized in memory. 
-
-\subsubsection{Operating on Snapshots} 
-
-Our first implementation attempted to re-create journal events using the same
-libraries that the metadata server uses. To construct a \texttt{mkdir} we tried
-to instantiate a Ceph inode and directory entry for the current file/dir and
-its parent.  This is too hard because there are too many moving parts in the
-metadata server (e.g., a mdlog class, stuff in memory, assumption that we can
-traverse up and down namespace, etc.). So when I tried add dentries and inodes
-it was trying to traverse up/down and it would almost always segfault when it
-was looking for something. These metablobs are supposed to be self container --
-the problem is I do not know what is supposed to go *inside* them. 
-
-Our second idea was to copy the metadata blog and change just what we needed.
-For example, we would save a binary dump of a generic \texttt{mkdir} event on
-disk. When the application makes a directory, this dump would be loaded and the
-fields would be changed before being written back to disk. Rather than
-traversing up and down a namespace in memory of a metadata server, we should
-traverse up and down the namespace *inside* the metadata blob. This
-implementation requires disk IO and editing the log event is non-trivial for
-two reasons:
-
-\begin{itemize}
-
-  \item methods do not edit events; they just write them
-
-  \item the metadata that the event touches (e.g., the metablob) is unorganized
-  on disk for performance -- it is trade-off for writing data faster serially and
-  reconstructing information slowly since failure is not considered the norm
-
-\end{itemize}
-
-Faced with these challenges we landed on our final implementation: load the
-snapshot into the the data structures used to examine and replay journals, edit
-those data structures, and write them out to disk as binary.
+\subsection{Volatile Apply (v.apply)}
+\label{sec:vapply}
+\subsection{Save}
+\label{sec:save}
+\subsection{Persist}
+\label{sec:persist}
 
 \section{Results}
+\subsection{Microbenchmarks}
 
-In this section, we quantify the costs of consistency and fault tolerance in
-CephFS. If the components that ensure these semantics (i.e. capabilities and
-journals, respectively) can be mitigated or delayed, then global namespaces
-perform as well as decoupled namespaces.
-
-\textbf{Experimental Setup}: we run our experiments on a 9 OSD, 3 MDS, 1 MON
-Ceph cluster. The clients use the Ceph kernel client, which has been in the
-mainline Linux kernel since TODO. We use the kernel client so that we can find
-the true create speed of the server; our experiments show a low CPU utilziation
-for the clients which indicates that we are stressing the servers more. We also
-turn caching off becuase, as shown in figureX there is little difference, in
-terms of performance between caching and not caching when using the kernel
-client.
+\subsubsection{Per phase latencies}
+\begin{figure}[tb]
+\centering
+\includegraphics[width=90mm]{figures/global-v-decoupled.png}
+\caption{Compared to the \texttt{create} phase, saving and persisting
+updates (\texttt{create+save} and \texttt{create+save+persist}) experience only
+a 4.79\(\times\) and 8.66\(\times\) slowdown, in the worst case for 100K files.
+In contrast, maintaining \texttt{global} consistency is 905.70\(\times\)
+slower.  The disadvantage of decoupling the namespace is the merge phase where
+updates are applied to the metadata store (\texttt{create+apply}, resulting in a
+905.70\(\times\) slowdown for 100K files.}\label{fig:global-v-decoupled}
+\end{figure}
 
 %\section{notes}
 %Linking clients into our custom libcephfs

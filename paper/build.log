@@ -23,7 +23,8 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(./paper.aux) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -36,112 +37,172 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 12--27
+Underfull \hbox (badness 1189) in paragraph at lines 58--77
 \OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
 <figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
 <use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
 ftex.map} <./figures/subtree-policies.png>]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 103--108
+
+Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
+
+
+
+Underfull \vbox (badness 2351) has occurred while \output is active
+
+Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
+8.
+
+
+Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
+.
+
+[2]
+Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
 []\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
 
 
-Overfull \hbox (13.64824pt too wide) in paragraph at lines 115--125
- [][] 
-<figures/creates-motivation.png, id=12, 590.205pt x 534.99875pt>
+LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
+17.
+
+
+Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
+[][] 
+<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
 Underfull \vbox (badness 10000) has occurred while \output is active
-<figures/throughput-journal.png, id=13, 1046.91125pt x 320.19624pt>
+<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
+<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
+<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 156--158
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
  [][] 
-[2 <./figures/creates-motivation.png>]
-<figures/throughput-cache-journal.png, id=18, 1049.9225pt x 319.1925pt>
+<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 217--220
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
  [][] 
-<figures/inode-cache.png, id=19, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 227--230
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
  [][] 
-<figures/throughput-droplease.png, id=20, 1006.76125pt x 310.15875pt>
+
+Underfull \vbox (badness 2698) has occurred while \output is active
+<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 243--247
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
  [][] 
 
-Underfull \vbox (badness 6316) has occurred while \output is active
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 290.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 523.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 291.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 524.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 304.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 538.
 
-
-Underfull \vbox (badness 1546) has occurred while \output is active [3 <./figur
-es/throughput-journal.png>]
-<figures/exp0-underloaded.png, id=27, 1508.63625pt x 567.11874pt>
+<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 312--315
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
  [][] 
-<figures/runtime-consistency-scale.png, id=28, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 320--324
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
  [][] 
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 351.
+ 585.
+
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
+res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
+-journal.png>]
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 595.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 361.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 604.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 370.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 606.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 372.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active [4 <./figu
-res/throughput-cache-journal.png> <./figures/inode-cache.png>]
-Underfull \hbox (badness 2229) in paragraph at lines 382--391
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 2229) in paragraph at lines 614--623
 []\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
 -pled
 
-Underfull \vbox (badness 4193) has occurred while \output is active
-<figures/fig-decouple.png, id=35, 1207.51125pt x 444.66125pt>
-<use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 398--402
- [][] 
-[5 <./figures/throughput-droplease.png> <./figures/exp0-underloaded.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
-Underfull \hbox (badness 1194) in paragraph at lines 546--555
-\OT1/ptm/m/n/10 Our first im-ple-men-ta-tion at-tempted to re-create jour-nal
-[7]
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 654--655
+res/inode-cache.png> <./figures/throughput-droplease.png>]
+<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+<use figures/fig-decouple.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+ [][] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
+res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 723--727
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 728--729
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 731--737
+
+
+Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
+\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
+[8 <./figures/fig-decouple.png>] [9]
+<figures/global-v-decoupled.png, id=59, 490.83376pt x 307.1475pt>
+<use figures/global-v-decoupled.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 979--986
+ [][] 
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/b/n/10 Figure 11. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
+eate \OT1/ptm/m/n/10 phase, sav-
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
+1/ptm/m/n/10 and
+
+Underfull \hbox (badness 1708) in paragraph at lines 986--986
+\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
+$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
+
+Underfull \hbox (badness 3965) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
+0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
+
+Overfull \hbox (37.14656pt too wide) in paragraph at lines 1048--1049
 \OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
 015-
 (./paper.bbl
-Underfull \hbox (badness 1406) in paragraph at lines 29--35
-[]\OT1/ptm/m/n/9 Michael A. Sevilla, Noah Watkins, Car-los Maltzahn, Ike
-) [8] (./paper.aux)
+Underfull \vbox (badness 2875) has occurred while \output is active
+Underfull \hbox (badness 3302) in paragraph at lines 54--59
+[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
+
+Underfull \hbox (badness 1668) in paragraph at lines 54--59
+\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
+)
+
+Package natbib Warning: There were undefined citations.
+
+[10 <./figures/global-v-decoupled.png>] (./paper.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -157,17 +218,19 @@ m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (8 pages, 833789 bytes).
+Output written on paper.pdf (10 pages, 932950 bytes).
 Transcript written on paper.log.
 This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
 The top-level auxiliary file: paper.aux
 The style file: plain.bst
 Database file #1: paper.bib
+Warning--I didn't find a database entry for "GIGA+"
+Warning--I didn't find a database entry for "IndexFS"
+Warning--I didn't find a database entry for "CephFS"
 Warning--I didn't find a database entry for ""
-Warning--empty year in bent_plfs_2009
 Warning--empty journal in bent:login16-hpc-trends
 Warning--empty year in bent:login16-hpc-trends
-(There were 4 warnings)
+(There were 6 warnings)
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
 entering extended mode
@@ -193,7 +256,8 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(./paper.aux) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -206,112 +270,172 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 12--27
+Underfull \hbox (badness 1189) in paragraph at lines 58--77
 \OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
 <figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
 <use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
 ftex.map} <./figures/subtree-policies.png>]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 103--108
+
+Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
+
+
+
+Underfull \vbox (badness 2351) has occurred while \output is active
+
+Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
+8.
+
+
+Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
+.
+
+[2]
+Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
 []\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
 
 
-Overfull \hbox (13.64824pt too wide) in paragraph at lines 115--125
- [][] 
-<figures/creates-motivation.png, id=12, 590.205pt x 534.99875pt>
+LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
+17.
+
+
+Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
+[][] 
+<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
 Underfull \vbox (badness 10000) has occurred while \output is active
-<figures/throughput-journal.png, id=13, 1046.91125pt x 320.19624pt>
+<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
+<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
+<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 156--158
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
  [][] 
-[2 <./figures/creates-motivation.png>]
-<figures/throughput-cache-journal.png, id=18, 1049.9225pt x 319.1925pt>
+<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 217--220
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
  [][] 
-<figures/inode-cache.png, id=19, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 227--230
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
  [][] 
-<figures/throughput-droplease.png, id=20, 1006.76125pt x 310.15875pt>
+
+Underfull \vbox (badness 2698) has occurred while \output is active
+<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 243--247
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
  [][] 
 
-Underfull \vbox (badness 6316) has occurred while \output is active
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 290.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 523.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 291.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 524.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 304.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 538.
 
-
-Underfull \vbox (badness 1546) has occurred while \output is active [3 <./figur
-es/throughput-journal.png>]
-<figures/exp0-underloaded.png, id=27, 1508.63625pt x 567.11874pt>
+<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 312--315
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
  [][] 
-<figures/runtime-consistency-scale.png, id=28, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 320--324
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
  [][] 
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 351.
+ 585.
+
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
+res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
+-journal.png>]
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 595.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 361.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 604.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 370.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 606.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 372.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active [4 <./figu
-res/throughput-cache-journal.png> <./figures/inode-cache.png>]
-Underfull \hbox (badness 2229) in paragraph at lines 382--391
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 2229) in paragraph at lines 614--623
 []\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
 -pled
 
-Underfull \vbox (badness 4193) has occurred while \output is active
-<figures/fig-decouple.png, id=35, 1207.51125pt x 444.66125pt>
-<use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 398--402
- [][] 
-[5 <./figures/throughput-droplease.png> <./figures/exp0-underloaded.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
-Underfull \hbox (badness 1194) in paragraph at lines 546--555
-\OT1/ptm/m/n/10 Our first im-ple-men-ta-tion at-tempted to re-create jour-nal
-[7]
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 654--655
+res/inode-cache.png> <./figures/throughput-droplease.png>]
+<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+<use figures/fig-decouple.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+ [][] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
+res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 723--727
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 728--729
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 731--737
+
+
+Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
+\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
+[8 <./figures/fig-decouple.png>] [9]
+<figures/global-v-decoupled.png, id=59, 490.83376pt x 307.1475pt>
+<use figures/global-v-decoupled.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 979--986
+ [][] 
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/b/n/10 Figure 11. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
+eate \OT1/ptm/m/n/10 phase, sav-
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
+1/ptm/m/n/10 and
+
+Underfull \hbox (badness 1708) in paragraph at lines 986--986
+\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
+$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
+
+Underfull \hbox (badness 3965) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
+0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
+
+Overfull \hbox (37.14656pt too wide) in paragraph at lines 1048--1049
 \OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
 015-
 (./paper.bbl
-Underfull \hbox (badness 1406) in paragraph at lines 29--35
-[]\OT1/ptm/m/n/9 Michael A. Sevilla, Noah Watkins, Car-los Maltzahn, Ike
-) [8] (./paper.aux)
+Underfull \vbox (badness 2875) has occurred while \output is active
+Underfull \hbox (badness 3302) in paragraph at lines 54--59
+[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
+
+Underfull \hbox (badness 1668) in paragraph at lines 54--59
+\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
+)
+
+Package natbib Warning: There were undefined citations.
+
+[10 <./figures/global-v-decoupled.png>] (./paper.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -324,7 +448,7 @@ m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (8 pages, 833789 bytes).
+Output written on paper.pdf (10 pages, 932950 bytes).
 Transcript written on paper.log.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -351,7 +475,8 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(./paper.aux) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -364,112 +489,172 @@ Using natbib package with 'numbers' citation style.
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 12--27
+Underfull \hbox (badness 1189) in paragraph at lines 58--77
 \OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
 <figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
 <use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
 ftex.map} <./figures/subtree-policies.png>]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 103--108
+
+Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
+
+
+
+Underfull \vbox (badness 2351) has occurred while \output is active
+
+Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
+8.
+
+
+Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
+.
+
+[2]
+Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
 []\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
 
 
-Overfull \hbox (13.64824pt too wide) in paragraph at lines 115--125
- [][] 
-<figures/creates-motivation.png, id=12, 590.205pt x 534.99875pt>
+LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
+17.
+
+
+Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
+[][] 
+<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
 Underfull \vbox (badness 10000) has occurred while \output is active
-<figures/throughput-journal.png, id=13, 1046.91125pt x 320.19624pt>
+<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
+<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
+<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 156--158
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
  [][] 
-[2 <./figures/creates-motivation.png>]
-<figures/throughput-cache-journal.png, id=18, 1049.9225pt x 319.1925pt>
+<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 217--220
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
  [][] 
-<figures/inode-cache.png, id=19, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 227--230
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
  [][] 
-<figures/throughput-droplease.png, id=20, 1006.76125pt x 310.15875pt>
+
+Underfull \vbox (badness 2698) has occurred while \output is active
+<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 243--247
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
  [][] 
 
-Underfull \vbox (badness 6316) has occurred while \output is active
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 285.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 518.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 290.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 523.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 291.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 524.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
-ne 304.
+LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
+ne 538.
 
-
-Underfull \vbox (badness 1546) has occurred while \output is active [3 <./figur
-es/throughput-journal.png>]
-<figures/exp0-underloaded.png, id=27, 1508.63625pt x 567.11874pt>
+<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 312--315
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
  [][] 
-<figures/runtime-consistency-scale.png, id=28, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 320--324
+Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
  [][] 
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 351.
+ 585.
+
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
+res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
+-journal.png>]
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 595.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 361.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 604.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 370.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
+ 606.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 372.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active [4 <./figu
-res/throughput-cache-journal.png> <./figures/inode-cache.png>]
-Underfull \hbox (badness 2229) in paragraph at lines 382--391
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 2229) in paragraph at lines 614--623
 []\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
 -pled
 
-Underfull \vbox (badness 4193) has occurred while \output is active
-<figures/fig-decouple.png, id=35, 1207.51125pt x 444.66125pt>
-<use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 398--402
- [][] 
-[5 <./figures/throughput-droplease.png> <./figures/exp0-underloaded.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
-Underfull \hbox (badness 1194) in paragraph at lines 546--555
-\OT1/ptm/m/n/10 Our first im-ple-men-ta-tion at-tempted to re-create jour-nal
-[7]
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 654--655
+res/inode-cache.png> <./figures/throughput-droplease.png>]
+<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+<use figures/fig-decouple.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+ [][] 
+
+Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
+res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 723--727
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 728--729
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 731--737
+
+
+Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
+\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
+[8 <./figures/fig-decouple.png>] [9]
+<figures/global-v-decoupled.png, id=59, 490.83376pt x 307.1475pt>
+<use figures/global-v-decoupled.png>
+Overfull \hbox (16.0748pt too wide) in paragraph at lines 979--986
+ [][] 
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/b/n/10 Figure 11. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
+eate \OT1/ptm/m/n/10 phase, sav-
+
+Underfull \hbox (badness 10000) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
+1/ptm/m/n/10 and
+
+Underfull \hbox (badness 1708) in paragraph at lines 986--986
+\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
+$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
+
+Underfull \hbox (badness 3965) in paragraph at lines 986--986
+\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
+0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
+
+Overfull \hbox (37.14656pt too wide) in paragraph at lines 1048--1049
 \OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
 015-
 (./paper.bbl
-Underfull \hbox (badness 1406) in paragraph at lines 29--35
-[]\OT1/ptm/m/n/9 Michael A. Sevilla, Noah Watkins, Car-los Maltzahn, Ike
-) [8] (./paper.aux)
+Underfull \vbox (badness 2875) has occurred while \output is active
+Underfull \hbox (badness 3302) in paragraph at lines 54--59
+[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
+
+Underfull \hbox (badness 1668) in paragraph at lines 54--59
+\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
+)
+
+Package natbib Warning: There were undefined citations.
+
+[10 <./figures/global-v-decoupled.png>] (./paper.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -482,5 +667,5 @@ m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (8 pages, 833789 bytes).
+Output written on paper.pdf (10 pages, 932944 bytes).
 Transcript written on paper.log.

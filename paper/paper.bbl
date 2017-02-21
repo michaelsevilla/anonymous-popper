@@ -1,22 +1,33 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{bent_plfs_2009}
-John Bent, Garth Gibson, Gary Grider, Ben McClelland, Paul Nowoczynski, James
-  Nunez, Milo Polte, and Meghan Wingate.
-\newblock {{PLFS}}: a checkpoint filesystem for parallel applications.
-\newblock In {\em Proceedings of the {{Conference}} on {{High Performance
-  Computing Networking}}, {{Storage}} and {{Analysis}}}, SC '09.
+\bibitem{abad:techreport2012-fstrace}
+Christina~L. Abad, Huong Luu, Yi~Lu, and R~Campbell.
+\newblock {M}etadata {W}orkloads for {T}esting {B}ig {S}torage {S}ystems.
+\newblock Technical report, Citeseer, 2012.
+
+\bibitem{abad:ucc2012-mimesis}
+Cristina~L. Abad, Huong Luu, Nathan Roberts, Kihwal Lee, Yi~Lu, and Roy~H.
+  Campbell.
+\newblock {M}etadata {T}races and {W}orkload {M}odels for {E}valuating {B}ig
+  {S}torage {S}ystems.
+\newblock In {\em Proceedings of the 2012 IEEE/ACM Fifth International
+  Conference on Utility and Cloud Computing}, UCC '12, pages 125--132, 2012.
+
+\bibitem{alam:pdsw2011-metadata-scaling}
+Sadaf~R. Alam, Hussein~N. El-Harake, Kristopher Howard, Neil Stringfellow, and
+  Fabio Verzelloni.
+\newblock {P}arallel {I}/{O} and the {M}etadata {W}all.
+\newblock In {\em Proceedings of the 6th Workshop on Parallel Data Storage},
+  PDSW'11, 2011.
 
 \bibitem{bent:login16-hpc-trends}
 John Bent, Brad Settlemyer, and Gary Grider.
 \newblock {S}erving {D}ata to the {L}unatic {F}ringe.
 
-\bibitem{ren:atc2013-tablefs}
-Kai Ren and Garth Gibson.
-\newblock {TABLEFS}: {E}nhancing {M}etadata {E}fficiency in the {L}ocal {F}ile
-  {S}ystem.
-\newblock In {\em Proceedings of the 2013 USENIX Conference on Annual Technical
-  Conference}, USENIX ATC'13, 2013.
+\bibitem{mckusick:acm2010-gfs-evolution}
+Kirk McKusick and Sean Quinlan.
+\newblock {GFS}: {E}volution on {F}ast-forward.
+\newblock {\em Commununications ACM}, 53(3):42--49, March 2010.
 
 \bibitem{ren:sc2014-indexfs}
 Kai Ren, Qing Zheng, Swapnil Patil, and Garth Gibson.
@@ -24,6 +35,12 @@ Kai Ren, Qing Zheng, Swapnil Patil, and Garth Gibson.
   {S}tateless {C}aching and {B}ulk {I}nsertion.
 \newblock In {\em Proceedings of the 20th ACM/IEEE Conference on
   Supercomputing}, SC '14, 2014.
+
+\bibitem{roselli:atec2000-FS-workloads}
+Drew Roselli, Jacob~R. Lorch, and Thomas~E. Anderson.
+\newblock {A} {C}omparison of {F}ile {S}ystem {W}orkloads.
+\newblock In {\em Proceedings of the Annual Conference on USENIX Annual
+  Technical Conference}, ATEC '00, pages 4--4, 2000.
 
 \bibitem{sevilla:sc15-mantle}
 Michael~A. Sevilla, Noah Watkins, Carlos Maltzahn, Ike Nassi, Scott~A. Brandt,
@@ -33,25 +50,19 @@ Michael~A. Sevilla, Noah Watkins, Carlos Maltzahn, Ike Nassi, Scott~A. Brandt,
 \newblock In {\em Proceedings of the International Conference for High
   Performance Computing, Networking, Storage and Analysis}, SC '15, 2015.
 
-\bibitem{weil:sc2004-dyn-metadata}
-Sage~A. Weil, Kristal~T. Pollack, Scott~A. Brandt, and Ethan~L. Miller.
-\newblock {D}ynamic {M}etadata {M}anagement for {P}etabyte-{S}cale {F}ile
-  {S}ystems.
-\newblock In {\em Proceedings of the 17th ACM/IEEE Conference on
-  Supercomputing}, SC'04, 2004.
+\bibitem{thusoo:sigmod2010-facebook-infrastructure}
+Ashish Thusoo, Zheng Shao, Suresh Anthony, Dhruba Borthakur, Namit Jain,
+  Joydeep Sen~Sarma, Raghotham Murthy, and Hao Liu.
+\newblock {D}ata {W}arehousing and {A}nalytics {I}nfrastructure at {F}acebook.
+\newblock In {\em Proceedings of the 2010 ACM SIGMOD International Conference
+  on Management of Data}, SIGMOD '10, 2010.
 
-\bibitem{zheng:pdsw2014-batchfs}
-Qing Zheng, Kai Ren, and Garth Gibson.
-\newblock {B}atch{FS}: {S}caling the {F}ile {S}ystem {C}ontrol {P}lane with
-  {C}lient-funded {M}etadata {S}ervers.
-\newblock In {\em Proceedings of the 9th Workshop on Parallel Data Storage},
-  PDSW' 14, 2014.
-
-\bibitem{zheng:pdsw2015-deltafs}
-Qing Zheng, Kai Ren, Garth Gibson, Bradley~W. Settlemyer, and Gary Grider.
-\newblock {D}elta{FS}: {E}xascale {F}ile {S}ystems {S}cale {B}etter {W}ithout
-  {D}edicated {S}ervers.
-\newblock In {\em Proceedings of the 10th Workshop on Parallel Data Storage},
-  PDSW' 15, 2015.
+\bibitem{weil:osdi2006-ceph}
+Sage~A. Weil, Scott~A. Brandt, Ethan~L. Miller, Darrell D.~E. Long, and Carlos
+  Maltzahn.
+\newblock {C}eph: {A} {S}calable, {H}igh-{P}erformance {D}istributed {F}ile
+  {S}ystem.
+\newblock In {\em Proceedings of the 7th USENIX Symposium on Operating Systems
+  Design \& Implementation}, OSDI'06, 2006.
 
 \end{thebibliography}
