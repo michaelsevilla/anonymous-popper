@@ -45,15 +45,11 @@
 \newlabel{table:spectrum}{{1}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Setting Policies with Cudele}{8}}
 \newlabel{sec:setting-policies-with-cudele}{{4.2}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Cudele as a Programmable Storage System}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}No Changes: Turning Knobs}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}External Library: Reads/Writes Journal Events}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Storage System Changes: Volatile Merge}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{9}}
-\newlabel{sec:implementation}{{5}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}RPCs (Existing CephFS Implementation)}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Stream (Existing Implementation)}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Create}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Subtree Policies}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Implementation}{8}}
+\newlabel{sec:implementation}{{5}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}No Changes: RPCs, Stream}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}External Library: Create, Save, Persist}{9}}
 \bibdata{paper}
 \bibcite{abad:techreport2012-fstrace}{{1}{}{{}}{{}}}
 \bibcite{abad:ucc2012-mimesis}{{2}{}{{}}{{}}}
@@ -67,17 +63,14 @@
 \bibcite{weil:osdi2006-ceph}{{10}{}{{}}{{}}}
 \bibstyle{plain}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Compared to the \texttt  {create} phase, saving and persisting updates (\texttt  {create+save} and \texttt  {create+save+persist}) experience only a 4.79\(\times \) and 8.66\(\times \) slowdown, in the worst case for 100K files. In contrast, maintaining \texttt  {global} consistency is 905.70\(\times \) slower. The disadvantage of decoupling the namespace is the merge phase where updates are applied to the metadata store (\texttt  {create+apply}, resulting in a 905.70\(\times \) slowdown for 100K files.}}{10}}
-\newlabel{fig:global-v-decoupled}{{11}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Volatile Apply (v.apply)}{10}}
-\newlabel{sec:vapply}{{5.4}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Save}{10}}
-\newlabel{sec:save}{{5.5}{10}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Persist}{10}}
-\newlabel{sec:persist}{{5.6}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Storage System Changes: Volatile Merge}{10}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Results}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Microbenchmarks}{10}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}Per phase latencies}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Journaling Overhead}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Macrobenchmarks}{10}}
 \newlabel{sigplanconf@finalpage}{{6.3}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Here's a graph.}}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Here's a graph.}}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Compared to the \texttt  {create} phase, saving and persisting updates (\texttt  {create+save} and \texttt  {create+save+persist}) experience only a 4.79\(\times \) and 8.66\(\times \) slowdown, in the worst case for 100K files. In contrast, maintaining \texttt  {global} consistency is 905.70\(\times \) slower. The disadvantage of decoupling the namespace is the merge phase where updates are applied to the metadata store (\texttt  {create+apply}, resulting in a 905.70\(\times \) slowdown for 100K files.}}{11}}
+\newlabel{fig:global-v-decoupled}{{13}{11}}
