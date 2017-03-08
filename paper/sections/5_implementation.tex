@@ -1,0 +1,242 @@
+\section{Implementation}
+\label{sec:implementation}
+
+% Outline of the section
+Each section below corresponds ot the labeled arrows in
+Figure~\ref{fig:decouple}. This implementation decouples policies from
+mechanisms allowing applciations to choose the consistency and fault tolerance
+semantics they need.
+
+% Programmability
+Of the 6 mechanisms in Figure~\ref{fig:decouple} 4 had to implemented and only
+1 required changes to the underlying storage system itself.  RPCs and stream
+can be achieved with tunables in configuration files for the storage system
+(e.g., metadata cache size, logging on/off, etc.).  Persist", save, and create
+are implemented as library and does not require modifications to the storage
+system. Volatile apply requires changes to the metadata server to inject
+updates back into the global namespace. 
+
+\subsection{No Changes: RPCs, Stream}
+
+RPCs is the default behavior of the storage system. Depending on the cache
+state and configuration each operation incurrs at least RPC. For example, if a
+client or metadata server is not caching the directory inode, all creates
+within that directory will result in a lookup and a create request. If the
+directory inode is cached then only the create needs to be sent.
+
+Re-using the debugging and testing features in the storage system, we can turn
+stream on and off. If it is off, then the metadata servers will not save
+journals in the object store and the daemons that apply the journal to the
+metadata store will never run. Performance numbers for enabling and disabling
+the stream phase are presented back in Section~\S\ref{sec:fault-tolerance}.
+
+% General information about the journal
+The journal segments are saved as objects in RADOS.  The journal has 4
+pointers, described in `osdc/Journaler.h`:
+
+\begin{itemize}
+  \item write position: tail of the journal; points to the current session where we are appending events
+  \item unused field: where someone is reading
+  \item expire position: old journal segments
+  \item trimmed position: where daemon is expiring old items
+\end{itemize}
+
+% How the journal tool works
+Journal segments in RADDS have a header followed by serialized log events. The
+log events are read by hopping over objects using the read offset and object
+size pulled from the journal header.  After decoding them, we can examine the
+metadata (1) about the event (e.g., type, timestamps, etc.) and (2) for inodes
+that the event touches.
+
+% The metablobs
+The metadata for inodes that the event touches are called metadata blobs and
+the ones associated with events are \textbf{unordered}; this layout makes
+writing journal updates fast but the cost is realized when reading the metadata
+blobs.  It makes sense to optimize for writing since reading only occurs on
+failures. To reconstruct the namespace for the metadata blob, the journal tool
+iterates over each metadata blob in the events and builds mappings of inodes to
+directory entries (for directories) and parent inodes to child inodes/directory
+entries.
+
+\subsection{External Library: Create, Save, Persist}
+\label{sec:external-library}
+%Reads/Writes Journal Events}
+
+% How it works
+For ``create", ``save", and ``persist" Cudele provides a library for clients to
+link into.  Recall that CephFS uses the object store (1) as a metadata store
+for all information about files including the hierarchical namespace and (2) as
+a staging area for the journal of updates before they are applied to the
+metadata store. As discussed previously, the metadata store is optimized for
+reading while the journal is optimized for writing.  Cudele re-uses the journal
+tool to read/write log events to memory and persistent storage.
+
+% creates
+The journal tool is used for disaster recovery and lets administrators view and
+modify the journal of metadata updates; it can read the journal, erase events
+from the journal, and apply the updates in the journal to the metadata store.
+To apply journal updates to the metadata store, the journal tool reads the
+journal segments from object store objects and applies the update to the
+metadata store (which are also stored as object store objects).  For create,
+clients write to an in-memory journal and updates are merged into the global
+namespace by replaying them onto the metadata store in the object store.  
+
+% Journal import
+The journal tool imports journals from binary files stored on disk.  First the
+header of the dump is sanity checked and written into RADOS to the ``header"
+object.  The ``header" object has metadata about the journal as well as the
+locations of all the journal pointers (e.g., where the tail of the journal is,
+where we are currently trimming, etc.).  Then the journal events are cleaned
+(erasing trailing events that are not part of the header) and written as
+objects into RADOS.  Note that while the journal is in RADOS, the metadata
+servers do do not have the namespace reconstructed in memory so the metadata
+cluster will not service requests relating to the journal of imported events.
+To construct the namespace in the collective memory of the metadata servers we
+need to first construct the namespace in RADOS. The journal tool can explicitly
+do this by  applying the journal to the metadata store in RAODS. This will pull
+the objects containing journal segments and replay them on the metadata store.
+Finally, we delete the journal in RADOS and restart the metadata servers so
+they rebuild their caches.
+
+% Journal export
+The journal tool exports journals to binary files stored on disk. First the
+journal is scanned for the header and then journal is recovered. To recover the
+journal the ``header" object is read off disk and then objects are probed in
+order and starting from the write position saved in the header. Probing will
+update the write position if it finds objects with data in them. 
+
+% Journal export
+When exporting a journal of events, the journal tool first scans the journal to
+check for corruption. Then it recovers the journal by reading the ``header"
+object out of RADOS.  After reading the header, the journal tool can pull
+journal segments from RADOS because it knows how many objects to pull and how
+far to seek within those objects.
+
+%% The data structures
+%The metadata that the event touches, including inodes, paths, and timestamps,
+%are stored as metablobs. Each piece of metadata inside a metablob is called a
+%dirlump. A dump has a section for lumps (dirfrag, dirlump), roots (dentries),
+%table client transactions (tid, version), renamed directory fragments (maps,
+%versions, alloc/preallocated inodes), inodes starting a truncate, inodes
+%finishing a truncate, destroyed inodes, and client requests. Unfortunately for
+%me (and you since you are reading this paper), this does not make any sense.
+%
+%Each directory fragment has an associated directory lump, which is just a bunch
+%of metadata. The most interesting part of the dirlump is the fullbits array,
+%which has a dentry OR inode. To walk the tree, iterate over all the dirlumps
+%and then all the full bits, saving off the children and inode locations. The
+%children tell us which dentry names an inode has and the inode locations map
+%the parent inode to its child inode and dentry.  
+
+% persist/save
+For save, clients write serialized log events to a file on local disk and for
+persist, clients store the file in the objects store. The overheads for save
+and persist is the write bandwidth of the local disk and object store,
+respectively.
+
+% Level of intrusion
+This required no changes to Ceph because the metadata server knows how to read
+the events we were writing into the object store.  The client writes metadata
+updates locally and merges the updates with the journal tool. The client that
+decouples the namespace operates without any consistency and any conflicts at
+the merge are resolved in favor of this client. Updates by other clients ({\it
+i.e.} metadata writes to the global namespace) are overwritten.  We leverage
+the journal tool's ability to reconstruct metadata events in memory. The client
+library is shown in Figure~\ref{fig:decouple}.  Cudele adopts the following
+process when an application decouples the namespace:
+
+\begin{enumerate}
+  \item ``\textbf{decoupled}": metadata server exports the journal events to a file
+  \item ``\textbf{transfer}": the file is pulled by the client from the metadata server
+  \item ``\textbf{snapshot}": client reads the file and materializes a snapshot of the
+        namespace in memory
+\end{enumerate}
+
+% Why we re-use stuff
+By using re-using the journal subsystem to implement the namespace decoupling,
+Cudele leverages the write/read optimized data structures, the formats for
+persisting events (similar to TableFS's SSTables), and the functions for
+replaying events onto the internal namespace data structures.  
+
+%Step 3 is the most complicated and requires understanding how the snapshot is
+%materialized in memory. 
+%
+%\subsubsection{Operating on Snapshots} 
+%
+%Our first implementation attempted to re-create journal events using the same
+%libraries that the metadata server uses. To construct a \texttt{mkdir} we tried
+%to instantiate a Ceph inode and directory entry for the current file/dir and
+%its parent.  This is too hard because there are too many moving parts in the
+%metadata server (e.g., a mdlog class, stuff in memory, assumption that we can
+%traverse up and down namespace, etc.). So when I tried add dentries and inodes
+%it was trying to traverse up/down and it would almost always segfault when it
+%was looking for something. These metablobs are supposed to be self container --
+%the problem is I do not know what is supposed to go *inside* them. 
+%
+%Our second idea was to copy the metadata blog and change just what we needed.
+%For example, we would save a binary dump of a generic \texttt{mkdir} event on
+%disk. When the application makes a directory, this dump would be loaded and the
+%fields would be changed before being written back to disk. Rather than
+%traversing up and down a namespace in memory of a metadata server, we should
+%traverse up and down the namespace *inside* the metadata blob. This
+%implementation requires disk IO and editing the log event is non-trivial for
+%two reasons:
+%
+%\begin{itemize}
+%
+%  \item methods do not edit events; they just write them
+%
+%  \item the metadata that the event touches (e.g., the metablob) is unorganized
+%  on disk for performance -- it is trade-off for writing data faster serially and
+%  reconstructing information slowly since failure is not considered the norm
+%
+%\end{itemize}
+%
+%Faced with these challenges we landed on our final implementation: load the
+%snapshot into the the data structures used to examine and replay journals, edit
+%those data structures, and write them out to disk as binary.
+
+\subsection{Storage System Changes: Volatile Apply}
+
+% - how it makes no gaurantees
+The volatile apply mechanism ({\it i.e.} the ``v\_apply" arrow in
+Figure~\ref{fig:decouple}) takes an in-memory journal on the client and applies
+the updates directly to the in-memory namespace maintained by the metadata
+servers. We say volatile because Cudele makes no consistency or fault
+tolerance guarantees. If a concurrent update from a client occurs there is no
+rule for resolving conflicts and if the client or metadata server crashes there
+may be no way to recover. Relaxing these constraints gives volatile apply the
+best performance.
+
+% difference between apply and volatile apply
+In contrast, apply uses the the object store to merge the journal of updates
+from the client to the metadata server. Apply is safer than volatile apply but
+has a performance overhead because objects in the metadata store need to be
+read from and written back to the object store.  Apply was already implemented
+by the journal tool: it reads the journal from the object store, adds events to
+the journal, and writes the metadata updates out to the metadata store in the
+object store. Cudele's volatile apply executes ``save" (described
+in~\S\ref{sec:external-library}), transfers the file of metadata updates to the
+metadata server, and then merges the updates directly into the in-memory
+metadata store of the metadata cluster.
+
+% Why so slow?
+Creating many files in the same directory would touch the same object but the
+existing implementation results in this object being repeatedly pushed/pulled.
+
+% - how it actually works
+% - bugs I fixed in the last couple of commits
+
+%The metadata objects are located with naming schemes (200.000* for journal
+%objects and 1.inode for metadata storage objects). 
+
+% How it works: socket for changing daemon's internal state (debugging, logging, behaviour)
+% 1. API for putting state into the daemon dynamically
+% 2. Hooks directly into daemon code so we can use any parsing functionality in there
+% 3. Documentation all the tunables
+
+% 1. read journal of updates from file
+% 2. call replay (uses same code as when an MDS comes back) on each event
+% 3. skip inodes so MDS doesn't hand out those new inodes
+
+

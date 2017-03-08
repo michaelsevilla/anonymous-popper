@@ -1,217 +1,424 @@
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
- restricted \write18 enabled.
+ \write18 enabled.
 entering extended mode
 (./paper.tex
 LaTeX2e <2016/02/01>
 Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
-(./sigplanconf-eurosys.cls
+(./acmart.cls
+Document Class: acmart 2017/03/04 v1.31 Typesetting articles for Association of
+ Computing Machinery
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsart.cls
+Document Class: amsart 2015/03/04 v2.20.2
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/totpages/totpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
 
-LaTeX Warning: You have requested document class `sigplanconf-eurosys',
-               but the document class provides `sigplanconf'.
+Package hyperref Message: Driver (autodetected): hpdftex.
 
-Document Class: sigplanconf 2013/07/02 v2.8 ACM SIGPLAN Proceedings
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
-Using natbib package with 'numbers' citation style.
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg)
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/manyfoot.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/nccfoots.sty))
+
+Class acmart Warning: You do not have libertine package installed. Please upgra
+de your TeX on input line 571.
+
+
+Class acmart Warning: You do not have zi4 package installed. Please upgrade you
+r TeX on input line 573.
+
+
+Class acmart Warning: You do not have newtxmath package installed. Please upgra
+de your TeX on input line 576.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/comment/comment.sty
+Excluding comment 'comment') Excluding comment 'CCSXML'
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+Special comment 'acks' Excluding comment 'screenonly'
+Include comment 'printonly' Include comment 'anonsuppress')
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/minted/minted.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty) (./paper.w18
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(./_minted-paper/default.pygstyle)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty)/usr/bin/pygmentize
+
+No file paper.aux.
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
+ABD: EveryShipout initializing macros
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 58--77
-\OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
-<figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
-<use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
-ftex.map} <./figures/subtree-policies.png>]
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(./_minted-paper/default-pyg-prefix.pygstyle) (./sections/0_abstract.tex)
+Excluding 'CCSXML' comment.
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg)
 
-Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
+LaTeX Warning: Reference `TotPages' on page 1 undefined on input line 91.
 
+(./sections/1_introduction.tex
 
-
-Underfull \vbox (badness 2351) has occurred while \output is active
-
-Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
-8.
-
-
-Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
-.
-
-[2]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
-[]\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
+Package natbib Warning: Citation `sevilla:sc15-mantle' on page 1 undefined on i
+nput line 6.
 
 
-LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
-17.
+Package natbib Warning: Citation `ren:sc2014-indexfs' on page 1 undefined on in
+put line 6.
 
 
-Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
-[][] 
-<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
+Package natbib Warning: Citation `bent:login16-hpc-trends' on page 1 undefined 
+on input line 15.
+
+
+(./_minted-paper/09DAB3E242FFEBAFF4FF5F3C367CC8B94B956653F88305C4B19DE2E0F56AC7
+F1.pygtex) <figures/subtree-policies.png, id=4, 420.57124pt x 299.1175pt>
+<use figures/subtree-policies.png>
+
+LaTeX Warning: Reference `fig:subtree-policies' on page 1 undefined on input li
+ne 41.
+
+[1.1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./figures/subtree-poli
+cies.png>]) (./sections/3_posix_overheads.tex
+<figures/creates-motivation.png, id=31, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
-Underfull \vbox (badness 10000) has occurred while \output is active
-<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
-<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
-<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
+
+LaTeX Warning: Reference `fig:creates-motivation' on page 2 undefined on input 
+line 20.
+
+<./figures/journal.png, id=32, 664.884pt x 163.3302pt>
+<use ./figures/journal.png>
+<figures/throughput-journal.png, id=33, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 51--53
  [][] 
-<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
+
+LaTeX Warning: Reference `fig:journal' on page 2 undefined on input line 72.
+
+
+LaTeX Warning: Reference `fig:throughput-journal' on page 2 undefined on input 
+line 94.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [2.2 <./fi
+gures/creates-motivation.png>]
+<figures/throughput-cache-journal.png, id=43, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 122--125
  [][] 
-<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=44, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 130--133
  [][] 
-
-Underfull \vbox (badness 2698) has occurred while \output is active
-<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
+<figures/throughput-droplease.png, id=45, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 146--150
  [][] 
 
+Underfull \vbox (badness 1242) has occurred while \output is active
+
+LaTeX Warning: Reference `fig:throughput-droplease' on page 3 undefined on inpu
+t line 166.
+
+
+LaTeX Warning: Reference `fig:throughput-droplease' on page 3 undefined on inpu
+t line 172.
+
+
+LaTeX Warning: Reference `fig:throughput-droplease' on page 3 undefined on inpu
+t line 174.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 195.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 196.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [3.3 <./fi
+gures/journal.png> <./figures/throughput-journal.png>]
+
 LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
+ne 210.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 523.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 524.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 538.
-
-<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
+Underfull \vbox (badness 3646) has occurred while \output is active
+<figures/exp0-underloaded.png, id=55, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 218--221
  [][] 
-<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=56, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 226--230
  [][] 
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 4 undefined on input li
+ne 233.
+
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 4 undefined on input li
+ne 236.
+
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 4 undefined on input li
+ne 241.
+
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 4 undefined on input li
+ne 256.
+
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 585.
+ 257.
 
-[4]
+
+Underfull \vbox (badness 1237) has occurred while \output is active [4.4 <./fig
+ures/throughput-cache-journal.png> <./figures/inode-cache.png>]
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 5 undefined on input li
+ne 264.
+
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 5 undefined on input li
+ne 265.
+
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 267.
+
+
+LaTeX Warning: Reference `fig:exp0-underloaded' on page 5 undefined on input li
+ne 273.
+
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 276.
+
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 278.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
-res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
--journal.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active [5.5 <./fi
+gures/throughput-droplease.png> <./figures/exp0-underloaded.png>])
+(./sections/4_methodology.tex
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 595.
-
-
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 604.
+LaTeX Warning: Reference `table:spectrum' on page 6 undefined on input line 7.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 606.
+LaTeX Warning: Reference `table:spectrum' on page 6 undefined on input line 7.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \hbox (badness 2229) in paragraph at lines 614--623
-[]\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
--pled
-
-Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/inode-cache.png> <./figures/throughput-droplease.png>]
-<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+<figures/fig-decouple.png, id=75, 592.2125pt x 527.9725pt>
 <use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 9--10
  [][] 
 
-Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
-res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 723--727
+LaTeX Warning: Reference `sec:cudeles-mechanisms' on page 6 undefined on input 
+line 13.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
+LaTeX Warning: Reference `sec:setting-policies-with-cudele' on page 6 undefined
+ on input line 15.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 731--737
+LaTeX Warning: Reference `fig:decouple' on page 6 undefined on input line 21.
 
 
-Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
-\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
-[8 <./figures/fig-decouple.png>]
-Underfull \vbox (badness 4279) has occurred while \output is active [9]
-<figures/results-microbenchmark.png, id=59, 1005.7575pt x 308.15125pt>
+Overfull \hbox (1.58101pt too wide) in paragraph at lines 66--78
+ [] 
+
+LaTeX Warning: Reference `table:spectrum' on page 6 undefined on input line 83.
+
+
+
+Underfull \vbox (badness 5832) has occurred while \output is active [6.6 <./fig
+ures/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
+
+LaTeX Warning: Reference `table:spectrum' on page 7 undefined on input line 96.
+
+
+
+LaTeX Warning: Reference `sec:cudeles-mechanisms' on page 7 undefined on input 
+line 104.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--107
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
+
+
+LaTeX Warning: Reference `table:spectrum' on page 7 undefined on input line 112
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--117
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd)
+
+LaTeX Warning: Reference `' on page 7 undefined on input line 158.
+
+) (./sections/5_implementation.tex
+
+LaTeX Warning: Reference `fig:decouple' on page 7 undefined on input line 6.
+
+
+LaTeX Warning: Reference `fig:decouple' on page 7 undefined on input line 11.
+
+[7.7]
+
+LaTeX Warning: Reference `sec:fault-tolerance' on page 8 undefined on input lin
+e 31.
+
+
+LaTeX Warning: Reference `fig:decouple' on page 8 undefined on input line 145.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [8.8]
+
+LaTeX Warning: Reference `fig:decouple' on page 9 undefined on input line 203.
+
+
+LaTeX Warning: Reference `sec:external-library' on page 9 undefined on input li
+ne 219.
+
+) (./sections/6_results.tex
+<figures/results-microbenchmark.png, id=101, 1005.7575pt x 308.15125pt>
 <use figures/results-microbenchmark.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 957--958
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 5--6
  [][] 
-<figures/results-files.png, id=60, 550.055pt x 391.4625pt>
+<figures/results-files.png, id=102, 550.055pt x 391.4625pt>
 <use figures/results-files.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 963--964
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 11--12
  [][] 
-<figures/global-v-decoupled.png, id=61, 490.83376pt x 307.1475pt>
+<figures/global-v-decoupled.png, id=103, 490.83376pt x 307.1475pt>
 <use figures/global-v-decoupled.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 971--978
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 19--26
  [][] 
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/b/n/10 Figure 13. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
-eate \OT1/ptm/m/n/10 phase, sav-
+Underfull \hbox (badness 7486) in paragraph at lines 26--26
+\OT1/cmr/bx/n/9 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/9 create+save \OT1
+/cmr/bx/n/9 and
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
-1/ptm/m/n/10 and
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <9> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 81.
 
-Underfull \hbox (badness 1708) in paragraph at lines 978--978
-\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
-$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
 
-Underfull \hbox (badness 3965) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
-0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
-
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 1040--1041
-\OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
-015-
-(./paper.bbl
-Underfull \hbox (badness 3302) in paragraph at lines 54--59
-[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
-
-Underfull \hbox (badness 1668) in paragraph at lines 54--59
-\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
+Overfull \hbox (35.86302pt too wide) in paragraph at lines 88--89
+\OT1/cmr/m/n/9 (-20) updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.
+com/2015-
 )
+No file paper.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-[10] [11 <./figures/results-microbenchmark.png> <./figures/results-files.png> <
-./figures/global-v-decoupled.png>] (./paper.aux)
+[9.9] [10.10 <./figures/results-microbenchmark.png> <./figures/results-files.pn
+g> <./figures/global-v-decoupled.png>] (./paper.aux)
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 tcrm0700
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input tcrm0700
+This is METAFONT, Version 2.7182818 (TeX Live 2015/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/tcrm0700.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/tcrm.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txsymb.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txpseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [27] [29])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txgen.mf
+ Ok [100] [109] [98] [99] [108])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txsymbol.mf
+ Ok [13] [18] [21] [22] [23] [24] [25] [26] [28] [31] [32] [36] [39] [44]
+[45] [46] [42] [47] [60] [61] [62] [77] [79] [87] [110] [91] [93] [94] [95]
+[96] [126] [127] [128] [129] [130] [131] [132] [133] [134] [135] [136] [137]
+[138] [139] [140] [141] [142] [143] [144] [145] [146] [147] [148] [149]
+[150] [151] [152] [153] [154] [155] [156] [157] [158] [159] [160] [161]
+[162] [163] [164] [165] [166] [167] [168] [169] [171] [172] [173] [174]
+[175] [177] [176] [180] [181] [182] [183] [184] [187] [191] [214] [246])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txromod.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txrsuper.mf
+ Ok [185] [178] [179] [170] [186])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txrfract.mf
+ Ok [188] [189] [190]) ) ) )
+Font metrics written on tcrm0700.tfm.
+Output written on tcrm0700.600gf (128 characters, 17112 bytes).
+Transcript written on tcrm0700.log.
+mktexpk: /root/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0700.600pk: successfully generated.
+
+
+Package rerunfilecheck Warning: File `paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
 
 LaTeX Warning: There were undefined references.
 
@@ -219,480 +426,659 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  )
-(see the transcript file for additional information){/usr/share/texlive/texmf-d
-ist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1015017 bytes).
+(see the transcript file for additional information) </root/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/tcrm0700.600pk>
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 tcrm0900
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input tcrm0900
+This is METAFONT, Version 2.7182818 (TeX Live 2015/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/tcrm0900.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/tcrm.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txsymb.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txpseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [27] [29])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txgen.mf
+ Ok [100] [109] [98] [99] [108])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txsymbol.mf
+ Ok [13] [18] [21] [22] [23] [24] [25] [26] [28] [31] [32] [36] [39] [44]
+[45] [46] [42] [47] [60] [61] [62] [77] [79] [87] [110] [91] [93] [94] [95]
+[96] [126] [127] [128] [129] [130] [131] [132] [133] [134] [135] [136] [137]
+[138] [139] [140] [141] [142] [143] [144] [145] [146] [147] [148] [149]
+[150] [151] [152] [153] [154] [155] [156] [157] [158] [159] [160] [161]
+[162] [163] [164] [165] [166] [167] [168] [169] [171] [172] [173] [174]
+[175] [177] [176] [180] [181] [182] [183] [184] [187] [191] [214] [246])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txromod.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txrsuper.mf
+ Ok [185] [178] [179] [170] [186])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/txrfract.mf
+ Ok [188] [189] [190]) ) ) )
+(some charht values had to be adjusted by as much as 0.06744pt)
+Font metrics written on tcrm0900.tfm.
+Output written on tcrm0900.600gf (128 characters, 21392 bytes).
+Transcript written on tcrm0900.log.
+mktexpk: /root/.texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600pk: successfully generated.
+ </root/.texmf-var/fonts/pk/ljfour/jknappen/
+ec/tcrm0900.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmssi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on paper.pdf (10 pages, 1168607 bytes).
+SyncTeX written on paper.synctex.gz.
 Transcript written on paper.log.
 This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
 The top-level auxiliary file: paper.aux
-The style file: plain.bst
-Database file #1: paper.bib
-Warning--I didn't find a database entry for "GIGA+"
-Warning--I didn't find a database entry for "IndexFS"
-Warning--I didn't find a database entry for "CephFS"
+The style file: ACM-Reference-Format.bst
+Database file #1: sigproc.bib
+Warning--I didn't find a database entry for "bent:login16-hpc-trends"
 Warning--I didn't find a database entry for ""
-Warning--empty journal in bent:login16-hpc-trends
-Warning--empty year in bent:login16-hpc-trends
-(There were 6 warnings)
+Warning--empty publisher in ren:sc2014-indexfs
+Warning--empty address in ren:sc2014-indexfs
+Warning--page numbers missing in both pages and numpages fields in ren:sc2014-indexfs
+Warning--empty publisher in sevilla:sc15-mantle
+Warning--empty address in sevilla:sc15-mantle
+Warning--page numbers missing in both pages and numpages fields in sevilla:sc15-mantle
+(There were 8 warnings)
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
- restricted \write18 enabled.
+ \write18 enabled.
 entering extended mode
 (./paper.tex
 LaTeX2e <2016/02/01>
 Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
-(./sigplanconf-eurosys.cls
+(./acmart.cls
+Document Class: acmart 2017/03/04 v1.31 Typesetting articles for Association of
+ Computing Machinery
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsart.cls
+Document Class: amsart 2015/03/04 v2.20.2
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/totpages/totpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
 
-LaTeX Warning: You have requested document class `sigplanconf-eurosys',
-               but the document class provides `sigplanconf'.
+Package hyperref Message: Driver (autodetected): hpdftex.
 
-Document Class: sigplanconf 2013/07/02 v2.8 ACM SIGPLAN Proceedings
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
-Using natbib package with 'numbers' citation style.
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg)
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/manyfoot.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/nccfoots.sty))
+
+Class acmart Warning: You do not have libertine package installed. Please upgra
+de your TeX on input line 571.
+
+
+Class acmart Warning: You do not have zi4 package installed. Please upgrade you
+r TeX on input line 573.
+
+
+Class acmart Warning: You do not have newtxmath package installed. Please upgra
+de your TeX on input line 576.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/comment/comment.sty
+Excluding comment 'comment') Excluding comment 'CCSXML'
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+Special comment 'acks' Excluding comment 'screenonly'
+Include comment 'printonly' Include comment 'anonsuppress')
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/minted/minted.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty) (./paper.w18
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(./_minted-paper/default.pygstyle)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty)/usr/bin/pygmentize
+ (./paper.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
+ABD: EveryShipout initializing macros
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(./paper.out) (./paper.out)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 58--77
-\OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
-<figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
-<use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
-ftex.map} <./figures/subtree-policies.png>]
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(./_minted-paper/default-pyg-prefix.pygstyle) (./sections/0_abstract.tex)
+Excluding 'CCSXML' comment.
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+(./sections/1_introduction.tex
 
-Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
-
-
-
-Underfull \vbox (badness 2351) has occurred while \output is active
-
-Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
-8.
+Package natbib Warning: Citation `sevilla:sc15-mantle' on page 1 undefined on i
+nput line 6.
 
 
-Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
-.
-
-[2]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
-[]\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
+Package natbib Warning: Citation `ren:sc2014-indexfs' on page 1 undefined on in
+put line 6.
 
 
-LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
-17.
+Package natbib Warning: Citation `bent:login16-hpc-trends' on page 1 undefined 
+on input line 15.
 
 
-Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
-[][] 
-<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
+(./_minted-paper/09DAB3E242FFEBAFF4FF5F3C367CC8B94B956653F88305C4B19DE2E0F56AC7
+F1.pygtex) <figures/subtree-policies.png, id=77, 420.57124pt x 299.1175pt>
+<use figures/subtree-policies.png> [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/
+pdftex.map} <./figures/subtree-policies.png>])
+(./sections/3_posix_overheads.tex
+<figures/creates-motivation.png, id=104, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
-Underfull \vbox (badness 10000) has occurred while \output is active
-<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
-<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
-<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
+<./figures/journal.png, id=106, 664.884pt x 163.3302pt>
+<use ./figures/journal.png>
+<figures/throughput-journal.png, id=107, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 51--53
  [][] 
-<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active [2.2 <./fi
+gures/creates-motivation.png>]
+<figures/throughput-cache-journal.png, id=119, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 122--125
  [][] 
-<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=120, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 130--133
  [][] 
-
-Underfull \vbox (badness 2698) has occurred while \output is active
-<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
+<figures/throughput-droplease.png, id=121, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 146--150
  [][] 
 
+Underfull \vbox (badness 1242) has occurred while \output is active
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 195.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 196.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [3.3 <./fi
+gures/journal.png> <./figures/throughput-journal.png>]
+
 LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
+ne 210.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 523.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 524.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 538.
-
-<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
+Underfull \vbox (badness 3646) has occurred while \output is active
+<figures/exp0-underloaded.png, id=132, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 218--221
  [][] 
-<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=133, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 226--230
  [][] 
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 585.
-
-[4]
-Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
-res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
--journal.png>]
-
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 595.
+ 257.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 604.
+Underfull \vbox (badness 1237) has occurred while \output is active [4.4 <./fig
+ures/throughput-cache-journal.png> <./figures/inode-cache.png>]
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 267.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 606.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 276.
+
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 278.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \hbox (badness 2229) in paragraph at lines 614--623
-[]\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
--pled
-
-Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/inode-cache.png> <./figures/throughput-droplease.png>]
-<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+Underfull \vbox (badness 10000) has occurred while \output is active [5.5 <./fi
+gures/throughput-droplease.png> <./figures/exp0-underloaded.png>])
+(./sections/4_methodology.tex
+<figures/fig-decouple.png, id=159, 592.2125pt x 527.9725pt>
 <use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 9--10
  [][] 
 
-Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
-res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 723--727
+Overfull \hbox (1.58101pt too wide) in paragraph at lines 66--78
+ [] 
+
+Underfull \vbox (badness 5832) has occurred while \output is active [6.6 <./fig
+ures/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 103--107
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 731--737
+Underfull \hbox (badness 10000) in paragraph at lines 111--117
 
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd)
 
-Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
-\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
-[8 <./figures/fig-decouple.png>]
-Underfull \vbox (badness 4279) has occurred while \output is active [9]
-<figures/results-microbenchmark.png, id=59, 1005.7575pt x 308.15125pt>
+LaTeX Warning: Reference `' on page 7 undefined on input line 158.
+
+) (./sections/5_implementation.tex [7.7]
+Underfull \vbox (badness 10000) has occurred while \output is active [8.8])
+(./sections/6_results.tex
+<figures/results-microbenchmark.png, id=192, 1005.7575pt x 308.15125pt>
 <use figures/results-microbenchmark.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 957--958
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 5--6
  [][] 
-<figures/results-files.png, id=60, 550.055pt x 391.4625pt>
+<figures/results-files.png, id=193, 550.055pt x 391.4625pt>
 <use figures/results-files.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 963--964
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 11--12
  [][] 
-<figures/global-v-decoupled.png, id=61, 490.83376pt x 307.1475pt>
+<figures/global-v-decoupled.png, id=194, 490.83376pt x 307.1475pt>
 <use figures/global-v-decoupled.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 971--978
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 19--26
  [][] 
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/b/n/10 Figure 13. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
-eate \OT1/ptm/m/n/10 phase, sav-
+Underfull \hbox (badness 7486) in paragraph at lines 26--26
+\OT1/cmr/bx/n/9 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/9 create+save \OT1
+/cmr/bx/n/9 and
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
-1/ptm/m/n/10 and
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <9> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 81.
 
-Underfull \hbox (badness 1708) in paragraph at lines 978--978
-\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
-$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
 
-Underfull \hbox (badness 3965) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
-0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
-
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 1040--1041
-\OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
-015-
-(./paper.bbl
-Underfull \hbox (badness 3302) in paragraph at lines 54--59
-[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
-
-Underfull \hbox (badness 1668) in paragraph at lines 54--59
-\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
-)
+Overfull \hbox (35.86302pt too wide) in paragraph at lines 88--89
+\OT1/cmr/m/n/9 (-20) updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.
+com/2015-
+) (./paper.bbl)
 
 Package natbib Warning: There were undefined citations.
 
-[10] [11 <./figures/results-microbenchmark.png> <./figures/results-files.png> <
-./figures/global-v-decoupled.png>] (./paper.aux)
+[9.9] [10.10 <./figures/results-microbenchmark.png> <./figures/results-files.pn
+g> <./figures/global-v-decoupled.png>] (./paper.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
+
+Package rerunfilecheck Warning: File `paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
 
 LaTeX Warning: There were undefined references.
 
  )
-(see the transcript file for additional information){/usr/share/texlive/texmf-d
-ist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1015014 bytes).
+(see the transcript file for additional information) </root/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/tcrm0700.600pk> </root/.texmf-var/fonts/pk/ljfour/jknappen/
+ec/tcrm0900.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmssi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on paper.pdf (10 pages, 1176172 bytes).
+SyncTeX written on paper.synctex.gz.
 Transcript written on paper.log.
 This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
- restricted \write18 enabled.
+ \write18 enabled.
 entering extended mode
 (./paper.tex
 LaTeX2e <2016/02/01>
 Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
-(./sigplanconf-eurosys.cls
+(./acmart.cls
+Document Class: acmart 2017/03/04 v1.31 Typesetting articles for Association of
+ Computing Machinery
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/share/texlive/texmf-dist/tex/latex/amscls/amsart.cls
+Document Class: amsart 2015/03/04 v2.20.2
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/totpages/totpages.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everyshi.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty))
 
-LaTeX Warning: You have requested document class `sigplanconf-eurosys',
-               but the document class provides `sigplanconf'.
+Package hyperref Message: Driver (autodetected): hpdftex.
 
-Document Class: sigplanconf 2013/07/02 v2.8 ACM SIGPLAN Proceedings
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo))
-Using natbib package with 'numbers' citation style.
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty))
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg)
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty))))
-(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty) (./paper.aux)
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/manyfoot.sty
+(/usr/share/texlive/texmf-dist/tex/latex/ncctools/nccfoots.sty))
+
+Class acmart Warning: You do not have libertine package installed. Please upgra
+de your TeX on input line 571.
+
+
+Class acmart Warning: You do not have zi4 package installed. Please upgrade you
+r TeX on input line 573.
+
+
+Class acmart Warning: You do not have newtxmath package installed. Please upgra
+de your TeX on input line 576.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/comment/comment.sty
+Excluding comment 'comment') Excluding comment 'CCSXML'
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+Special comment 'acks' Excluding comment 'screenonly'
+Include comment 'printonly' Include comment 'anonsuppress')
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/minted/minted.sty
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/catchfile.sty) (./paper.w18
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty))
+(./_minted-paper/default.pygstyle)
+(/usr/share/texlive/texmf-dist/tex/latex/arydshln/arydshln.sty)/usr/bin/pygmentize
+ (./paper.aux)
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
+ABD: EveryShipout initializing macros
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(./paper.out) (./paper.out)
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty)
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty)))
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
-Underfull \hbox (badness 1189) in paragraph at lines 58--77
-\OT1/ptm/m/n/10 Today's large and highly-parallel work-loads are bot-tle-
-<figures/subtree-policies.png, id=1, 420.57124pt x 299.1175pt>
-<use figures/subtree-policies.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pd
-ftex.map} <./figures/subtree-policies.png>]
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(./_minted-paper/default-pyg-prefix.pygstyle) (./sections/0_abstract.tex)
+Excluding 'CCSXML' comment.
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+(./sections/1_introduction.tex
 
-Package natbib Warning: Citation `GIGA+' on page 2 undefined on input line 178.
-
-
-
-Underfull \vbox (badness 2351) has occurred while \output is active
-
-Package natbib Warning: Citation `IndexFS' on page 2 undefined on input line 23
-8.
+Package natbib Warning: Citation `bent:login16-hpc-trends' on page 1 undefined 
+on input line 15.
 
 
-Package natbib Warning: Citation `CephFS' on page 2 undefined on input line 238
-.
-
-[2]
-Overfull \hbox (3.45808pt too wide) in paragraph at lines 310--315
-[]\OT1/ptm/m/n/10 For (3), de-cou-pled names-pace ap-proaches sac-ri-fice POSIX
-
-
-LaTeX Warning: Reference `table:namespaces' on page 3 undefined on input line 3
-17.
-
-
-Overfull \hbox (7.00786pt too wide) in paragraph at lines 320--328
-[][] 
-<figures/creates-motivation.png, id=15, 590.205pt x 534.99875pt>
+(./_minted-paper/09DAB3E242FFEBAFF4FF5F3C367CC8B94B956653F88305C4B19DE2E0F56AC7
+F1.pygtex) <figures/subtree-policies.png, id=83, 420.57124pt x 299.1175pt>
+<use figures/subtree-policies.png> [1.1{/var/lib/texmf/fonts/map/pdftex/updmap/
+pdftex.map} <./figures/subtree-policies.png>])
+(./sections/3_posix_overheads.tex
+<figures/creates-motivation.png, id=112, 590.205pt x 534.99875pt>
 <use figures/creates-motivation.png>
-Underfull \vbox (badness 10000) has occurred while \output is active
-<./figures/journal.png, id=16, 664.884pt x 163.3302pt>
-<use ./figures/journal.png> [3 <./figures/creates-motivation.png>]
-<figures/throughput-journal.png, id=21, 1046.91125pt x 320.19624pt>
+<./figures/journal.png, id=114, 664.884pt x 163.3302pt>
+<use ./figures/journal.png>
+<figures/throughput-journal.png, id=115, 1046.91125pt x 320.19624pt>
 <use figures/throughput-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 379--381
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 51--53
  [][] 
-<figures/throughput-cache-journal.png, id=22, 1049.9225pt x 319.1925pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active [2.2 <./fi
+gures/creates-motivation.png>]
+<figures/throughput-cache-journal.png, id=127, 1049.9225pt x 319.1925pt>
 <use figures/throughput-cache-journal.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 450--453
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 122--125
  [][] 
-<figures/inode-cache.png, id=23, 1047.915pt x 391.4625pt>
+<figures/inode-cache.png, id=128, 1047.915pt x 391.4625pt>
 <use figures/inode-cache.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 458--461
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 130--133
  [][] 
-
-Underfull \vbox (badness 2698) has occurred while \output is active
-<figures/throughput-droplease.png, id=24, 1006.76125pt x 310.15875pt>
+<figures/throughput-droplease.png, id=129, 1006.76125pt x 310.15875pt>
 <use figures/throughput-droplease.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 474--478
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 146--150
  [][] 
 
+Underfull \vbox (badness 1242) has occurred while \output is active
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 190.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 195.
+
+
+LaTeX Warning: Reference `fig:throughput-cache' on page 3 undefined on input li
+ne 196.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active [3.3 <./fi
+gures/journal.png> <./figures/throughput-journal.png>]
+
 LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
+ne 210.
 
 
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 518.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 523.
-
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 524.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd)
-
-LaTeX Warning: Reference `fig:throughput-cache' on page 4 undefined on input li
-ne 538.
-
-<figures/exp0-underloaded.png, id=25, 1508.63625pt x 567.11874pt>
+Underfull \vbox (badness 3646) has occurred while \output is active
+<figures/exp0-underloaded.png, id=140, 1508.63625pt x 567.11874pt>
 <use figures/exp0-underloaded.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 546--549
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 218--221
  [][] 
-<figures/runtime-consistency-scale.png, id=26, 996.72375pt x 301.125pt>
+<figures/runtime-consistency-scale.png, id=141, 996.72375pt x 301.125pt>
 <use figures/runtime-consistency-scale.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 554--558
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 226--230
  [][] 
 
 LaTeX Warning: Reference `fig:exp0-behaviour' on page 4 undefined on input line
- 585.
-
-[4]
-Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
-res/journal.png> <./figures/throughput-journal.png> <./figures/throughput-cache
--journal.png>]
-
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 595.
+ 257.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 604.
+Underfull \vbox (badness 1237) has occurred while \output is active [4.4 <./fig
+ures/throughput-cache-journal.png> <./figures/inode-cache.png>]
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 267.
 
 
-LaTeX Warning: Reference `fig:exp0-behaviour' on page 6 undefined on input line
- 606.
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 276.
+
+
+LaTeX Warning: Reference `fig:exp0-behaviour' on page 5 undefined on input line
+ 278.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active
-Underfull \hbox (badness 2229) in paragraph at lines 614--623
-[]\OT1/ptm/b/n/10 Comparison to de-cou-pled names-paces\OT1/ptm/m/n/10 : De-cou
--pled
-
-Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
-res/inode-cache.png> <./figures/throughput-droplease.png>]
-<figures/fig-decouple.png, id=44, 592.2125pt x 517.935pt>
+Underfull \vbox (badness 10000) has occurred while \output is active [5.5 <./fi
+gures/throughput-droplease.png> <./figures/exp0-underloaded.png>])
+(./sections/4_methodology.tex
+<figures/fig-decouple.png, id=167, 592.2125pt x 527.9725pt>
 <use figures/fig-decouple.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 632--633
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 9--10
  [][] 
 
-Underfull \vbox (badness 10000) has occurred while \output is active [7 <./figu
-res/exp0-underloaded.png> <./figures/runtime-consistency-scale.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 723--727
+Overfull \hbox (1.58101pt too wide) in paragraph at lines 66--78
+ [] 
+
+Underfull \vbox (badness 5832) has occurred while \output is active [6.6 <./fig
+ures/runtime-consistency-scale.png> <./figures/fig-decouple.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 103--107
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 728--729
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 731--737
+Underfull \hbox (badness 10000) in paragraph at lines 111--117
 
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd)
 
-Overfull \hbox (22.49771pt too wide) in paragraph at lines 738--739
-\OT1/cmtt/m/n/10 <create|RPCs> [+v.apply][+save][+persist][+stream] 
-[8 <./figures/fig-decouple.png>]
-Underfull \vbox (badness 4279) has occurred while \output is active [9]
-<figures/results-microbenchmark.png, id=59, 1005.7575pt x 308.15125pt>
+LaTeX Warning: Reference `' on page 7 undefined on input line 158.
+
+) (./sections/5_implementation.tex [7.7]
+Underfull \vbox (badness 10000) has occurred while \output is active [8.8])
+(./sections/6_results.tex
+<figures/results-microbenchmark.png, id=200, 1005.7575pt x 308.15125pt>
 <use figures/results-microbenchmark.png>
-Overfull \hbox (8.1496pt too wide) in paragraph at lines 957--958
+Overfull \hbox (5.8546pt too wide) in paragraph at lines 5--6
  [][] 
-<figures/results-files.png, id=60, 550.055pt x 391.4625pt>
+<figures/results-files.png, id=201, 550.055pt x 391.4625pt>
 <use figures/results-files.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 963--964
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 11--12
  [][] 
-<figures/global-v-decoupled.png, id=61, 490.83376pt x 307.1475pt>
+<figures/global-v-decoupled.png, id=202, 490.83376pt x 307.1475pt>
 <use figures/global-v-decoupled.png>
-Overfull \hbox (16.0748pt too wide) in paragraph at lines 971--978
+Overfull \hbox (14.9273pt too wide) in paragraph at lines 19--26
  [][] 
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/b/n/10 Figure 13. \OT1/ptm/m/n/10 Com-pared to the \OT1/cmtt/m/n/10 cr
-eate \OT1/ptm/m/n/10 phase, sav-
+Underfull \hbox (badness 7486) in paragraph at lines 26--26
+\OT1/cmr/bx/n/9 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/9 create+save \OT1
+/cmr/bx/n/9 and
 
-Underfull \hbox (badness 10000) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 ing and per-sist-ing up-dates (\OT1/cmtt/m/n/10 create+save \OT
-1/ptm/m/n/10 and
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <9> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 81.
 
-Underfull \hbox (badness 1708) in paragraph at lines 978--978
-\OT1/cmtt/m/n/10 create+save+persist\OT1/ptm/m/n/10 ) ex-pe-ri-ence only a 4.79
-$\OMS/cmsy/m/n/10 ^^B$ \OT1/ptm/m/n/10 and
 
-Underfull \hbox (badness 3965) in paragraph at lines 978--978
-\OT1/ptm/m/n/10 con-trast, main-tain-ing \OT1/cmtt/m/n/10 global \OT1/ptm/m/n/1
-0 con-sis-tency is 905.70$\OMS/cmsy/m/n/10 ^^B$
-
-Overfull \hbox (37.14656pt too wide) in paragraph at lines 1040--1041
-\OT1/ptm/m/n/10 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2
-015-
-(./paper.bbl
-Underfull \hbox (badness 3302) in paragraph at lines 54--59
-[]\OT1/ptm/m/n/9 Ashish Thu-soo, Zheng Shao, Suresh An-thony, Dhruba
-
-Underfull \hbox (badness 1668) in paragraph at lines 54--59
-\OT1/ptm/m/n/9 Borthakur, Na-mit Jain, Joy-deep Sen Sarma, Raghotham
-)
+Overfull \hbox (35.86302pt too wide) in paragraph at lines 88--89
+\OT1/cmr/m/n/9 (-20) updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.
+com/2015-
+) (./paper.bbl)
 
 Package natbib Warning: There were undefined citations.
 
-[10] [11 <./figures/results-microbenchmark.png> <./figures/results-files.png> <
-./figures/global-v-decoupled.png>] (./paper.aux)
+[9.9] [10.10 <./figures/results-microbenchmark.png> <./figures/results-files.pn
+g> <./figures/global-v-decoupled.png>] (./paper.aux)
 
 LaTeX Warning: There were undefined references.
 
  )
-(see the transcript file for additional information){/usr/share/texlive/texmf-d
-ist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (11 pages, 1015016 bytes).
+(see the transcript file for additional information) </root/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/tcrm0700.600pk> </root/.texmf-var/fonts/pk/ljfour/jknappen/
+ec/tcrm0900.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmssi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on paper.pdf (10 pages, 1176318 bytes).
+SyncTeX written on paper.synctex.gz.
 Transcript written on paper.log.

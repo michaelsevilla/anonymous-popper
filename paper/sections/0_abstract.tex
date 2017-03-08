@@ -1,0 +1,23 @@
+\begin{abstract}
+Today's large and highly-parallel workloads are bottlenecked by metadata
+services because many processes end up accessing the same shared resoure. In
+HPC, state-of-the-art file systems are abandoning POSIX because the
+sychronization and serializiation overheads are too costly -- and sometimes
+even unnceccessary -- for some of their applications.  While the performance
+benefits are plain for these users, other applications that rely on stronger
+consistency must be re-written or deployed on a different system.  We present
+Cudele, a programmable file system that supports different degrees of
+consistency and fault tolerance within the same namespace.  First, we take a
+POSIX compliant file system and relax the consistency constraints by
+implementing two metadata designs: delayed metadata update merge into the
+global namespace and client local views of metadata updates.  Second, we store
+the consistency and fault tolerance semantics in inodes so that subtrees within
+the same namespace can be optimized for different workloads; the inodes are
+programmable so that clients understand how to access the metadata in a
+subtree.  Third, we present a theoretical framework for a metadata service and
+a working implementation that provides the lowest common denominator needed to
+implement a wide range of consistency/fault tolerance semantics that can be
+benchmarked all on the same system.
+\end{abstract}
+
+
