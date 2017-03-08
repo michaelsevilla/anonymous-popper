@@ -1,7 +1,0 @@
-Hi X,
-
-I am a graduate student working under Carlos Maltzahn at UCSC. We study techniques for handling hot spots and flash crowds of clients in distributed file systems (POSIX). We use this problem as a case study for "programmable storage systems", where we try exposing and leveraging the storage system's internal abstractions for higher-level service. Our protyping platform is Ceph but we are open to trying new things on different systems.
-
-I think this is especially relevent to your DeltaFS and asynchronous checkpoint work. A lot of our work builds on these concepts. I'd love to do a summer internship and I think I'd learn a lot -- what is the best way to get in the queue?
-
-
