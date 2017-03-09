@@ -29,6 +29,16 @@
     register: results
   - local_action: lineinfile dest="{{ output }}" line="persist,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
 
+  - name: add events to the in memory journal and apply them to the metadata store
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --memapply true
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="apply,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: apply the events again (required for correctness -- it is a bug)
+    shell: docker exec cephfs cephfs-journal-tool event apply summary
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="apply1,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
   - name: get the size of the journal file (to estimate transfer time)
     shell: ls -l /etc/ceph/events.bin | awk '{print $5}'
     register: results
