@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -r _minted-paper paper.aux paper.bbl paper.blg paper.log paper.out paper.synctex.gz >> /dev/null 2>&1
+rm -r _minted-paper paper.aux paper.bbl paper.blg paper.log paper.out paper.synctex.gz build.log >> /dev/null 2>&1
 set -ex
 
 # Build the paper
@@ -22,6 +22,9 @@ if [ $ERR != "0" ] ; then
   cat build.log
   exit 1
 fi
+
+set +e
+rm -r _minted-paper paper.aux paper.bbl paper.blg paper.log paper.out paper.synctex.gz build.log >> /dev/null 2>&1
 
 echo "SUCCESS"
 exit 0
