@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{n}{MDSs}\PYG{p}{[}\PYG{n}{whoami}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s}{cpu\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{30}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

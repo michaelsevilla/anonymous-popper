@@ -64,13 +64,13 @@ and durability properties are not guaranteed until all mechanisms in the cell
 are complete (i.e. the compositions should be considered atomic) and there are
 no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \begin{tabular}{ l | l | l | l }
-  C \(\rightarrow\) &&& \\  
-  D \(\downarrow\)  & none              & eventual        & strong  \\\hline
+  Consistency \(\rightarrow\) &&& \\  
+  Durability \(\downarrow\)  & invisible         & eventual        & strong  \\\hline
   none                       & create            & create          & RPCs    \\
                              &                   & +volatile apply &         \\\hdashline
   local                      & create            & create          & RPCs    \\
-                             & +local persist    & +local persist  & +local persist \\
-                             &                   & +volatile apply &         \\\hdashline
+                             & +local persist    & +local persist  & +local  \\
+                             &                   & +volatile apply &  persist\\\hdashline
   global                     & create            & create          & RPCs    \\
                              & +global persist   & +global persist & +stream \\
                              &                   & +volatile apply &         \\
@@ -117,7 +117,7 @@ include:\\
 
 \noindent \texttt{<create|RPCs> [+v\_apply][+save][+persist][+stream]}
 
-\subsection{Cudele Namespace API: Per-Subtree Policies}
+\subsection{Cudele Namespace API:\\Per-Subtree Policies}
 
 % file type
 To assign consistency and fault tolerance to the subtrees we store policies in
@@ -168,6 +168,54 @@ example it wants approximations for results that take too long to compute, it
 can select \texttt{overwrite}. In this case, metadata will be written and the
 computation from the decoupled namespace will take priority because the resutls
 are more accurate.
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing DeltaFS with Cudele.}
+\label{src:deltafs}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create+volatile_apply"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing BatchFS with Cudele.}
+\label{src:batchfs}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "-"
+    "interfere_policy": "-"
+    "consistency": "RPCs"
+    "durability": "stream"
+}
+\end{minted}
+\caption{Existing CephFS on Cudele.}
+\label{src:batchfs}
+\end{listing}
 
 % // limit consistency
 % if metadata write (create) -- try to reduce error bars for many creates and runtime of one touch)

@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+  \PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}} \PYG{n+nx}{Structured} \PYG{n+nx}{Namespace} \PYG{n+nx}{Pattern} \PYG{o}{!\PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{l+s+s2}{\PYGZdq{}S\PYGZus{}pattern\PYGZdq{}}\PYG{o}{:} \PYG{l+s+s2}{\PYGZdq{}[i, (d[0], d[1], ...)\PYGZca{}r]\PYGZdq{}}\PYG{p}{,}
+
+  \PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}} \PYG{n+nx}{Structured} \PYG{n+nx}{Namespace} \PYG{n+nx}{Trigger} \PYG{o}{!\PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{l+s+s2}{\PYGZdq{}S\PYGZus{}trigger\PYGZdq{}}\PYG{o}{:} \PYG{l+s+s2}{\PYGZdq{}if MDSs[whoami][\PYGZdq{}}\PYG{n+nx}{cpu}\PYG{l+s+s2}{\PYGZdq{}] \PYGZgt{} 30\PYGZdq{}}\PYG{p}{,}
+
+  \PYG{c}{\PYGZlt{}!\PYGZhy{}\PYGZhy{}} \PYG{n+nx}{Untructured} \PYG{n+nx}{Namespace} \PYG{n+nx}{Allocated} \PYG{n+nx}{Inos} \PYG{o}{!\PYGZhy{}\PYGZhy{}\PYGZgt{}}
+  \PYG{l+s+s2}{\PYGZdq{}US\PYGZus{}alloci\PYGZdq{}}\PYG{o}{:} \PYG{l+s+s2}{\PYGZdq{}1000\PYGZdq{}}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
