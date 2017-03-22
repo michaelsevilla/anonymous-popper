@@ -38,21 +38,56 @@ the kernel client.
 
 \subsection{Fault Tolerance}
 \label{sec:fault-tolerance}
-\begin{figure*}[tb] \centering
-\includegraphics[width=1\textwidth]{./figures/journal.png} 
+
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-journal.png}
+      \caption{}
+      \label{fig:phy-design}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/behavior-journal.png}
+      \caption{}
+      \label{fig:batching}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-cache.png}
+      \caption{}
+      \label{fig:batching-outlier}
+  \end{subfigure}
+  \caption{(a) relative performance differences are different after storage
+  software upgrade. (b) total throughput with and without batching. (c)
+  identifying and handling an outlier maintains the benefits
+  of batching without the performance degradation of unnecessarily large I/O
+  requests.}
+\end{figure*}
+
+\begin{figure}[tb] \centering
+\includegraphics[width=1\linewidth]{./graphs/behavior-cache.png} 
+\caption{The inode cache improves metadata read performance but for our
+create-heavy workload it is only an overhead. Most of the time maintaining the
+cache is spent evicting and adding inodes.}\label{fig:inode-cache}
+\end{figure}
+
+\begin{figure}[tb] \centering
+\includegraphics[width=1\linewidth]{./figures/journal.png} 
 \caption{CephFS uses a journal to stage updates and tracks dirty metadata in
 the collective memory of the MDSs. Each MDS maintains its own journal, which is
 broken up into 4MB segments. These segments are pushed into RADOS and deleted
 when that particular segment is trimmed from the end of the log. In addition to
 journal segments, RADOS also stores per-directory objects. \label{fig:journal}}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[tb]%h
-\centering
-\includegraphics[width=180mm]{figures/throughput-journal.png}
-\caption{Performance improves with larger journal segments because the metadata
-server spends less time flushing the journal }\label{fig:throughput-journal}
-\end{figure*}
+%\begin{figure*}[tb]%h
+%\centering
+%\includegraphics[width=180mm]{figures/throughput-journal.png}
+%\caption{Performance improves with larger journal segments because the metadata
+%server spends less time flushing the journal }\label{fig:throughput-journal}
+%\end{figure*}
 
 %\begin{figure}[tb]%h
 %\centering
@@ -118,22 +153,6 @@ vacate memory, get written to disk, or are flushed to the object store.
 
 \subsection{Strong Consistency} 
 
-\begin{figure*}[tb]%h
-\centering
-\includegraphics[width=180mm]{figures/throughput-cache-journal.png}
-\caption{Journalling metadata updates has a bigger overhead than maintaining
-the inode cache. For create-heavy workloads the inode cache offers no
-performance benefits. }\label{fig:throughput-cache-journal}
-\end{figure*}
-
-\begin{figure*}[tb]%h
-\centering
-\includegraphics[width=180mm]{figures/inode-cache.png}
-\caption{The inode cache improves metadata read performance but for our
-create-heavy workload it is only an overhead. Most of the time maintaining the
-cache is spent evicting and adding inodes.}\label{fig:inode-cache}
-\end{figure*}
-
 Access to POSIX metadata is strongly consistent, so reads and writes are
 globally ordered. The synchronization and serialization machinery needed to
 ensure that all clients see the same state has high overhead.  CephFS uses
@@ -142,13 +161,36 @@ needed for consistency, clients can obtain capabilities for reading, reading
 and updating, reads caching, writing, buffering writes, changing the file size,
 and performing lazy IO.
 
-\begin{figure*}[tb]%h
-\centering
-\includegraphics[width=180mm]{figures/throughput-droplease.png}
-\caption{When a client create stream is ``isolated" then lookups resolve
-locally but when a second client ``interferes" by creating in the same directory,
-the directory inode capability is revoked forcing all clients to centralize
-lookups at the metadata server.  \label{fig:throughput-droplease}}
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/behavior-interfere.png}
+      \caption{}
+      \label{fig:phy-design}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere.png}
+      \caption{}
+      \label{fig:batching}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere-types.png}
+      \caption{}
+      \label{fig:batching-outlier}
+  \end{subfigure}
+  \caption{When a client create stream is ``isolated" then lookups resolve
+  locally but when a second client ``interferes" by creating in the same
+  directory, the directory inode capability is revoked forcing all clients to
+  centralize lookups at the metadata server.  An underloaded metadata server
+  adaquately services conflicting clients; the create speeds are similar while
+  the interferring operations are limited by the cost of RPCs.  Scaling clients
+  shows increased variability when another client interferes; zooming in on runs
+  with 7 clients we see that different types of interferring operations have
+  different effects on performance variability and predictability.
+  \label{fig:throughput-droplease}}
 \end{figure*}
 
 % purpose of the inode ccahe - reduces RPCs (lookups for create, readdirs for
@@ -214,22 +256,6 @@ removed is less stable (ino\(-\)) indicating that cache eviction is taking more
 of the metadata servers time.
 
 \subsection{Consistency Overhead}
-\begin{figure*}[tb]
-\centering
-\includegraphics[width=180mm]{figures/exp0-underloaded.png}
-\caption{An underloaded metadata server adaquately services conflicting
-clients; the create speeds are similar while the interferring operations are
-limited by the cost of RPCs.}\label{fig:exp0-underloaded}
-\end{figure*}
-
-\begin{figure*}[tb]
-\centering
-\includegraphics[width=180mm]{figures/runtime-consistency-scale.png}
-\caption{Scaling clients shows increased variability when another client
-interferes; zooming in on runs with 7 clients we see that different types of
-interferring operations have different effects on performance variability and
-predictability.  }\label{fig:runtime-consistency-scale}
-\end{figure*}
 
 Figure~\ref{fig:exp0-underloaded} is a baseline showing that the metadata
 server can service multiple clients when it is underloaded. One client creates

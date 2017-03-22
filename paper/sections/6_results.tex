@@ -2,31 +2,40 @@
 \label{sec:evaluation}
 
 \subsection{Microbenchmarks}
-\begin{figure*}[tb]
-\centering
-\includegraphics[width=180mm]{figures/results-microbenchmark.png}
-\caption{Here's a graph.}
-\end{figure*}
+%\begin{figure*}[tb]
+%\centering
+%\includegraphics[width=180mm]{graphs/slowdown.png}
+%\caption{Compared to the \texttt{create} phase, saving and persisting
+%updates (\texttt{create+save} and \texttt{create+save+persist}) experience only
+%a 4.79\(\times\) and 8.66\(\times\) slowdown, in the worst case for 100K files.
+%In contrast, maintaining \texttt{global} consistency is 905.70\(\times\)
+%slower.  The disadvantage of decoupling the namespace is the merge phase where
+%updates are applied to the metadata store (\texttt{create+apply}, resulting in a
+%905.70\(\times\) slowdown for 100K files.}\label{fig:global-v-decoupled}
+%\end{figure*}
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=90mm]{figures/results-files.png}
-\caption{Here's a graph.}
+\includegraphics[width=75mm]{graphs/slowdown-mechanisms.png}
+\caption{}
 \end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[width=75mm]{graphs/slowdown-related-work.png}
+\caption{}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[width=75mm]{graphs/slowdown-strong-v-eventual.png}
+\caption{}
+\end{figure}
+
+
+
+
 
 
 \subsubsection{Per phase latencies}
-\begin{figure}[tb]
-\centering
-\includegraphics[width=90mm]{figures/global-v-decoupled.png}
-\caption{Compared to the \texttt{create} phase, saving and persisting
-updates (\texttt{create+save} and \texttt{create+save+persist}) experience only
-a 4.79\(\times\) and 8.66\(\times\) slowdown, in the worst case for 100K files.
-In contrast, maintaining \texttt{global} consistency is 905.70\(\times\)
-slower.  The disadvantage of decoupling the namespace is the merge phase where
-updates are applied to the metadata store (\texttt{create+apply}, resulting in a
-905.70\(\times\) slowdown for 100K files.}\label{fig:global-v-decoupled}
-\end{figure}
 
 %\section{notes}
 %Linking clients into our custom libcephfs
@@ -80,11 +89,9 @@ updates are applied to the metadata store (\texttt{create+apply}, resulting in a
 %
 %lient 0: creates, client 1 create(s)
 
-\subsection{Journaling Overhead}
-
-Journal to RADOS
-Turn off journaling (large segment)
-Journal to in-memory OSD 
+\subsection{Isolation from EBUSY}
+\subsection{Isolation from Global Writes, Cost of Overwrites}
+\subsection{Partial Directory Listings}
 
 \subsection{Macrobenchmarks}
 updatedb: http://lists.ceph.com/pipermail/ceph-users-ceph.com/2015-July/002768.html
