@@ -1,6 +1,27 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
+We evaluate Cudele on a 15 node cluster, partitioned into 8 object storage
+servers, 3 metadata servers, and 2 monitor servers. The object storage servers
+double as clients which is fine because clients are CPU and memory bound while
+object storage servers are disk IO bound. All daemons run as a single process
+which is the default setting for Ceph and the nodes have 2 dual core 2GHz
+processors with 8GB of RAM. There are three daemons per object storage server
+(one for each disk formatted with XFS) and they share an SSD for the journal.
+The nodes are running Ubuntu 12.04.4, kernel version 3.2.0-63 but all
+experiments run in Docker containers; this makes it easier to tear down and
+re-initialize ({\it e.g.}, dropping the kernel cache) for the cluster between
+experiments.
+
+This paper adheres to The Popper
+Convention\footnote{\url{http://falsifiable.us}}~\cite{jimenez_popper_2016}, so
+experiments presented here are available in the repository for this
+article\footnote{\url{https://github.com/michaelsevilla/cudele-popper/tree/}}.
+Experiments can be examined in more detail, or even re-run, by visiting the
+\texttt{[source]} link next to each figure. That link points to a Jupyter
+notebook that shows the analysis and source code for that graph and its parent
+folder contains all the associated artifacts.
+
 \subsection{Microbenchmarks}
 %\begin{figure*}[tb]
 %\centering
@@ -16,24 +37,19 @@
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=75mm]{graphs/slowdown-mechanisms.png}
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-mechanisms.png}
 \caption{}
 \end{figure}
 \begin{figure}[tb]
 \centering
-\includegraphics[width=75mm]{graphs/slowdown-related-work.png}
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-related-work.png}
 \caption{}
 \end{figure}
 \begin{figure}[tb]
 \centering
-\includegraphics[width=75mm]{graphs/slowdown-strong-v-eventual.png}
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-strong-v-eventual.png}
 \caption{}
 \end{figure}
-
-
-
-
-
 
 \subsubsection{Per phase latencies}
 

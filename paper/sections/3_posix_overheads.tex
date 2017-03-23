@@ -3,18 +3,18 @@
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=75mm]{figures/creates-motivation.png}
+\includegraphics[width=1.0\linewidth]{figures/creates-motivation.png}
 \caption{Create-heavy workloads (untar) incurr the highest disk, network, and CPU
 utilization because the metadata server is managing consistency and fault
 tolerance.}\label{fig:creates-motivation}
 \end{figure}
 
 In our examiniation of the overheads of POSIX we benchmark and analyze CephFS,
-the file system that uses the RADOS object store to store its data and
-metadata. We choose CephFS because it is an open-source production quality
-system. CephFS made one set of design decisions and we not asserting that the
-design decisions that were made are superior but instead highlight the
-effect those decisions have on performance.
+the file system that uses the Ceph's object store ({\it i.e.} RADOS) to store
+its data and metadata. We choose CephFS because it is an open-source production
+quality system. This file system is an implementation of one set of design
+decisions; we are not asserting that those decisions are superior but instead
+highlight the effect that those decisions have on performance.
 
 To show how CephFS behaves under high metadata load we use a create-heavy
 workload because these types of workloads incurr high CPU, network, and disk
