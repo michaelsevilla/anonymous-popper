@@ -4,74 +4,36 @@
 \begin{figure}[tb]
 \centering
 \includegraphics[width=1.0\linewidth]{figures/creates-motivation.png}
-\caption{Create-heavy workloads (untar) incurr the highest disk, network, and CPU
-utilization because the metadata server is managing consistency and fault
-tolerance.}\label{fig:creates-motivation}
+\caption{Create-heavy workloads (untar) incurr the highest disk, network, and
+CPU utilization because of the consistency and durability demands of CephFS
+.}\label{fig:creates-motivation}
 \end{figure}
 
 In our examiniation of the overheads of POSIX we benchmark and analyze CephFS,
 the file system that uses the Ceph's object store ({\it i.e.} RADOS) to store
 its data and metadata. We choose CephFS because it is an open-source production
 quality system. This file system is an implementation of one set of design
-decisions; we are not asserting that those decisions are superior but instead
-highlight the effect that those decisions have on performance.
+decisions and our goal is to highlight the effect that those decisions have on
+performance.
 
-To show how CephFS behaves under high metadata load we use a create-heavy
-workload because these types of workloads incurr high CPU, network, and disk
-usage.  Figure~\ref{fig:creates-motivation} shows a compilation of the Linux
-kernel, which has a download, untar, compile, and remove phase. The untar phase
-is characterized by many creates and has the highest resource usage, indicating
-that it is stressing the consistency and journalling subsystems of the metadata
-server. Also of note: a create-heavy workload does not help for caching indoes.
+To show how the file system behaves under high metadata load we use a
+create-heavy workload. Create-heavy workloads are studied the most in HPC
+research because of the checkpoint/restart use case but they also happen to
+stress the underyling storage system the most.
+Figure~\ref{fig:creates-motivation} shows the resource utilization of compiling
+the Linux kernel.  The untar phase, which is characterized by many creates, has
+the highest resource usage which suggests that it is stressing the consistency
+and journalling subsystems of the metadata server the most. Traditional file
+system techniques for improving performance, such as caching inodes, do not
+help for create-heavy workloads.
 
-In this section, we quantify the costs of consistency and fault tolerance in
-CephFS. If the components that ensure these semantics (i.e. capabilities and
-journals, respectively) can be mitigated or delayed, then global namespaces
-perform as well as decoupled namespaces. We run our experiments on a 9 OSD, 3
-MDS, 1 MON Ceph cluster. The clients use the Ceph kernel client, which has been
-in the mainline Linux kernel since TODO. We use the kernel client so that we
-can find the true create speed of the server; our experiments show a low CPU
-utilziation for the clients which indicates that we are stressing the servers
-more. We also turn caching off becuase, as shown in figureX there is little
-difference, in terms of performance between caching and not caching when using
-the kernel client.
+In this section, we quantify the costs of strong consistency and global
+durability in CephFS.  We use the kernel client so that we can find the true
+create speed of the server; our experiments show a low CPU utilziation for the
+clients which indicates that we are stressing the servers more. 
 
-\subsection{Fault Tolerance}
+\subsection{Durability}
 \label{sec:fault-tolerance}
-
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-journal.png}
-      \caption{}
-      \label{fig:phy-design}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/behavior-journal.png}
-      \caption{}
-      \label{fig:batching}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-cache.png}
-      \caption{}
-      \label{fig:batching-outlier}
-  \end{subfigure}
-  \caption{(a) relative performance differences are different after storage
-  software upgrade. (b) total throughput with and without batching. (c)
-  identifying and handling an outlier maintains the benefits
-  of batching without the performance degradation of unnecessarily large I/O
-  requests.}
-\end{figure*}
-
-\begin{figure}[tb] \centering
-\includegraphics[width=1\linewidth]{./graphs/behavior-cache.png} 
-\caption{The inode cache improves metadata read performance but for our
-create-heavy workload it is only an overhead. Most of the time maintaining the
-cache is spent evicting and adding inodes.}\label{fig:inode-cache}
-\end{figure}
 
 \begin{figure}[tb] \centering
 \includegraphics[width=1\linewidth]{./figures/journal.png} 
@@ -81,243 +43,167 @@ broken up into 4MB segments. These segments are pushed into RADOS and deleted
 when that particular segment is trimmed from the end of the log. In addition to
 journal segments, RADOS also stores per-directory objects. \label{fig:journal}}
 \end{figure}
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-journal.png}
+      \caption{Journal Segment Size} \label{fig:slowdown-journal-a}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/behavior-journal.png}
+      \caption{180MB Segment vs. No Journal}
+      \label{fig:slowdown-journal-b}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-cache.png}
+      \caption{Inode Cache}
+      \label{fig:slowdown-journal-c}
+  \end{subfigure}
+  \caption{The overhead of the file system metadata journal. The segment size
+  is the threshold that the metadata server starts
+  trimming.\label{fig:slowdown-journal}}
+\end{figure*}
 
-%\begin{figure*}[tb]%h
-%\centering
-%\includegraphics[width=180mm]{figures/throughput-journal.png}
-%\caption{Performance improves with larger journal segments because the metadata
-%server spends less time flushing the journal }\label{fig:throughput-journal}
-%\end{figure*}
-
-%\begin{figure}[tb]%h
-%\centering
-%\includegraphics[width=80mm]{figures/throughput-journal-old.png}
-%\caption{(a), (b), and (c) show increased activity halfway though the run; (d)
-%shows that this activity is related to disk IO, indicating that the activity is
-%the journal.  Despite the activity, we conclude that RADOS itself is not the
-%bottleneck because our RADOS cluster can sustain 100MB/s write bandwidth.
-%}\label{fig:throughput-journal-old}
-%\end{figure}
-%Figure~\ref{fig:throughput-cache} shows that journaling metadata updates into
-%the object store has an overhead.  (a) shows that throughput degrades halfway
-%through the run; (b) shows that cpu utilization spikes at this same point; (c)
-%shows that outgoing network utilization spikes; and (d) shows that this
-%activity spikes on the disks in RADOS.
-
-% purpose of the journal
-As shown in Figure~\ref{fig:journal} CephFS uses RADOS (1) as a metadata store
-for all information about files including the hierarchical namespace and (2) as
-a staging area for the journal of updates before they are applied to the
-metadata store. (1) is essentially a cache that improves performance by serving
-metadata from memory and (2) is the mechanisms for achieving fault tolerance. 
+% what is durability
+While durability is not specified by POSIX, users expect that their metadata is
+safe. We define three types of durability: global, local, and none.  Global
+durability means that the client or server can fail at any time and metadata
+will not be lost. Local durability means that metadata can be lost if the
+client or server fails and stays failed. None means that metadata is volatile
+and that the system provides no guarantees when clients or servers fail.\\
 
 % - sequential IO, trim redundant operations
-Fault tolerance means that the client or server can fail and metadata will not
-be lost.  CephFS addresses fault tolerance with a metadata journal that streams
-into the resilient object store. Similar to LFS~\cite{} and WAFL~\cite{} the
-metadata journal can grow to large sizes ensuring (1) sequential writes into
-RADOS and (2) the ability for daemons to trim redundant or irrelevent journal
-entries. 
+\noindent\textbf{CephFS Design}: a journal of metadata updates that streams into
+the resilient object store. Similar to LFS~\cite{rosenblum:acm1992-LFS} and
+WAFL~\cite{hitz:wtec1994-WAFL} the metadata journal can grow to large sizes
+ensuring (1) sequential writes into RADOS and (2) the ability for daemons to
+trim redundant or irrelevent journal entries.  The journal is striped over
+objects where multiple journal updates can reside on the same object. There are
+two tunables for controlling the journal: the segment size and the number of
+parallel segments that can be written in parallel. The former is memory bound
+as larger segments take up more memory but can reduce the time spent journaling
+and the latter is CPU bound. 
 
-% Knobs in CephFS
-The journal is striped over objects where multiple journal updates can reside
-on the same object. There are two tunables for controlling the journal: the
-segment size and the number of parallel segments that can be written in
-parallel. The former is memory bound as larger segments take up more memory but
-can reduce the time spent journaling and the latter is CPU bound. 
+% purpose of the journal
+As shown in Figure~\ref{fig:journal}, in addition to the metadata journal,
+CephFS also represents metadata in RADOS as a metadata store, where directories
+and their file inodes are stored as objects.  The metadata server applies the
+updates in the journal to the metadata store when the journal reaches a certain
+size. The metadata store is optimized for recovery ({\it i.e.} reading) while
+the metadata journal is write-optimized.
 
 % Effects on performance
-Figure~\ref{fig:throughput-journal} shows that journaling metadata updates into
-the object store has an overhead. Part (a) shows the runtime for different
-journal segment sizes; the larger the segment size the bigger that the writes
-into the object store are. The trade-off comes is in terms of memory because
-larger segment sizes take up more space with their buffers. Parts (b), (c), and
-(d) show the throughput over time for different segment sizes. Performance
-suffers when time is spent journaling. 
+Figure~\ref{fig:slowdown-journal} shows that journaling metadata updates into
+the object store has an overhead. Figure~\ref{fig:slowdown-journal-a} shows the
+effect of journaling of different journal segment sizes; the larger the segment
+size the bigger that the writes into the object store are. The trade-off for
+better performance is memory consumption because larger segment sizes take up
+more space with their buffers. Figure~\ref{fig:slowdown-journal-b} shows how
+the metadata server periodically stops serving requests to flush ({\it i.e.}
+apply journal updates to) the metadata store.  The journal overhead is
+sufficient enough to slow down metadata throughput but not so much as to
+overwhelm the bandidth of the object store. We measured our peak bandwidth to
+be 100MB/s, which is the speed of our network link.\\
 
-% Conclusion
-Despite this overhead, we posit that the journal is sufficient to slow down
-metadata throughput but not so much as to overwhelm RADOS because we measured
-our peak bandwidth to be 100MB/s, which is the speed of our network link.
-
-\textbf{Comparison to decoupled namespaces}: In BatchFS and DeltaFS, as far as
-we can tell, when a client or server fails there is no recovery scheme. For
-BatchFS, if a client fails when it is writing to the local log-structured
-merged tree (implemented as an SSTable) then those batched metadata operations
-on lost. For DeltaFS, if the client fails then on restart the computation does
-the work again -- since the snapshots of the namespace are never globally
-consistent, there is no ground truth the requires the failed namespace to
-answer to anyone. On the server side, BatchFS and DeltaFS use IndexFS. Again,
-IndexFS writes metadata to SSTables but it is not clear whether they ever
-vacate memory, get written to disk, or are flushed to the object store.
+\noindent\textbf{Comparison to decoupled namespaces}: In BatchFS and DeltaFS,
+as far as we can tell, when a client or server fails there is no recovery
+scheme. For BatchFS, if a client fails when it is writing to the local
+log-structured merged tree (implemented as an SSTable) then those batched
+metadata operations are lost. For DeltaFS, if the client fails then on restart
+the computation does the work again -- since the snapshots of the namespace are
+never globally consistent and there is no ground truth.  On the server side,
+BatchFS and DeltaFS use IndexFS. Again, IndexFS writes metadata to SSTables but
+it is not clear whether they ever vacate memory, get written to disk, or are
+flushed to the object store.
 
 \subsection{Strong Consistency} 
+\label{sec:strong-consistency}
 
-Access to POSIX metadata is strongly consistent, so reads and writes are
-globally ordered. The synchronization and serialization machinery needed to
-ensure that all clients see the same state has high overhead.  CephFS uses
-capabilities to keep metadata strongly consistent. To reduce the number of RPCs
-needed for consistency, clients can obtain capabilities for reading, reading
-and updating, reads caching, writing, buffering writes, changing the file size,
-and performing lazy IO.
+Access to metadata in a POSIX-compliant file system is strongly consistent, so
+reads and writes are globally ordered.  The synchronization and serialization
+machinery needed to ensure that all clients see the same state has high
+overhead.\\
+
+\noindent\textbf{CephFS Design}: capabilities keep metadata strongly
+consistent. To reduce the number of RPCs needed for consistency, clients can
+obtain capabilities for reading, reading and updating, caching reads, writing,
+buffering writes, changing the file size, and performing lazy IO.
 
 \begin{figure*}[t]
   \centering
   \begin{subfigure}[b]{.3\linewidth}
       \centering
       \includegraphics[width=1.0\linewidth]{graphs/behavior-interfere.png}
-      \caption{}
-      \label{fig:phy-design}
+      \caption{Inteference forces \texttt{lookup()}s}
+      \label{fig:interfere-a}
   \end{subfigure}
   \begin{subfigure}[b]{.3\linewidth}
       \centering
       \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere.png}
-      \caption{}
-      \label{fig:batching}
+      \caption{Interference hurts performance}
+      \label{fig:interfere-b}
   \end{subfigure}
   \begin{subfigure}[b]{.3\linewidth}
       \centering
       \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere-types.png}
-      \caption{}
-      \label{fig:batching-outlier}
+      \caption{Different interferring requests}
+      \label{fig:interfere-c}
   \end{subfigure}
   \caption{When a client create stream is ``isolated" then lookups resolve
   locally but when a second client ``interferes" by creating in the same
   directory, the directory inode capability is revoked forcing all clients to
-  centralize lookups at the metadata server.  An underloaded metadata server
-  adaquately services conflicting clients; the create speeds are similar while
-  the interferring operations are limited by the cost of RPCs.  Scaling clients
-  shows increased variability when another client interferes; zooming in on runs
-  with 7 clients we see that different types of interferring operations have
-  different effects on performance variability and predictability.
-  \label{fig:throughput-droplease}}
+  centralize lookups at the metadata server.  
+  \label{fig:interfere}}
 \end{figure*}
 
-% purpose of the inode ccahe - reduces RPCs (lookups for create, readdirs for
-% stats)
+% inode cache - reduces RPCs (lookups for create, readdirs for stats)
 To keep track of the read caching and write buffering capabilities, the clients
 and metadata servers agree on the state of each inode using an inode cache.  If
-a client has the directory inode cached it can do metadata writes (e.g.,
+a client has the directory inode cached it can do metadata writes ({\it e.g.},
 create) with a single RPC. If the client is not caching the directory inode
-then it must do multiple RPCs to the metadata server to (1) determine if the
-file exists and (2) do the actual create.  Unless the client immediately reads
-all the inodes in the cache, the inode cache is less useful for create-heavy
-workloads because the cached inodes are unused. 
+then it must do an extra RPC to determine if the file exists.  Unless the
+client immediately reads all the inodes in the cache ({\it i.e.} \texttt{ls
+-alR}), the inode cache is less useful for create-heavy workloads.
 
-% benefits
+% benefits PROBLEM -- IS THIS THE METADATA PROTOCOL OR JUST THE OVERLOADEDNESS?
 The benefits of caching the directory inode when creating files is shown in
-Figure~\ref{fig:throughput-droplease}(a).  If only one client is creating files
-in a directory (``isolated" curve) then that client can lookup the existence of
-new files locally before issuing a create request to the metadata server. If
-another client starts creating files in the same directory (``interfere" curve)
-then the directory inode transitions out of read caching and the first client
-must send lookups to the metadata server. When other clients interfere the
-request throughput is higher Figure~\ref{fig:throughput-droplease}(b) but the
-runtime is slower because the isolated client scenario incurrs less requests.
-Figures~\ref{fig:throughput-droplease}(c) and (d) plot the creates and lookups,
-repsectively, over time; creates slow down and lookups dominate the request
-load when the directory inode is shared in the interferring client scenario.
+Figure~\ref{fig:interfere-a}.  If only one client is creating files in a
+directory (``isolated" curve on \(y1\) axis) then that client can lookup the
+existence of new files locally before issuing a create request to the metadata
+server. If another client starts creating files in the same directory
+(``interfere" curve on \(y1\) axis) then the directory inode transitions out of
+read caching and the first client must send \texttt{lookup()}s to the metadata
+server (``interfere" curve on \(y2\) axis). These extra requests increase the
+throughput of the ``interfere" curve because the metadata server can handle the
+extra load but the overall performance decreases.  This degradation is shown in
+Figure~\ref{fig:interfere-b}, where we scale the number of clients and show
+increased runtime and variability. The performance is compared to a single
+isolated client and he error bar is the standard deviation of the runtime of
+all clients.  For the ``interfere" bars, each client creates files in private
+directories and at 30 seconds we launch another process that creates files in
+those directories.  For less than 7 clients, the runtime and deviation is worse
+when clients interfere. At 7 clients, the metadata server is overloaded so the
+directory caching in the ``isolated" bars has no benefit. Zooming in on runs
+with 7 clients in Figure~\ref{fig:interfere-c} we see how different
+interferring operations affect performance, again when compared to the
+performance of a single isolate client.  ``create" has little effect but
+``stat" and ``create many" cause noticeable slowdowns because of the extra work
+they impose on the metadata server.\\
 
 % TODO: what is the cost of trimming the cache?
 % TODO: does CephFS still cache inodes when I turn off caching? Why is still keeping inodes in memory? Gah!
-%\begin{figure}[tb]%h
-%\centering
-%\includegraphics[width=80mm]{figures/throughput-cache.png}
-%\caption{ CephFS tries to maintain 100 thousand inodes in the cache;
-%performance degrades when it cannot evict inodes fast enough to maintain this
-%threshold. \label{fig:throughput-cache}}
-%\end{figure}
 
-% disadvantages
-The drawbacks of the inode cache are shown in
-Figure~\ref{fig:throughput-cache}.  Figure~\ref{fig:throughput-cache}(a) shows
-the throughput in metadata requests per second for a single client creating 200
-thousand files. Until time 950 the throughput is steady at just under 2000
-ops/sec and the CPU utilization is at about 30\%. At time 950 seconds
-throughput degrades which corresponds to more inodes in the cache
-(Figure~\ref{fig:throughput-cache}(c)). The values in
-Figure~\ref{fig:throughput-cache}(c) are:
-
-\begin{itemize}
-  \item inodes: total number of elemnts in the cache
-  \item inodes pinned: 
-  \item inodes pinned tail
-  \item inodes with caps
-  \item inodes top
-  \item inodes bottom 
-\end{itemize}
-
-% how the inode cache works
-CephFS tries to keep the cache at 100 thousand inodes so the degradation in
-performance indicates that the metadata server cannot keep up with the
-workload. Figure~\ref{fig:throughput-cache}(d) shows inodes getting added at
-the same rate as before 950 seconds (ino\(+\)) but the rate at which inodes get
-removed is less stable (ino\(-\)) indicating that cache eviction is taking more
-of the metadata servers time.
-
-\subsection{Consistency Overhead}
-
-Figure~\ref{fig:exp0-underloaded} is a baseline showing that the metadata
-server can service multiple clients when it is underloaded. One client creates
-files in the same directory and another does a touch or stat 15 seconds into
-the run. Figure~\ref{fig:exp0-underloaded}(a) shows the runtime of the client
-doing the creates: "isolated" is when the create client is the only workload in
-the cluster, "interfere stat" is the runtime of the create client when another
-client does a stat, and "interfere touch" is the runtime of the create client
-when another client does a touch. There is only a minor performance
-degradation. Figure~\ref{fig:exp0-underloaded}(b) compares the baseline
-the other client doing the touch or stat
-%
-%and Figure~\ref{fig:exp0-underloaded}
-%has a throughput trace to show behavior.
-%
-%In Figure~\ref{fig:exp0-underloaded}(a), 
-%creates only see a minor performance
-%degradation while the interferring operations in
-%Figure~\ref{fig:exp0-underloaded}(b) show a larger (yet not significant)
-%discrepency. 
-%
-%
-%
-% isolated is when there is no interferrence from client 1.
-To explain Figure~\ref{fig:exp0-underloaded}(a) we use
-Figure~\ref{fig:exp0-behaviour}(b) to show why the runtime of creating 100
-thousand files is unaffected. Compared to the throughput without an
-interferring stat ("isolated" curve) the throughput of the metadata server with
-an interferring stat ("inteferring stat" curve) is higher. This means the
-metadata server is doing more operations suggesting that it can adequately
-handle the demands of both workloads.  
-
-To explain Figure~\ref{fig:exp0-underloaded}(b) we use
-Figure~\ref{fig:exp0-underloaded}(a) to show that operations are bounded by the
-number of files; more files incurr more requests since both operations lookup
-every file. The number of files shown in Figure~\ref{fig:exp0-behaviour}(a)
-indicates that the local stat ("client 0" bar) is interacting with less files
-than the remote stat ("client 1" bar). This graph also explains why the
-isolated stats and touches take the longest from the remote clients; out of all
-setups, the isolated operations are doing the most RPCs.  The difference
-between local ("client 0 interfere" bar) and remote ("client 1 interfere" bar)
-in Figure~\ref{fig:exp0-underloaded}(b) is the overhead of doing RPCs.
-Isolated is the slowest because it requests the most files. On average the
-local interferring client ("client 0" bar in
-Figure~\ref{fig:exp0-behaviour}(a)) requests 40 thousand less files than the
-remote interferring call ("client 1" bar in
-Figure~\ref{fig:exp0-behaviour}(a)). This reflects how fast the local client
-can get into the queue of requests, presumably because it bypasses capability
-checks.
-
-From this experiment we make 2 conclusions: (1) the metadata server is not
-overloaded because it can handle both workloads and (2) the metadata server
-needs to get global consistency from only 1 client
-
-\textbf{Comparison to decoupled namespaces}: Decoupled namespaces merge batches
-of metadata operations into the global namespaces when the job completes.  In
-BatchFS the merge is delayed by the application using an API to switch between
-asynchronous to sychronous mode. The merge itself is explicitly managed by the
-application but future work looks at more automated methdologies. In DeltaFS
-snapshots of the metadata subtrees stays on the client machines; there is no
-ground truth and consistent namespaces are constructed and resolved at
-application read time or when a 3rd party system (e.g., middleware, scheduler,
-etc.) needs a view of the metadata.
-
-
+\noindent\textbf{Comparison to decoupled namespaces}: Decoupled namespaces
+merge batches of metadata operations into the global namespaces when the job
+completes.  In BatchFS the merge is delayed by the application using an API to
+switch between asynchronous to sychronous mode. The merge itself is explicitly
+managed by the application but future work looks at more automated
+methdologies. In DeltaFS snapshots of the metadata subtrees stays on the client
+machines; there is no ground truth and consistent namespaces are constructed
+and resolved at application read time or when a 3rd party system ({\it e.g.},
+middleware, scheduler, etc.) needs a view of the metadata. As a result, all the
+overheads of maintaining consistency that we showed above are delayed until the
+merge phase.
