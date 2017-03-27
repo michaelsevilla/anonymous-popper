@@ -65,8 +65,8 @@ and durability properties are not guaranteed until all mechanisms in the cell
 are complete (i.e. the compositions should be considered atomic) and there are
 no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \begin{tabular}{ l | l | l | l }
-  Consistency \(\rightarrow\) &&& \\  
-  Durability \(\downarrow\)  & invisible         & eventual        & strong  \\\hline
+  C \(\rightarrow\) &&& \\  
+  D \(\downarrow\)  & invisible         & eventual        & strong  \\\hline
   none                       & create            & create          & RPCs    \\
                              &                   & +volatile apply &         \\\hdashline
   local                      & create            & create          & RPCs    \\
