@@ -2,110 +2,83 @@
 \label{sec:implementation}
 
 % Outline of the section
-Each section below corresponds ot the labeled arrows in
+Each section below corresponds to the labeled arrows in
 Figure~\ref{fig:decouple}. This implementation decouples policies from
-mechanisms allowing applciations to choose the consistency and durability
+mechanisms allowing applications to choose the consistency and durability
 semantics they need.
 
 % Programmability
 Of the 6 mechanisms in Figure~\ref{fig:decouple} 4 had to implemented and only
-1 required changes to the underlying storage system itself.  RPCs and stream
-can be achieved with tunables in configuration files for the storage system
-(e.g., metadata cache size, logging on/off, etc.).  Persist", save, and create
-are implemented as library and does not require modifications to the storage
-system. Volatile apply requires changes to the metadata server to inject
-updates back into the global namespace. 
+1 required changes to the underlying storage system itself.  ``RPCs" and
+``Stream" can be achieved with configuration settings 
+.  ``Global Persist", ``Local Persist",
+``Nonvolatile Apply", and ``Create" are implemented as a library and they do
+not require modifications to the storage system. ``Volatile Apply" requires
+changes to the metadata server to inject updates back into the global
+namespace. 
 
 \subsection{No Changes: RPCs, Stream}
+\label{sec:no-changes-rpcs-stream}
 
-RPCs is the default behavior of the storage system. Depending on the cache
-state and configuration each operation incurrs at least RPC. For example, if a
-client or metadata server is not caching the directory inode, all creates
-within that directory will result in a lookup and a create request. If the
-directory inode is cached then only the create needs to be sent.
-
-Re-using the debugging and testing features in the storage system, we can turn
-stream on and off. If it is off, then the metadata servers will not save
+RPCs is the default behavior of CephFS.  Using existing configuration settings
+({\it e.g.}, metadata cache size, logging on/off, etc.) in Ceph we can turn
+``Stream" on and off.  If it is off, then the metadata servers will not save
 journals in the object store and the daemons that apply the journal to the
-metadata store will never run. Performance numbers for enabling and disabling
-the stream mechanism are presented back in Section~\S\ref{sec:durability}.
+metadata store will never run. 
 
 % General information about the journal
-The journal segments are saved as objects in RADOS.  The journal has 4
-pointers, described in `osdc/Journaler.h`:
+%The journal segments are saved as objects in RADOS.  The journal has 4
+%pointers, described in `osdc/Journaler.h`:
+%
+%\begin{itemize}
+%  \item write position: tail of the journal; points to the current session where we are appending events
+%  \item unused field: where someone is reading
+%  \item expire position: old journal segments
+%  \item trimmed position: where daemon is expiring old items
+%\end{itemize}
+%
+%% How the journal tool works
+%Journal segments in RADDS have a header followed by serialized log events. The
+%log events are read by hopping over objects using the read offset and object
+%size pulled from the journal header.  After decoding them, we can examine the
+%metadata (1) about the event (e.g., type, timestamps, etc.) and (2) for inodes
+%that the event touches.
+%
+%% The metablobs
+%The metadata for inodes that the event touches are called metadata blobs and
+%the ones associated with events are \textbf{unordered}; this layout makes
+%writing journal updates fast but the cost is realized when reading the metadata
+%blobs.  It makes sense to optimize for writing since reading only occurs on
+%failures. To reconstruct the namespace for the metadata blob, the journal tool
+%iterates over each metadata blob in the events and builds mappings of inodes to
+%directory entries (for directories) and parent inodes to child inodes/directory
+%entries.
 
-\begin{itemize}
-  \item write position: tail of the journal; points to the current session where we are appending events
-  \item unused field: where someone is reading
-  \item expire position: old journal segments
-  \item trimmed position: where daemon is expiring old items
-\end{itemize}
-
-% How the journal tool works
-Journal segments in RADDS have a header followed by serialized log events. The
-log events are read by hopping over objects using the read offset and object
-size pulled from the journal header.  After decoding them, we can examine the
-metadata (1) about the event (e.g., type, timestamps, etc.) and (2) for inodes
-that the event touches.
-
-% The metablobs
-The metadata for inodes that the event touches are called metadata blobs and
-the ones associated with events are \textbf{unordered}; this layout makes
-writing journal updates fast but the cost is realized when reading the metadata
-blobs.  It makes sense to optimize for writing since reading only occurs on
-failures. To reconstruct the namespace for the metadata blob, the journal tool
-iterates over each metadata blob in the events and builds mappings of inodes to
-directory entries (for directories) and parent inodes to child inodes/directory
-entries.
-
-\subsection{External Library: Create, Save, Persist}
-\label{sec:external-library}
+\subsection{Library: Create, Local/Global Persist, Nonvolatile Apply}
+\label{sec:library-create-local-global-persist}
 %Reads/Writes Journal Events}
 
 % How it works
-For ``create", ``save", and ``persist" Cudele provides a library for clients to
-link into.  Recall that CephFS uses the object store (1) as a metadata store
-for all information about files including the hierarchical namespace and (2) as
-a staging area for the journal of updates before they are applied to the
-metadata store. As discussed previously, the metadata store is optimized for
-reading while the journal is optimized for writing.  Cudele re-uses the journal
-tool to read/write log events to memory and persistent storage.
-
-% creates
-For create,
-clients write to an in-memory journal and updates are merged into the global
-namespace by replaying them onto the metadata store in the object store.  
-
-% persist/save
-For save, clients write serialized log events to a file on local disk and for
-persist, clients store the file in the objects store. The overheads for save
-and persist is the write bandwidth of the local disk and object store,
-respectively.
+For these mechanisms, Cudele provides a library for clients to link into.  For
+``Create", clients write to an in-memory journal and updates are merged into
+the global namespace by replaying them onto the metadata store either in the
+metadata servers or the object store.  For ``Local Persist", clients write
+serialized log events to a file on local disk and for ``Global Persist",
+clients push the journal into the objects store. The overheads for both ``Local
+Persist" and ``Global Persist" is the write bandwidth of the local disk and
+object store, respectively. Finally, for ``Nonvolatile Apply" the journal
+updates are replayed onto the metadata store in the object store and the
+metadata servers are restarted.
 
 % Level of intrusion
-This required no changes to Ceph because the metadata server knows how to read
-the events we were writing into the object store.  The client writes metadata
-updates locally and merges the updates with the journal tool. The client that
-decouples the namespace operates without any consistency and any conflicts at
-the merge are resolved in favor of this client. Updates by other clients ({\it
-i.e.} metadata writes to the global namespace) are overwritten.  We leverage
-the journal tool's ability to reconstruct metadata events in memory. The client
-library is shown in Figure~\ref{fig:decouple}.  Cudele adopts the following
-process when an application decouples the namespace:
-
-\begin{enumerate}
-  \item ``\textbf{decoupled}": metadata server exports the journal events to a file
-  \item ``\textbf{transfer}": the file is pulled by the client from the metadata server
-  \item ``\textbf{snapshot}": client reads the file and materializes a snapshot of the
-        namespace in memory
-\end{enumerate}
+These implementations required no changes to Ceph because the metadata servers
+know how to read the events the library is writing into the object store.  By
+re-using the journal subsystem to implement the namespace decoupling, Cudele
+leverages the write/read optimized data structures, the formats for persisting
+events (similar to TableFS's SSTables~\cite{ren:atc2013-tablefs}), and the
+functions for replaying events onto the internal namespace data structures.  
 
 % Why we re-use stuff
-By using re-using the journal subsystem to implement the namespace decoupling,
-Cudele leverages the write/read optimized data structures, the formats for
-persisting events (similar to TableFS's SSTables), and the functions for
-replaying events onto the internal namespace data structures.  
-
 %Step 3 is the most complicated and requires understanding how the snapshot is
 %materialized in memory. 
 %
@@ -147,30 +120,22 @@ replaying events onto the internal namespace data structures.
 \subsection{Storage System Changes: Volatile Apply}
 
 % - how it makes no gaurantees
-The volatile apply mechanism ({\it i.e.} the ``v\_apply" arrow in
-Figure~\ref{fig:decouple}) takes an in-memory journal on the client and applies
-the updates directly to the in-memory namespace maintained by the metadata
-servers. We say volatile because Cudele makes no consistency or durability
-guarantees. If a concurrent update from a client occurs there is no
-rule for resolving conflicts and if the client or metadata server crashes there
-may be no way to recover. Relaxing these constraints gives volatile apply the
-best performance.
+The ``Volatile Apply" mechanism takes an in-memory journal on the client and
+applies the updates directly to the in-memory namespace maintained by the
+metadata servers. We say volatile because -- in exchange for peak performance
+-- Cudele makes no consistency or durability guarantees while the mechanism is
+executing.  If a concurrent update from a client occurs there is no rule for
+resolving conflicts and if the client or metadata server crashes there may be
+no way to recover. 
 
 % difference between apply and volatile apply
-In contrast, apply uses the the object store to merge the journal of updates
-from the client to the metadata server. Apply is safer than volatile apply but
+In contrast, ``Nonvolatile Apply" uses the the object store to merge the journal of updates
+from the client to the metadata server. ``Nonvolatile Apply" is safer but
 has a performance overhead because objects in the metadata store need to be
-read from and written back to the object store.  Apply was already implemented
+read from and written back to the object store.  ``Volatile Apply" was already implemented
 by the journal tool: it reads the journal from the object store, adds events to
 the journal, and writes the metadata updates out to the metadata store in the
-object store. Cudele's volatile apply executes ``save" (described
-in~\S\ref{sec:external-library}), transfers the file of metadata updates to the
-metadata server, and then merges the updates directly into the in-memory
-metadata store of the metadata cluster.
-
-% Why so slow?
-Creating many files in the same directory would touch the same object but the
-existing implementation results in this object being repeatedly pushed/pulled.
+object store. 
 
 % - how it actually works
 % - bugs I fixed in the last couple of commits

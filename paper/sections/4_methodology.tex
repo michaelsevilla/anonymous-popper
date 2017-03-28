@@ -326,9 +326,12 @@ save their updates to disk or to the object store.
 
 In CephFS, the inode cache reduces the number of RPCs between clients and
 metadata servers. Without contention clients can resolve metadata reads locally
-thus reducing operations like \texttt{lookup()}. The size of the inode cache is
-configurable so as not to saturate the memory on the metadata server -- inodes
-in CephFS are about 1400
+thus reducing operations like \texttt{lookup()}.  For example, if a client or
+metadata server is not caching the directory inode, all creates within that
+directory will result in a lookup and a create request. If the directory inode
+is cached then only the create needs to be sent.  The size of the inode cache
+is configurable so as not to saturate the memory on the metadata server --
+inodes in CephFS are about 1400
 bytes\footnote{http://docs.ceph.com/docs/jewel/dev/mds\_internals/data-structures/}.
 The inode cache has code for manipulating inode numbers, such as pre-allocating
 inodes to clients.\\
