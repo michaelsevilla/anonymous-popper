@@ -116,10 +116,10 @@ RPCs is to use leases or capabilities.
 %permissions on the client servers. Modifications to metadata cached by clients
 %is delayed until all client leases have expired. This reduces the RPC
 %amplification to 1 when mutatating directory metadata ({\it e.g.,}
-%\texttt{mkdir}, \texttt{chmod}, etc.) because clients are not querying MDSs for
+%\texttt{mkdir}, \texttt{chmod}, etc.) because clients are not querying metadata servers for
 %path traversals. The disadvantage of this approach is the high latency of
 %mutation operations (reads to filenames).  ShardFS~\cite{xiao:socc2015-shardfs}
-%replicates metadata (specifically directory lookup state) across the MDS
+%replicates metadata (specifically directory lookup state) across the metadata server
 %cluster, reducing the RPC amplification to 1 for file operations ({e.g.,}
 %\texttt{stat}, \texttt{chmod}, \texttt{chown}, etc.). Modifications to the
 %directory lookup state are done with optimistic concurrecny control and fall

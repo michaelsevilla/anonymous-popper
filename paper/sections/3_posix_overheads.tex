@@ -38,7 +38,7 @@ clients which indicates that we are stressing the servers more.
 \begin{figure}[tb] \centering
 \includegraphics[width=1\linewidth]{./figures/journal.png} 
 \caption{CephFS uses a journal to stage updates and tracks dirty metadata in
-the collective memory of the MDSs. Each MDS maintains its own journal, which is
+the collective memory of the metadata servers. Each metadata server maintains its own journal, which is
 broken up into 4MB segments. These segments are pushed into RADOS and deleted
 when that particular segment is trimmed from the end of the log. In addition to
 journal segments, RADOS also stores per-directory objects. \label{fig:journal}}

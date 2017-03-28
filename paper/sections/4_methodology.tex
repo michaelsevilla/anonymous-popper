@@ -23,21 +23,21 @@ Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
 which entity they are performed by (gray boxes). The metadata store and journal
 are different ways of representing the namespace. The metadata store represents
 the namespace as a tree of directory fragments and is easier to read/traverse.
-On the other hand, the journal represent the namespace as a list of events. It
+The journal represent the namespace as a list of events. It is
 a ``pile system"; writes are fast but reads are slow because state must be
 reconstructed.  Specifically, reads are slow because there is more data to
 read, it is unorganized, and many of the updates may be redundant.
 
 % describe the mechanisms
-Cudele presents 6 mechanisms: RPCs, Stream, Create, Volatile Apply, Save, and
+Cudele presents 6 mechanisms: RPCs, Stream, Create, Volatile Apply, Local Persist, and Global
 Persist. ``RPCs" does round trip remote procedure calls to establish
 consistency; it is the default implementation for complying with POSIX in
 CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
 into the object store. ``Create" allows clients to append metadata events to an
 in-memory journal. ``Volatile apply" takes the in-memory journal on the client
 and applies it directly to the in-memory metadata store of the metadata server
-cluster. ``Save" takes the in-memory journal and writes it to the client's
-disk. ``Persist" saves the journal as a an object in the object store from the
+cluster. ``Local Persist" takes the in-memory journal and writes it to the client's
+disk. ``Global Persist" saves the journal as a an object in the object store from the
 client.
 
 Next, we discuss how these mechanisms can be composed to get different
@@ -62,11 +62,11 @@ consistency and durability semantics.
 \caption{Future programmers can explore the consistency (C) and
 durability (D) spectrums by composing Cudele mechanisms. The consistency
 and durability properties are not guaranteed until all mechanisms in the cell
-are complete (i.e. the compositions should be considered atomic) and there are
+are complete ({\it i.e.} the compositions should be considered atomic) and there are
 no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \begin{tabular}{ l | l | l | l }
   C \(\rightarrow\) &&& \\  
-  D \(\downarrow\)  & invisible         & eventual        & strong  \\\hline
+  D \(\downarrow\)  	     & invisible         & eventual        & strong  \\\hline
   none                       & create            & create          & RPCs    \\
                              &                   & +volatile apply &         \\\hdashline
   local                      & create            & create          & RPCs    \\
@@ -80,25 +80,25 @@ no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \end{table}
 
 % describe table
-The spectrum of consistency and durability guarantees that adminstrators
-can construct is shown in Table~\ref{table:spectrum}. The columns are the
-different consistency semantics and the rows cover the spectrum of durability
-guarantees. For consistency: ``none" means the system does not handle
-merging updates into a global namespace and it is assumed that middleware or
-the application manages consistency lazily; ``eventual" merges updates either
-when the system has time (e.g., by a background daemon) or when the client is
-done writing; and updates in ``global" consistency are seen immediately by all
-clients. For durability, ``none" means that updates are volatile and will
-be lost on a crash of any component. Stronger guarantees are made with
-``local", which means updates will be retained if the client node recovers, and
-``global", where all updates are always recoverable.
+The spectrum of consistency and durability guarantees that adminstrators can
+construct is shown in Table~\ref{table:spectrum}. The columns are the different
+consistency semantics and the rows cover the spectrum of durability guarantees.
+For consistency: ``invisible" means the system does not handle merging updates
+into a global namespace and it is assumed that middleware or the application
+manages consistency lazily; ``eventual" merges updates at some time in the
+future ({\it e.g.}, when the system has time, when number of updates reaches a
+certain threshold, when the client is done writing, etc.); ; and updates in
+``global" consistency are seen immediately by all clients. For durability,
+``none" means that updates are volatile and will be lost on a failure. Stronger
+guarantees are made with ``local", which means updates will be retained if the
+client node recovers, and ``global", where all updates are always recoverable.
 
 % which system they represent and which are impossible
-The cells in Table~\ref{table:spectrum} encompass many exisiting storage
-systems. POSIX systems like CephFS and IndexFS have global consistency and
-durability; DeltaFS has consistency and durability set to ``none";
-and BatchFS uses ``eventual" consistency and ``local" durability. These
-are just a few of the HPC examples.  
+Existing, state-of-the-art systems in HPC can be represented by the cells in
+Table~\ref{table:spectrum}.  POSIX-compliant systems like CephFS and IndexFS
+have global consistency and durability; DeltaFS uses ``invisible" consistency
+and ``local" durability and BatchFS uses ``eventual" consistency and ``local"
+durability. These are just a few of the HPC examples.  
 
 % how its done
 To compose the mechanisms administrators inject which steps (described in
@@ -110,28 +110,20 @@ the administrator would inject the following pipeline:\\
 
 % what is impossible
 Although we can achieve all permutations of the different guarantees in
-Table~\ref{table:spectrum}, not all of them make much sense. For example, it
+Table~\ref{table:spectrum}, not all of them make sense. For example, it
 makes little sense to do \texttt{creates+RPCs} since both steps do the same
-thing or \texttt{stream+save} since global durability is stronger and has
-more overhead than local durability.  Formulaically, valid steps
+thing or \texttt{stream+save} since ``global" durability is stronger and has
+more overhead than ``local" durability.  Formulaically, valid steps
 include:\\
 
 \noindent \texttt{<create|RPCs> [+v\_apply][+save][+persist][+stream]}
 
 \subsection{Cudele Namespace API:\\Per-Subtree Policies}
-
-% file type
-To assign consistency and durability to the subtrees we store policies in
-the directory inode. This approach uses the File Type interface from the
-Malacology programmable store system~\cite{} and it tells clients how to access
-the underlying data or metadata. The underlying implementation stores
-executable code in the inode that calls the different Cudele mechanisms. Of
-course, there are many security and access control aspects of this approach but
-that is beyond the scope of this paper.
+\label{sec:cudele-namespace-api-per-subtree-policies}
 
 % the interface
 The interface for setting the subtree policies is with \{path,
-<block|overwrite>, pre-allocated inodes\} tuples. For example:
+\(<\)block\(|\)overwrite\(>\), pre-allocated inodes\} tuples. For example:
 
 \texttt{(msevilla/mydir, policies.yml)}
 
@@ -156,18 +148,18 @@ would decouple the path \texttt{msevilla/mydir} and would apply the policies in
 
 Given these default values decoupling the namespace with an empty policies file
 would give the application 100 inodes but the subtree would behave like the
-existing CephFS implementation. Table~\ref{} shows how one would use the Cudele
+existing CephFS implementation. Table~\ref{table:spectrum} shows how one would use the Cudele
 API to implement policies from related work. 
 
 
 %
 
-For \texttt{block}, any requests to this part of the namespace return with
-``Device is busy", which will spare the MDS from wasting resources for updates
+For \texttt{block}, any requests to this part of the namespace returns with
+``Device is busy", which will spare the metadata server from wasting resources for updates
 that may get overwritten. If the application does not mind losing updates, for
 example it wants approximations for results that take too long to compute, it
 can select \texttt{overwrite}. In this case, metadata will be written and the
-computation from the decoupled namespace will take priority because the resutls
+computation from the decoupled namespace will take priority at merge time because the results
 are more accurate.
 
 \begin{listing}
@@ -224,7 +216,9 @@ are more accurate.
 A programmable storage system exposes internal subsystem as building blocks for
 higher level services. This `dirty-slate' approach limits redundant code and
 leverages the robustness of the underlying storage system. Cudele uses this
-approach to great success and requires only:
+approach and re-uses some of the building blocks from the Malacology
+programmable storage system~\ref{sevilla:eurosys17} to great success and
+requires only:
 
 \begin{itemize}
 
@@ -303,6 +297,17 @@ far to seek within those objects.
 \subsubsection{Inode Cache}
 
 \subsubsection{Large Inodes}
+
+% file type
+To assign consistency and durability to the subtrees we store policies in
+the directory inode. This approach uses the File Type interface from the
+Malacology programmable store system~\cite{sevilla:eurosys17} and it tells clients how to access
+the underlying data or metadata. The underlying implementation stores
+executable code in the inode that calls the different Cudele mechanisms. Of
+course, there are many security and access control aspects of this approach but
+that is beyond the scope of this paper.
+
+
 
 % lead into implementation
 
