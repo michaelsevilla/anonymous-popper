@@ -4,8 +4,8 @@
 \begin{figure}[tb]
 \caption{Applications can decouple the namespace, write updates to a local
 journal, and delay metadata updates.  Table~\ref{table:spectrum} shows how
-these phases (represented by the arrows) can be combined to provide weaker
-consistency or fault tolerance semantics.  }\label{fig:decouple}
+these mechanisms (represented by the arrows) can be combined to provide weaker
+consistency or durability semantics.  }\label{fig:decouple}
 \centering
 \includegraphics[width=90mm]{figures/fig-decouple.png}
 \end{figure}
@@ -41,7 +41,7 @@ disk. ``Persist" saves the journal as a an object in the object store from the
 client.
 
 Next, we discuss how these mechanisms can be composed to get different
-consistency and fault tolerance semantics. 
+consistency and durability semantics. 
 
 %\begin{tabular}{ r | l }
 %  \(\Rightarrow\)   & Description \\\hline
@@ -80,15 +80,15 @@ no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \end{table}
 
 % describe table
-The spectrum of consistency and fault tolerance guarantees that adminstrators
+The spectrum of consistency and durability guarantees that adminstrators
 can construct is shown in Table~\ref{table:spectrum}. The columns are the
-different consistency semantics and the rows cover the spectrum of fault
-tolerance guantees. For consistency: ``none" means the system does not handle
+different consistency semantics and the rows cover the spectrum of durability
+guarantees. For consistency: ``none" means the system does not handle
 merging updates into a global namespace and it is assumed that middleware or
 the application manages consistency lazily; ``eventual" merges updates either
 when the system has time (e.g., by a background daemon) or when the client is
 done writing; and updates in ``global" consistency are seen immediately by all
-clients. For fault tolerance, ``none" means that updates are volatile and will
+clients. For durability, ``none" means that updates are volatile and will
 be lost on a crash of any component. Stronger guarantees are made with
 ``local", which means updates will be retained if the client node recovers, and
 ``global", where all updates are always recoverable.
@@ -96,8 +96,8 @@ be lost on a crash of any component. Stronger guarantees are made with
 % which system they represent and which are impossible
 The cells in Table~\ref{table:spectrum} encompass many exisiting storage
 systems. POSIX systems like CephFS and IndexFS have global consistency and
-fault tolerance; DeltaFS has consistency and fault tolerance set to ``none";
-and BatchFS uses ``eventual" consistency and ``local" fault tolerance. These
+durability; DeltaFS has consistency and durability set to ``none";
+and BatchFS uses ``eventual" consistency and ``local" durability. These
 are just a few of the HPC examples.  
 
 % how its done
@@ -112,8 +112,8 @@ the administrator would inject the following pipeline:\\
 Although we can achieve all permutations of the different guarantees in
 Table~\ref{table:spectrum}, not all of them make much sense. For example, it
 makes little sense to do \texttt{creates+RPCs} since both steps do the same
-thing or \texttt{stream+save} since global fault tolerance is stronger and has
-more overhead than local fault tolerance.  Formulaically, valid steps
+thing or \texttt{stream+save} since global durability is stronger and has
+more overhead than local durability.  Formulaically, valid steps
 include:\\
 
 \noindent \texttt{<create|RPCs> [+v\_apply][+save][+persist][+stream]}
@@ -121,7 +121,7 @@ include:\\
 \subsection{Cudele Namespace API:\\Per-Subtree Policies}
 
 % file type
-To assign consistency and fault tolerance to the subtrees we store policies in
+To assign consistency and durability to the subtrees we store policies in
 the directory inode. This approach uses the File Type interface from the
 Malacology programmable store system~\cite{} and it tells clients how to access
 the underlying data or metadata. The underlying implementation stores
@@ -218,6 +218,95 @@ are more accurate.
 \label{src:batchfs}
 \end{listing}
 
+\subsection{Programmability Approach}
+
+% what is programmability
+A programmable storage system exposes internal subsystem as building blocks for
+higher level services. This `dirty-slate' approach limits redundant code and
+leverages the robustness of the underlying storage system. Cudele uses this
+approach to great success and requires only:
+
+\begin{itemize}
+
+  \item 354 lines of library code
+
+  \item 219 lines of non-destructive metadata server code, which is not used
+  unless it is turned on
+
+  \item 4 lines of destructive client/server code to check whether a namespace
+  is decoupled
+
+\end{itemize}
+
+% how it works in CephFS, how I used it
+\subsubsection{Metadata Store}
+
+\subsubsection{Journal}
+
+\subsubsection{Journal Tool}
+The journal tool is used for disaster recovery and lets administrators view and
+modify the journal of metadata updates; it can read the journal, erase events
+from the journal, and apply the updates in the journal to the metadata store.
+To apply journal updates to the metadata store, the journal tool reads the
+journal segments from object store objects and applies the update to the
+metadata store (which are also stored as object store objects).  
+
+% Journal import
+The journal tool imports journals from binary files stored on disk.  First the
+header of the dump is sanity checked and written into RADOS to the ``header"
+object.  The ``header" object has metadata about the journal as well as the
+locations of all the journal pointers (e.g., where the tail of the journal is,
+where we are currently trimming, etc.).  Then the journal events are cleaned
+(erasing trailing events that are not part of the header) and written as
+objects into RADOS.  Note that while the journal is in RADOS, the metadata
+servers do do not have the namespace reconstructed in memory so the metadata
+cluster will not service requests relating to the journal of imported events.
+To construct the namespace in the collective memory of the metadata servers we
+need to first construct the namespace in RADOS. The journal tool can explicitly
+do this by  applying the journal to the metadata store in RAODS. This will pull
+the objects containing journal segments and replay them on the metadata store.
+Finally, we delete the journal in RADOS and restart the metadata servers so
+they rebuild their caches.
+
+% Journal export
+The journal tool exports journals to binary files stored on disk. First the
+journal is scanned for the header and then journal is recovered. To recover the
+journal the ``header" object is read off disk and then objects are probed in
+order and starting from the write position saved in the header. Probing will
+update the write position if it finds objects with data in them. 
+
+% Journal export
+When exporting a journal of events, the journal tool first scans the journal to
+check for corruption. Then it recovers the journal by reading the ``header"
+object out of RADOS.  After reading the header, the journal tool can pull
+journal segments from RADOS because it knows how many objects to pull and how
+far to seek within those objects.
+
+%% The data structures
+%The metadata that the event touches, including inodes, paths, and timestamps,
+%are stored as metablobs. Each piece of metadata inside a metablob is called a
+%dirlump. A dump has a section for lumps (dirfrag, dirlump), roots (dentries),
+%table client transactions (tid, version), renamed directory fragments (maps,
+%versions, alloc/preallocated inodes), inodes starting a truncate, inodes
+%finishing a truncate, destroyed inodes, and client requests. Unfortunately for
+%me (and you since you are reading this paper), this does not make any sense.
+%
+%Each directory fragment has an associated directory lump, which is just a bunch
+%of metadata. The most interesting part of the dirlump is the fullbits array,
+%which has a dentry OR inode. To walk the tree, iterate over all the dirlumps
+%and then all the full bits, saving off the children and inode locations. The
+%children tell us which dentry names an inode has and the inode locations map
+%the parent inode to its child inode and dentry.  
+
+
+
+\subsubsection{Inode Cache}
+
+\subsubsection{Large Inodes}
+
+% lead into implementation
+
+
 % // limit consistency
 % if metadata write (create) -- try to reduce error bars for many creates and runtime of one touch)
 %   if !RPCs
@@ -226,7 +315,7 @@ are more accurate.
 %     else
 %       return -EBUSY
 %
-% // limit fault tolerance
+% // limit durability
 % if !stream
 %   return immediately on mdlog
 

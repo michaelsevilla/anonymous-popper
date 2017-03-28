@@ -183,7 +183,7 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
 %  - e.g., BatchFS/DeltaFS: eventual, local
 %  - e.g., POSIX: strong, global
 %  - e.g., PLFS: no consistency
-%- fault tolerance: global vs. local
+%- durability: global vs. local
 %  - e.g., CephFS: global
 %  - e.g., BatchFS/DeltaFS: local
 %
@@ -228,5 +228,20 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
 %lient 0: creates, client 1 create(s)
 
 \subsection{Isolation from EBUSY}
+
+% setup: 2cs sep dirs, 2cs DN, 1c malicious write
+In this section, we show the isolation benefits of subtree policies.  We repeat
+the experiment from Figure~\ref{fig:interfere-b}, where clients write to their
+own private directories and another client interferes at 30 seconds.  We also
+have 2 clients write to decoupled namespaces and merge their updates 90
+seconds. The 
+
+\subsubsection{Benefits of Isolated Subtree Policies}
+
+\subsubsection{Cost of Merging}
+\subsubsection{Scaling Concurrent Merges}
+
+
+
 \subsection{Isolation from Global Writes, Cost of Overwrites}
 \subsection{Partial Directory Listings}

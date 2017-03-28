@@ -4,7 +4,7 @@
 % Outline of the section
 Each section below corresponds ot the labeled arrows in
 Figure~\ref{fig:decouple}. This implementation decouples policies from
-mechanisms allowing applciations to choose the consistency and fault tolerance
+mechanisms allowing applciations to choose the consistency and durability
 semantics they need.
 
 % Programmability
@@ -28,7 +28,7 @@ Re-using the debugging and testing features in the storage system, we can turn
 stream on and off. If it is off, then the metadata servers will not save
 journals in the object store and the daemons that apply the journal to the
 metadata store will never run. Performance numbers for enabling and disabling
-the stream phase are presented back in Section~\S\ref{sec:fault-tolerance}.
+the stream mechanism are presented back in Section~\S\ref{sec:durability}.
 
 % General information about the journal
 The journal segments are saved as objects in RADOS.  The journal has 4
@@ -72,61 +72,9 @@ reading while the journal is optimized for writing.  Cudele re-uses the journal
 tool to read/write log events to memory and persistent storage.
 
 % creates
-The journal tool is used for disaster recovery and lets administrators view and
-modify the journal of metadata updates; it can read the journal, erase events
-from the journal, and apply the updates in the journal to the metadata store.
-To apply journal updates to the metadata store, the journal tool reads the
-journal segments from object store objects and applies the update to the
-metadata store (which are also stored as object store objects).  For create,
+For create,
 clients write to an in-memory journal and updates are merged into the global
 namespace by replaying them onto the metadata store in the object store.  
-
-% Journal import
-The journal tool imports journals from binary files stored on disk.  First the
-header of the dump is sanity checked and written into RADOS to the ``header"
-object.  The ``header" object has metadata about the journal as well as the
-locations of all the journal pointers (e.g., where the tail of the journal is,
-where we are currently trimming, etc.).  Then the journal events are cleaned
-(erasing trailing events that are not part of the header) and written as
-objects into RADOS.  Note that while the journal is in RADOS, the metadata
-servers do do not have the namespace reconstructed in memory so the metadata
-cluster will not service requests relating to the journal of imported events.
-To construct the namespace in the collective memory of the metadata servers we
-need to first construct the namespace in RADOS. The journal tool can explicitly
-do this by  applying the journal to the metadata store in RAODS. This will pull
-the objects containing journal segments and replay them on the metadata store.
-Finally, we delete the journal in RADOS and restart the metadata servers so
-they rebuild their caches.
-
-% Journal export
-The journal tool exports journals to binary files stored on disk. First the
-journal is scanned for the header and then journal is recovered. To recover the
-journal the ``header" object is read off disk and then objects are probed in
-order and starting from the write position saved in the header. Probing will
-update the write position if it finds objects with data in them. 
-
-% Journal export
-When exporting a journal of events, the journal tool first scans the journal to
-check for corruption. Then it recovers the journal by reading the ``header"
-object out of RADOS.  After reading the header, the journal tool can pull
-journal segments from RADOS because it knows how many objects to pull and how
-far to seek within those objects.
-
-%% The data structures
-%The metadata that the event touches, including inodes, paths, and timestamps,
-%are stored as metablobs. Each piece of metadata inside a metablob is called a
-%dirlump. A dump has a section for lumps (dirfrag, dirlump), roots (dentries),
-%table client transactions (tid, version), renamed directory fragments (maps,
-%versions, alloc/preallocated inodes), inodes starting a truncate, inodes
-%finishing a truncate, destroyed inodes, and client requests. Unfortunately for
-%me (and you since you are reading this paper), this does not make any sense.
-%
-%Each directory fragment has an associated directory lump, which is just a bunch
-%of metadata. The most interesting part of the dirlump is the fullbits array,
-%which has a dentry OR inode. To walk the tree, iterate over all the dirlumps
-%and then all the full bits, saving off the children and inode locations. The
-%children tell us which dentry names an inode has and the inode locations map
-%the parent inode to its child inode and dentry.  
 
 % persist/save
 For save, clients write serialized log events to a file on local disk and for
@@ -202,8 +150,8 @@ replaying events onto the internal namespace data structures.
 The volatile apply mechanism ({\it i.e.} the ``v\_apply" arrow in
 Figure~\ref{fig:decouple}) takes an in-memory journal on the client and applies
 the updates directly to the in-memory namespace maintained by the metadata
-servers. We say volatile because Cudele makes no consistency or fault
-tolerance guarantees. If a concurrent update from a client occurs there is no
+servers. We say volatile because Cudele makes no consistency or durability
+guarantees. If a concurrent update from a client occurs there is no
 rule for resolving conflicts and if the client or metadata server crashes there
 may be no way to recover. Relaxing these constraints gives volatile apply the
 best performance.
