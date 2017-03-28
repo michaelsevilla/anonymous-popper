@@ -21,27 +21,18 @@ provide the necessary guarantees
 % describe the figure
 Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
 which entity they are performed by (gray boxes). The metadata store and journal
-are different ways of representing the namespace. The metadata store represents
-the namespace as a tree of directory fragments and is easier to read/traverse.
-The journal represent the namespace as a list of events. It is
-a ``pile system"; writes are fast but reads are slow because state must be
-reconstructed.  Specifically, reads are slow because there is more data to
-read, it is unorganized, and many of the updates may be redundant.
-
-% describe the mechanisms
-Cudele presents 6 mechanisms: RPCs, Stream, Create, Volatile Apply, Local Persist, and Global
+are different ways of representing the namespace.  Cudele presents 6
+mechanisms: RPCs, Stream, Create, Volatile Apply, Local Persist, and Global
 Persist. ``RPCs" does round trip remote procedure calls to establish
 consistency; it is the default implementation for complying with POSIX in
 CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
 into the object store. ``Create" allows clients to append metadata events to an
 in-memory journal. ``Volatile apply" takes the in-memory journal on the client
 and applies it directly to the in-memory metadata store of the metadata server
-cluster. ``Local Persist" takes the in-memory journal and writes it to the client's
-disk. ``Global Persist" saves the journal as a an object in the object store from the
-client.
-
-Next, we discuss how these mechanisms can be composed to get different
-consistency and durability semantics. 
+cluster. ``Local Persist" takes the in-memory journal and writes it to the
+client's disk. ``Global Persist" saves the journal as a an object in the object
+store from the client.  Next, we discuss how these mechanisms can be composed
+to get different consistency and durability semantics. 
 
 %\begin{tabular}{ r | l }
 %  \(\Rightarrow\)   & Description \\\hline
@@ -217,7 +208,7 @@ A programmable storage system exposes internal subsystem as building blocks for
 higher level services. This `dirty-slate' approach limits redundant code and
 leverages the robustness of the underlying storage system. Cudele uses this
 approach and re-uses some of the building blocks from the Malacology
-programmable storage system~\ref{sevilla:eurosys17} to great success and
+programmable storage system~\cite{sevilla:eurosys17} to great success and
 requires only:
 
 \begin{itemize}
@@ -234,47 +225,85 @@ requires only:
 
 % how it works in CephFS, how I used it
 \subsubsection{Metadata Store}
+\label{sec:metadata-store}
+
+% how it works in CephFS
+In CephFS, the metadata store is a data structure that represents the file
+system namespace. This data structure is stored in two places: in memory ({\it
+i.e.} in the collective memory of the metadata server cluster) and as objects
+in the object store. In the object store, directories and their inodes are
+stored together in objects to improve the performance of scans.  The metadata
+store data structure is structured as a tree of directory fragments making it
+easier to read and traverse.\\
+
+% how i used it
+\noindent\textbf{Cudele}: uses the metadata store format to write objects
+formatted like the journal into the object store. By writing with the same
+format, the metadata servers can read and use the recovery code to materialize
+the updates from a client's decoupled namespace ({\it i.e.} merge).
 
 \subsubsection{Journal}
+\label{sec:journal}
+
+The journal is the second way that CephFS represents the file system namespace;
+it is a log of metadata updates that can materialize the namespace when the
+updates are replayed onto the metadata store. The journal is a ``pile system";
+writes are fast but reads are slow because state must be reconstructed.
+Specifically, reads are slow because there is more state to read, it is
+unorganized, and many of the updates may be redundant.\\
+
+\noindent\textbf{Cudele}: uses the journal subsystems within the metadata
+server to replay updates onto the in-memory metadata store.  When the clients
+are ready to merge their updates back into the global namespace, they pass a
+binary file of  metadata updates to the metadata server. The metadata server
+uses its recovery code to ``replay" the updates. 
 
 \subsubsection{Journal Tool}
+\label{sec:journal-tool}
+
 The journal tool is used for disaster recovery and lets administrators view and
-modify the journal of metadata updates; it can read the journal, erase events
-from the journal, and apply the updates in the journal to the metadata store.
-To apply journal updates to the metadata store, the journal tool reads the
-journal segments from object store objects and applies the update to the
-metadata store (which are also stored as object store objects).  
+modify the journal. It can read the journal, export the journal as a file,
+erase events, and apply updates to the metadata store.  To apply journal
+updates to the metadata store, the journal tool reads the journal from object
+store objects and replays the updates on the metadata store in the object
+store.\\
+
+\noindent\textbf{Cudele}: using the journal tool, clients can materialize the
+journal in memory and append events to their own copy. When they are done they
+export their journal to a binary file. Clients also use the journal tool to
+save their updates to disk or to the object store.
+
 
 % Journal import
-The journal tool imports journals from binary files stored on disk.  First the
-header of the dump is sanity checked and written into RADOS to the ``header"
-object.  The ``header" object has metadata about the journal as well as the
-locations of all the journal pointers (e.g., where the tail of the journal is,
-where we are currently trimming, etc.).  Then the journal events are cleaned
-(erasing trailing events that are not part of the header) and written as
-objects into RADOS.  Note that while the journal is in RADOS, the metadata
-servers do do not have the namespace reconstructed in memory so the metadata
-cluster will not service requests relating to the journal of imported events.
-To construct the namespace in the collective memory of the metadata servers we
-need to first construct the namespace in RADOS. The journal tool can explicitly
-do this by  applying the journal to the metadata store in RAODS. This will pull
-the objects containing journal segments and replay them on the metadata store.
-Finally, we delete the journal in RADOS and restart the metadata servers so
-they rebuild their caches.
+%The journal tool imports journals from binary files stored on disk.  First the
+%header of the dump is sanity checked and written into RADOS to the ``header"
+%object.  The ``header" object has metadata about the journal as well as the
+%locations of all the journal pointers (e.g., where the tail of the journal is,
+%where we are currently trimming, etc.).  Then the journal events are cleaned
+%(erasing trailing events that are not part of the header) and written as
+%objects into RADOS.  Note that while the journal is in RADOS, the metadata
+%servers do do not have the namespace reconstructed in memory so the metadata
+%cluster will not service requests relating to the journal of imported events.
+%To construct the namespace in the collective memory of the metadata servers we
+%need to first construct the namespace in RADOS. The journal tool can explicitly
+%do this by  applying the journal to the metadata store in RAODS. This will pull
+%the objects containing journal segments and replay them on the metadata store.
+%Finally, we delete the journal in RADOS and restart the metadata servers so
+%they rebuild their caches.
 
 % Journal export
-The journal tool exports journals to binary files stored on disk. First the
-journal is scanned for the header and then journal is recovered. To recover the
-journal the ``header" object is read off disk and then objects are probed in
-order and starting from the write position saved in the header. Probing will
-update the write position if it finds objects with data in them. 
+%First the
+%journal is scanned for the header and then journal is recovered. To recover the
+%journal the ``header" object is read off disk and then objects are probed in
+%order and starting from the write position saved in the header. Probing will
+%update the write position if it finds objects with data in them. 
 
 % Journal export
-When exporting a journal of events, the journal tool first scans the journal to
-check for corruption. Then it recovers the journal by reading the ``header"
-object out of RADOS.  After reading the header, the journal tool can pull
-journal segments from RADOS because it knows how many objects to pull and how
-far to seek within those objects.
+%When exporting a journal of events, the journal tool first scans the journal to
+%check for corruption. Then it recovers the journal by reading the ``header"
+%object out of RADOS.  After reading the header, the journal tool can pull
+%journal segments from RADOS because it knows how many objects to pull and how
+%far to seek within those objects.
 
 %% The data structures
 %The metadata that the event touches, including inodes, paths, and timestamps,
@@ -292,22 +321,40 @@ far to seek within those objects.
 %children tell us which dentry names an inode has and the inode locations map
 %the parent inode to its child inode and dentry.  
 
-
-
 \subsubsection{Inode Cache}
+\label{sec:inode-cache}
+
+In CephFS, the inode cache reduces the number of RPCs between clients and
+metadata servers. Without contention clients can resolve metadata reads locally
+thus reducing operations like \texttt{lookup()}. The size of the inode cache is
+configurable so as not to saturate the memory on the metadata server -- inodes
+in CephFS are about 1400
+bytes\footnote{http://docs.ceph.com/docs/jewel/dev/mds\_internals/data-structures/}.
+The inode cache has code for manipulating inode numbers, such as pre-allocating
+inodes to clients.\\
+
+\noindent\textbf{Cudele}: uses the internal inode cache code to allocate inodes
+to clients that decouple parts of the namespace and to skip inodes used by the
+client at merge time.
 
 \subsubsection{Large Inodes}
+\label{sec:large-inodes}
 
-% file type
-To assign consistency and durability to the subtrees we store policies in
-the directory inode. This approach uses the File Type interface from the
-Malacology programmable store system~\cite{sevilla:eurosys17} and it tells clients how to access
-the underlying data or metadata. The underlying implementation stores
-executable code in the inode that calls the different Cudele mechanisms. Of
-course, there are many security and access control aspects of this approach but
-that is beyond the scope of this paper.
+In CephFS, inodes store policies for policies, like how the file is striped
+across the object store or for managing subtrees for load balancing. These
+policies adhere to logical partitionings of metadata or data, like Ceph pools and file
+system namespace subtrees. To implement this, the namespace data structure has
+the ability to recursively apply policies to subtrees and to isolate subtrees
+from each other.  \\
 
-
+\noindent\textbf{Cudele}: uses the large inodes to store consistency and
+durability policies in the directory inode. This approach uses the File Type
+interface from the Malacology programmable store
+system~\cite{sevilla:eurosys17} and it tells clients how to access the
+underlying metadata. The underlying implementation stores executable code in
+the inode that calls the different Cudele mechanisms. Of course, there are many
+security and access control aspects of this approach but that is beyond the
+scope of this paper.
 
 % lead into implementation
 
