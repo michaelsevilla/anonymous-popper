@@ -4,27 +4,28 @@
 Today's client-server based file system metadata services have scalability
 problems. It takes a lot of resources to service POSIX metadata requests so
 applications perform better with dedicated metadata
-servers~\cite{sevilla:sc15-mantle, ren:sc2014-indexfs}. Unfortunately,
-provisioning a metadata server for every client is expensive and complicated.
-
-% How does this fit in current landscape?
-Current hardware evolution and the rise of software-defined storage storage,
-which uses techniqes like erasure coding, replication, and partitioning, have
-ushered in a new era of HPC computing; architectures are transitioning from
+servers~\cite{sevilla:sc15-mantle, ren:sc2014-indexfs} but provisioning a
+metadata server for every client is expensive and complicated. This problem is
+exacerbated by current trends in HPC.  Architectures are transitioning from
 complex storage stacks with burst buffer, file system, object store, and tape
-tiers to a two layer stack with just a burst buffer and object
-store~\cite{bent:login16-hpc-trends}. This trend exacerbates the metadata
-scalability problem 
+tiers to a more simplified stack with just a burst buffer and object
+store~\cite{bent:login16-hpc-trends}; this puts more pressure on data access
+instead of data movement.
 
 % What is HPC doing?
-To address this trend, HPC research has advocated client side processing and an
-emphasis on serverless metadata services.  The techniques propose new metadata
-management techniques that reduce synchronization and serialization overheads
-by transferring these responsibilities to the client. We call this approach
-``decoupling the namespace" and the semantics of consistency differ amongst
-systems.  While the performance benefits are obvious for these users,
-applications that rely on stronger consistency or durability guarantees must be
-re-written or deployed on a different system.  
+HPC's unique requirements for file systems ({\it e.g.}, fast creates) and well
+defined workloads ({\it e.g.}, workloads) make relaxing POSIX sensible. Without
+the constraints of strong consistency and durability, HPC systems can now do
+more client side processing with an emphasis on serverless metadata services.
+One popular approach is to ``decouple the namespace", where clients lock the
+subtree they want exclusive access to so other clients cannot interfere. This
+delayed merge ({\it i.e.} a form of eventual consistency) and relaxed
+durability improves performance and scalability by avoiding the costs of RPCs,
+synchronization, false sharing, and serialization.  While the performance
+benefits are obvious for these users, applications that rely on stronger
+consistency or durability guarantees must be re-written or deployed on a
+different system. The consistency and durability semantics for these systems is
+shown in Table~\ref{table:namespaces}.
 
 \begin{figure}[tb]
 \centering
@@ -34,9 +35,23 @@ subtrees to get the benefits of some of the state-of-the-art HPC architectures.
 }\label{fig:subtree-policies}
 \end{figure}
 
+\begin{table}
+\begin{tabular}{ r | l | l }
+              & Decoupled & Global    \\
+              & Namespace & Namespace \\\hline
+  Example     & BatchFS~\cite{zheng:pdsw2014-batchfs} & CephFS~\cite{weil:sc2004-dyn-metadata} \\
+              & DeltaFS~\cite{zheng:pdsw2015-deltafs} & IndexFS~\cite{ren:sc2014-indexfs}      \\
+  Consistency & eventual & strong     \\
+  Durability  & node local & global  \\
+\end{tabular}
+\caption{State-of-the-art systems in HPC improve file system metadata
+performance by relaxing consistency and durability
+guarantees.\label{table:namespaces}}
+\end{table}
+
 % What did we do
 We propose subtree policies, an interface that lets future programmers control
-how the system manages different parts of the namespace.  For performance one
+how the storage system manages different parts of the file system namespace.  For performance one
 subtree can adopt weaker consistency semantics while another subtree can retain
 the rigidity of POSIX's strong consistency. Figure~\ref{fig:subtree-policies}
 shows an example setup where a single global namespace has directories for
@@ -54,10 +69,10 @@ that can be custom fit to an application. Our contributions:
   consistency and durability semantics (9 permutations), allowing them to custom
   fit the storage system to the application.
 
-  \item an API for assigning and programming policies to subtrees in the file
-  system namespace.
+  \item an API for programming consistency/durability policies and assigning
+  them to subtrees in the file system namespace.
 
-  \item an analysis of recently proposed research systems compared against
+  \item a comparison of the strategies used in recently proposed research systems against
   previously unexplored metadata designs.
 
 \end{enumerate}

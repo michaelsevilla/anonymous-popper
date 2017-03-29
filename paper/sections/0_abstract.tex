@@ -2,14 +2,15 @@
 
 HPC file systems are abandoning POSIX because the synchronization and
 serialization overheads are too costly -- and often uneccessary -- for their
-applications.  We provide an API for the client to (1) merge updates into the
-global namespace and (2) assign policies to subtrees so that other clients
-cannot interfere with the decoupled namespace.  This allows administrators to
-optimize subtrees within the same namespace for different workloads. We draw
-conclusions about the performance impact of previously unexplored
-consistency/durability metadata designs and show that consistency can cause a
-104\(\times\) slow down while merging updates (7\(\times\) slow down) and
-maintaining durability (\(10\times\) slow down) have a more reasonable cost.
+applications.  We provide an API for the client to (1) decouple subtrees from
+the global namespace, (2) merge metadata updates back into the global namespace
+and (3) assign policies to subtrees so that other clients cannot interfere with
+the decoupled namespace.  This allows administrators to optimize subtrees
+within the same namespace for different workloads. We draw conclusions about
+the performance impact of previously unexplored consistency/durability metadata
+designs and show that consistency can cause a 104\(\times\) slow down while
+merging updates (7\(\times\) slow down) and maintaining durability
+(\(10\times\) slow down) have a more reasonable cost.
 
 \end{abstract}
 

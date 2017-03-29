@@ -26,7 +26,7 @@ for improving the performance of metadata access.
 One approach for improving metadata performance and scalability is to alleviate
 overloaded servers by load balancing metadata IO across a cluster. Common
 techniques include partitioning metadata when there are many writes and
-replicating metadata when there are many reads. For example, IndexFS partitions
+replicating metadata when there are many reads. For example, IndexFS~\cite{ren:sc2014-indexfs} partitions
 directories and clients write to different partitions by grabbing leases and
 caching ancestor metadata for path traversal; it does well for strong scaling
 because servers can keep more inodes in the cache which results in less RPCs.
@@ -55,8 +55,8 @@ certain value and migrates directory fragments when the hosting server has more
 load than the other servers in the metadata cluster. Another policy is when and
 how to replicate directory state; ShardFS replicates immediately and
 pessimistically while CephFS replicates only when the read temperature reaches
-a threshold.  There is a wide range of policies and it is difficult to address
-with tunables and hard-coded design decisions.
+a threshold.  There is a wide range of policies and it is difficult to maneuver
+tunables and hard-coded design decisions.
 
 % addressing inconsistency
 In addition to the policies, distributing metadata across a cluster requiress
@@ -68,7 +68,7 @@ back to two-phase locking.  Another example is IndexFS's inode cache which
 reduces RPCs by caching ancestor paths -- the locality of this cache can be
 thrashed by random reads but performs well for metadata writes. For
 consistency, writes to directories in IndexFS block until the lease expires
-while writes to direcotries in ShardFS are slow for everyone as it either
+while writes to directories in ShardFS are slow for everyone as it either
 requires serialization or locking with many servers; reads in IndexFS are
 subject to cache locality while reads in ShardFS always resolve to 1 RPC.
 Another example of the overheads of addressing inconsistency is how CephFS
@@ -129,22 +129,19 @@ RPCs is to use leases or capabilities.
 %are much shorter, on the order of microseconds.
 
 % Non POSIX
-High performance computing has unique requirements for file systems ({e.g.},
-fast creates) and well-defined workloads (e.g., workflows) that make relaxing
-POSIX sensible.  One popular approach is to allow clients to ``lock'' parts of
-the namespace to improve performance and scalability by avoiding
-synchronization, false sharing, and serialization.  BatchFS assumes the
-application coordinates accesses to the namespace, so the clients can batch
-local operations and merge with a global namespace image lazily. Similarily,
-DeltaFS eliminates RPC traffic using subtree snapshots for non-conflicting
-workloads and middleware for conflicting workloads. MarFS gives administrators
-the ability to (1) lock ``project directories" and (2) allocate GPFS clusters
-for demanding directory workloads. TwoTiers eliminates high-latencies by
-storing metadata in a flash tier; apps lock the namespace so that metadata can
-be accessed more quickly.  Unfortunately, decoupling the namespaces has costs:
-(1) merging metadata state back into the global namespace is slow; (2) failures
-are local to the failing node; and (3) the systems are not backwards
-compatible. 
+High performance computing has unique requirements for file systems ({\it
+e.g.}, fast creates) and well-defined workloads ({\it e.g.}, workflows) that
+make relaxing POSIX sensible.  BatchFS assumes the application coordinates
+accesses to the namespace, so the clients can batch local operations and merge
+with a global namespace image lazily. Similarily, DeltaFS eliminates RPC
+traffic using subtree snapshots for non-conflicting workloads and middleware
+for conflicting workloads. MarFS gives administrators the ability to lock
+``project directories" and allocate GPFS clusters for demanding metadata
+workloads. TwoTiers eliminates high-latencies by storing metadata in a flash
+tier; apps lock the namespace so that metadata can be accessed more quickly.
+Unfortunately, decoupling the namespace has costs: (1) merging metadata state
+back into the global namespace is slow; (2) failures are local to the failing
+node; and (3) the systems are not backwards compatible. 
 
 % NON POSIX
 %Decoupling the namespaces has many advantages, including improved scalability,
@@ -181,22 +178,3 @@ requiring the application to link against the systems they want to talk to. In
 today's world of software defined caching, this can be a problem for large data
 centers with many types and tiers of storage. Despite well-known performance
 problems POSIX and REST are the dominant APIs for data transfer.
-
-Decoupling the namespace delays metadata consistency and sacrifices durability. 
-As shown in Table~\ref{table:namespaces}, metadata consistency is
-provided by capabilities and metadata durability is addressed with a journal.
-\begin{table}
-\begin{tabular}{ r | l | l }
-              & Decoupled & Global    \\
-              & Namespace & Namespace \\\hline
-  Example     & BatchFS~\cite{zheng:pdsw2014-batchfs} & CephFS~\cite{weil:sc2004-dyn-metadata} \\
-              & DeltaFS~\cite{zheng:pdsw2015-deltafs} & IndexFS~\cite{ren:sc2014-indexfs}      \\
-  Consistency & eventual & strong     \\
-  Durability  & node local & journal  \\
-\end{tabular}
-\caption{State-of-the-art systems in HPC improve file system metadata
-performance by relaxing consistency and durability
-guarantees.\label{table:namespaces}}
-\end{table}
-
-
