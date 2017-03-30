@@ -1,31 +1,34 @@
 \section{Introduction}
 
 % What is the problem?
-Today's client-server based file system metadata services have scalability
-problems. It takes a lot of resources to service POSIX metadata requests so
-applications perform better with dedicated metadata
+File system metadata services in HPC have scalability problems. It has been
+shown that HPC workloads, especially checkpoint-restart jobs, are resource
+intensive primarily due to contention for the same directories and inodes ({\it
+e.g.}, path traversal). Applications perform better with dedicated metadata
 servers~\cite{sevilla:sc15-mantle, ren:sc2014-indexfs} but provisioning a
-metadata server for every client is expensive and complicated. This problem is
-exacerbated by current trends in HPC.  Architectures are transitioning from
-complex storage stacks with burst buffer, file system, object store, and tape
-tiers to a more simplified stack with just a burst buffer and object
+metadata server for every client is unreasonable. This problem is exacerbated
+by current trends in HPC, where architectures are transitioning from complex
+storage stacks with burst buffer, file system, object store, and tape tiers to
+more simplified stackis with just a burst buffer and object
 store~\cite{bent:login16-hpc-trends}; this puts more pressure on data access
 instead of data movement.
 
 % What is HPC doing?
 HPC's unique requirements for file systems ({\it e.g.}, fast creates) and well
-defined workloads ({\it e.g.}, workloads) make relaxing POSIX sensible. Without
-the constraints of strong consistency and durability, HPC systems can now do
-more client side processing with an emphasis on serverless metadata services.
-One popular approach is to ``decouple the namespace", where clients lock the
-subtree they want exclusive access to so other clients cannot interfere. This
-delayed merge ({\it i.e.} a form of eventual consistency) and relaxed
-durability improves performance and scalability by avoiding the costs of RPCs,
-synchronization, false sharing, and serialization.  While the performance
-benefits are obvious for these users, applications that rely on stronger
-consistency or durability guarantees must be re-written or deployed on a
-different system. The consistency and durability semantics for these systems is
-shown in Table~\ref{table:namespaces}.
+defined workloads ({\it e.g.}, workflows) have given rise to file systems with
+weaker consistency constraints than POSIX and less durability than programmers
+are accustomed to.  Without these constraints, HPC systems can do more
+client side processing with an emphasis on serverless metadata services.
+
+One popular approach for relaxing consistency and durability is to ``decouple
+the namespace", where clients lock the subtree they want exclusive access to so
+other clients cannot interfere. This delayed merge ({\it i.e.} a form of
+eventual consistency) and relaxed durability improves performance and
+scalability by avoiding the costs of RPCs, synchronization, false sharing, and
+serialization.  While the performance benefits are obvious for these users,
+applications that rely on stronger consistency or durability guarantees must be
+re-written or deployed on a different system. The consistency and durability
+semantics for these systems is shown in Table~\ref{table:namespaces}.
 
 \begin{figure}[tb]
 \centering
