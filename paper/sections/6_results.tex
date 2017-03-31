@@ -109,13 +109,13 @@ files this large on an HPC network are reasonable.
 \subsection{Eventual vs. Strong Consistency}
 \begin{figure}[tb]
 \centering
-\includegraphics[width=1.0\linewidth]{graphs/slowdown-strong-v-eventual.png}
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-strong-v-weak.png}
 \caption{The RPC per metadata update of ``Strong Consistency" has a large
 overhead compared to the decoupled namespace strategy of ``Eventual
-Consistency".\label{fig:slowdown-strong-eventual}}
+Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
 
-Figure~\ref{fig:slowdown-strong-eventual} shows the runtimes of eventual and
+Figure~\ref{fig:slowdown-strong-weak} shows the runtimes of weak and
 strong consistency based systems implemented on Cudele, normalized to the
 runtime of the create mechanism (again, just creating files in the client's
 in-memory journal). We scaled the number of files up to 100K which is the
@@ -179,8 +179,8 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
 %Linking clients into our custom libcephfs
 %
 %Use namespace's recursive data structure to put policies on subtrees
-%- consistency: eventual vs. strong, global vs. local
-%  - e.g., BatchFS/DeltaFS: eventual, local
+%- consistency: weak vs. strong, global vs. local
+%  - e.g., BatchFS/DeltaFS: weak, local
 %  - e.g., POSIX: strong, global
 %  - e.g., PLFS: no consistency
 %- durability: global vs. local

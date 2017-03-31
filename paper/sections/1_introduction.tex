@@ -2,59 +2,78 @@
 
 % What is the problem?
 File system metadata services in HPC have scalability problems. It has been
-shown that HPC workloads, especially checkpoint-restart jobs, are resource
-intensive primarily due to contention for the same directories and inodes ({\it
+shown that HPC workloads are metadata resource intensive because administrative
+tasks, like checkpointing~\cite{bent_plfs_2009} or scanning the file
+system~\cite{zheng:pdsw2014-batchfs}, on large data sets leads to contention
+for the same directories and inodes ({\it
 e.g.}, path traversal). Applications perform better with dedicated metadata
 servers~\cite{sevilla:sc15-mantle, ren:sc2014-indexfs} but provisioning a
 metadata server for every client is unreasonable. This problem is exacerbated
 by current trends in HPC, where architectures are transitioning from complex
 storage stacks with burst buffer, file system, object store, and tape tiers to
-more simplified stackis with just a burst buffer and object
+more simplified stacks with just a burst buffer and object
 store~\cite{bent:login16-hpc-trends}; this puts more pressure on data access
-instead of data movement.
-
-% What is HPC doing?
-HPC's unique requirements for file systems ({\it e.g.}, fast creates) and well
-defined workloads ({\it e.g.}, workflows) have given rise to file systems with
-weaker consistency constraints than POSIX and less durability than programmers
-are accustomed to.  Without these constraints, HPC systems can do more
-client side processing with an emphasis on serverless metadata services.
-
-One popular approach for relaxing consistency and durability is to ``decouple
-the namespace", where clients lock the subtree they want exclusive access to so
-other clients cannot interfere. This delayed merge ({\it i.e.} a form of
-eventual consistency) and relaxed durability improves performance and
-scalability by avoiding the costs of RPCs, synchronization, false sharing, and
-serialization.  While the performance benefits are obvious for these users,
-applications that rely on stronger consistency or durability guarantees must be
-re-written or deployed on a different system. The consistency and durability
-semantics for these systems is shown in Table~\ref{table:namespaces}.
+because more requests end up hitting the same layer and latencies cannot be 
+hidden while data migrates across tiers.
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=75mm]{figures/subtree-policies.png}
+\includegraphics[width=0.5\textwidth]{figures/subtree-policies.png}
 \caption{Administrators can assign consistency and durability policies to
 subtrees to get the benefits of some of the state-of-the-art HPC architectures.
 }\label{fig:subtree-policies}
 \end{figure}
 
-\begin{table}
-\begin{tabular}{ r | l | l }
-              & Decoupled & Global    \\
-              & Namespace & Namespace \\\hline
-  Example     & BatchFS~\cite{zheng:pdsw2014-batchfs} & CephFS~\cite{weil:sc2004-dyn-metadata} \\
-              & DeltaFS~\cite{zheng:pdsw2015-deltafs} & IndexFS~\cite{ren:sc2014-indexfs}      \\
-  Consistency & eventual & strong     \\
-  Durability  & node local & global  \\
-\end{tabular}
-\caption{State-of-the-art systems in HPC improve file system metadata
-performance by relaxing consistency and durability
-guarantees.\label{table:namespaces}}
-\end{table}
+
+% What is HPC doing?
+To address this, developers are relaxing the consistency and durability
+semantics in the file system because weaker guarantees are sufficient for their
+applications. For example, batch style jobs often do not need the strong
+consistency that the file system provides, so
+BatchFS~\cite{zheng:pdsw2014-batchfs} and DeltaFS~\cite{zheng:pdsw2015-deltafs}
+do more client side processing and merge updates when the job is done. HPC
+developers are turning to this non-POSIX solution because their applications
+are well-understood ({\it e.g.}, well-defined read/write phases,
+synchronization only needed during certain phases, workflows describing
+computation, etc.) and because they wreak havoc on file systems designed for
+general-purpose workloads ({\it e.g.}, checkpoint-restart's N-N and N-1 create
+patterns).
+
+% One example
+One popular approach for relaxing consistency and durability is to ``decouple
+the namespace", where clients lock the subtree they want exclusive access to as
+a way to tell the file system that the subtree is important or may cause
+resource contention in the near-future~\cite{grider:pdsw2015-marfs,
+zheng:pdsw2015-deltafs, zheng:pdsw2014-batchfs, ren:sc2014-indexfs,
+bent:slides-twotiers}. Then the file system can change its internal structure
+to optimize performance. For example, the file system could enter a mode that
+prevents other clients from interferring with the decoupled directory.  This
+delayed merge ({\it i.e.} a form of eventual consistency) and relaxed
+durability improves performance and scalability by avoiding the costs of RPCs,
+synchronization, false sharing, and serialization.  The consistency and
+durability semantics for these systems is shown in the table in
+Figure~\ref{fig:subtree-policies} . While the performance benefits are obvious
+for these users, applications that rely on the file system's guarantees must be
+deployed on an entirely different system or re-written to coordinate strong
+consistency/durability themselves.
+
+%\begin{table}
+%\begin{tabular}{ r | l }
+%  Subtree         & Example \\\hline
+%  (1)   & \{Index, Batch\}FS~\cite{ren:sc2014-indexfs, zheng:pdsw2014-batchfs} \\
+%  (2)   & \{Index, Ceph\}FS~\cite{ren:sc2014-indexfs, weil:sc2004-dyn-metadata} \\
+%  (3)   & RAMDisk \\
+%  (4)   & DeltaFS~\cite{zheng:pdsw2015-deltafs} \\
+%\end{tabular}
+%
+%\caption{State-of-the-art systems in HPC improve file system metadata
+%performance by relaxing consistency and durability guarantees. Note that
+%IndexFS also supports weak consistency with bulk inserts.
+%\label{table:namespaces}} \end{table}
 
 % What did we do
 We propose subtree policies, an interface that lets future programmers control
-how the storage system manages different parts of the file system namespace.  For performance one
+the consistency and durability for subtrees in the file system namespace. For performance, one
 subtree can adopt weaker consistency semantics while another subtree can retain
 the rigidity of POSIX's strong consistency. Figure~\ref{fig:subtree-policies}
 shows an example setup where a single global namespace has directories for
@@ -62,7 +81,7 @@ applications designed for different, state-of-the-art HPC architectures.  We
 present Cudele, a prototype programmable file system that supports different
 degrees of consistency and durability by exposing mechanisms used within the
 file system as a client library.  Cudele supports 3 forms of consistency
-(invisible, eventual, and strong) and 3 degrees of durability (none, local, and
+(invisible, weak, and strong) and 3 degrees of durability (none, local, and
 global) giving the administrator a wide range of policies and optimizations
 that can be custom fit to an application. Our contributions: 
 

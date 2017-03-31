@@ -57,7 +57,7 @@ are complete ({\it i.e.} the compositions should be considered atomic) and there
 no guarantees while tranisitioning between policies. \label{table:spectrum}}
 \begin{tabular}{ l | l | l | l }
   C \(\rightarrow\) &&& \\  
-  D \(\downarrow\)  	     & invisible         & eventual        & strong  \\\hline
+  D \(\downarrow\)  	     & invisible         & weak        & strong  \\\hline
   none                       & create            & create          & RPCs    \\
                              &                   & +volatile apply &         \\\hdashline
   local                      & create            & create          & RPCs    \\
@@ -76,7 +76,7 @@ construct is shown in Table~\ref{table:spectrum}. The columns are the different
 consistency semantics and the rows cover the spectrum of durability guarantees.
 For consistency: ``invisible" means the system does not handle merging updates
 into a global namespace and it is assumed that middleware or the application
-manages consistency lazily; ``eventual" merges updates at some time in the
+manages consistency lazily; ``weak" merges updates at some time in the
 future ({\it e.g.}, when the system has time, when number of updates reaches a
 certain threshold, when the client is done writing, etc.); ; and updates in
 ``global" consistency are seen immediately by all clients. For durability,
@@ -88,7 +88,7 @@ client node recovers, and ``global", where all updates are always recoverable.
 Existing, state-of-the-art systems in HPC can be represented by the cells in
 Table~\ref{table:spectrum}.  POSIX-compliant systems like CephFS and IndexFS
 have global consistency and durability; DeltaFS uses ``invisible" consistency
-and ``local" durability and BatchFS uses ``eventual" consistency and ``local"
+and ``local" durability and BatchFS uses ``weak" consistency and ``local"
 durability. These are just a few of the HPC examples.  
 
 % how its done

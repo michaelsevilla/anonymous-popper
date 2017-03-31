@@ -1,12 +1,12 @@
 \begin{abstract}
 
-HPC developers debate abandoning POSIX because the synchronization and
+HPC developers are abandoning POSIX because the synchronization and
 serialization overheads of providing strong consistency and durability are too
 costly -- and often uneccessary -- for their applications.  Unfortunately,
 designing near-POSIX file systems excludes applications that rely on strong
 consistency or durability, forcing developers to re-write their applications or
 deploy them on a different system.  We present a file system and API that
-allows clients to specify their consistency/durability requirements and assign
+lets clients to specify their consistency/durability requirements and assign
 them to subtrees in the namespace, allowing administrators to optimize subtrees
 within the same namespace for different workloads.  We draw conclusions about
 the performance impact of unexplored consistency/durability metadata designs
@@ -15,5 +15,3 @@ updates (7\(\times\) slow down) and maintaining durability (\(10\times\) slow
 down) have more reasonable costs.
 
 \end{abstract}
-
-
