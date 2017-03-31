@@ -73,3 +73,15 @@
 [submodule "experiments/fuse/batchfs/site/roles/srl-ansible"]
 	path = experiments/fuse/batchfs/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/fuse/batchfs-interfere/site/roles/ceph-ansible"]
+	path = experiments/fuse/batchfs-dn/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "experiments/fuse/batchfs-interfere/site/roles/srl-ansible"]
+	path = experiments/fuse/batchfs-dn/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/fuse/scale-clients-isolated/site/roles/ceph-ansible"]
+	path = experiments/fuse/scale-clients-isolated/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "experiments/fuse/scale-clients-isolated/site/roles/srl-ansible"]
+	path = experiments/fuse/scale-clients-isolated/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git
