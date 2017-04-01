@@ -27,6 +27,14 @@ and journaling subsystems of the metadata server the most. Traditional file
 system techniques for improving performance, such as caching inodes, do not
 help for create-heavy workloads.
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=1\linewidth]{./graphs/overhead-creates.png}
+\caption{Create-heavy workloads (untar) incurr the highest disk, network, and
+CPU utilization because of the consistency and durability demands of
+CephFS.}\label{fig:overhead-creates}
+\end{figure}
+
 In this section, we quantify the costs of strong consistency and global
 durability in CephFS. At the end of each subsection we compare the approach to
 ``decoupled namespaces", the technique in related work that detaches subtrees
@@ -37,6 +45,37 @@ are stressing the servers more.
 
 \subsection{Durability}
 \label{sec:durability}
+
+% what is durability
+While durability is not specified by POSIX, users expect that files they create
+or modify survive failures.  We define three types of durability: global,
+local, and none.  Global
+durability means that the client or server can fail at any time and metadata
+will not be lost. Local durability means that metadata can be lost if the
+client or server stays down after a failure. None means that metadata is volatile
+and that the system provides no guarantees when clients or servers fail. 
+None is different than local durability because regardless of the type failure,
+metadata will be lost when components die in a None configuration.\\
+
+% - sequential IO, trim redundant operations
+\noindent\textbf{CephFS Design}: a journal of metadata updates that streams into
+the resilient object store. Similar to LFS~\cite{rosenblum:acm1992-LFS} and
+WAFL~\cite{hitz:wtec1994-WAFL} the metadata journal is designed to grow to large which
+ensures (1) sequential writes into the object store and (2) the ability for daemons to
+trim redundant or irrelevent journal entries.  The journal is striped over
+objects where multiple journal updates can reside on the same object. There are
+two tunables for controlling the journal: the segment size and the number of
+parallel segments that can be written in parallel. Unless the journal saturates 
+memory or CPU resources, larger values for these tunables results in better
+performance.
+
+% purpose of the journal
+As shown in Figure~\ref{fig:journal}, in addition to the metadata journal,
+CephFS also represents metadata in RADOS as a metadata store, where directories
+and their file inodes are stored as objects.  The metadata server applies the
+updates in the journal to the metadata store when the journal reaches a certain
+size. The metadata store is optimized for recovery ({\it i.e.} reading) while
+the metadata journal is write-optimized.
 
 \begin{figure}[tb] \centering
 \includegraphics[width=1\linewidth]{./figures/journal.png} 

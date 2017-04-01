@@ -57,6 +57,38 @@ journal in memory and append events to their own copy. When they are done they
 export their journal to a binary file. Clients also use the journal tool to
 save their updates to disk or to the object store.
 
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing DeltaFS with CudeleFS.}
+\label{src:deltafs}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create+volatile_apply"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing BatchFS with CudeleFS.}
+\label{src:batchfs}
+\end{listing}
+
 
 % Journal import
 %The journal tool imports journals from binary files stored on disk.  First the
