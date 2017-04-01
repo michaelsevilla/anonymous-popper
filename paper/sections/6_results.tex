@@ -106,12 +106,12 @@ metadata creates and suggests that updates for a million files would be
 \(2.5\text{KB}*1\text{ million files} = 2.38\text{GB}\). Transfer times for
 files this large on an HPC network are reasonable.
 
-\subsection{Eventual vs. Strong Consistency}
+\subsection{Weak vs. Strong Consistency}
 \begin{figure}[tb]
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/slowdown-strong-v-weak.png}
 \caption{The RPC per metadata update of ``Strong Consistency" has a large
-overhead compared to the decoupled namespace strategy of ``Eventual
+overhead compared to the decoupled namespace strategy of ``Weak
 Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
 
@@ -131,11 +131,11 @@ compositions from the mechanisms in Table~\ref{table:spectrum}:
   \begin{itemize}
     \item[] \texttt{RPCs}
   \end{itemize}
-  \item Eventual Consistency
+  \item Weak Consistency
   \begin{itemize}
     \item[] \texttt{creates} \(+\) \texttt{local persist}
   \end{itemize}
-  \item Eventual Consistency, No Fault Tolerance
+  \item Weak Consistency, No Fault Tolerance
   \begin{itemize}
     \item[] \texttt{creates} \(+\) \texttt{local persist} \(+\) \texttt{volatile apply}
   \end{itemize}
@@ -152,12 +152,12 @@ lost.
 % DeltaFS vs. BatchFS vs. POSIX: decoupled is faster
 % (5-7x) vs. (90-104x) slower
 % Does not scale?
-% Strong Consistency > 10X slower than Eventual Consistency 
-\subsubsection{Speedups of Decoupled Namespaces} Eventual consistency uses the
+% Strong Consistency > 10X slower than Weak Consistency 
+\subsubsection{Speedups of Decoupled Namespaces} Weak consistency uses the
 decoupled namespace strategy and shows up to a \(20\times\) speedup over the
 traditional namespaces that use RPCs. Compared to the baseline the slowdown is
 \(5-7\times\) for Strong Consistency, which emulates BatchFS and
-\(90-104\times\) for Eventual Consistency, which emulates DeltaFS.
+\(90-104\times\) for Weak Consistency, which emulates DeltaFS.
 
 % POSIX (no stream) vs. POSIX: cost of durability < consistency
 \subsubsection{Durability \(<<\) Consistency} The \(1.15\times\) overhead of
@@ -165,10 +165,10 @@ traditional namespaces that use RPCs. Compared to the baseline the slowdown is
 100K files is neglible. It suggests that the overhead of consistency is much
 larger than the overhead of durability. This conclusion should be stronger as
 we scale the number of files because the cost of streaming the journal into the
-object store is constant. We omit the same analysis for ``Eventual Consistency"
+object store is constant. We omit the same analysis for ``Weak Consistency"
 because the runtimes are so short that the normalized slowdowns are misleading.
 
-% Eventual Consistency benefit not due to metadata format
+% Weak Consistency benefit not due to metadata format
 \subsubsection{Metadata Formats} Because the metadata formats are the same for
 all schemes we argue that the performance gain for decoupled namespaces comes
 from relaxing the consistency guarantees and not from the metadata formats, as
@@ -227,8 +227,7 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
 %
 %lient 0: creates, client 1 create(s)
 
-\subsection{Isolation from EBUSY}
-
+\subsection{Benefits of Isolated Subtree Policies}
 % setup: 2cs sep dirs, 2cs DN, 1c malicious write
 In this section, we show the isolation benefits of subtree policies.  We repeat
 the experiment from Figure~\ref{fig:interfere-b}, where clients write to their
@@ -236,18 +235,13 @@ own private directories and another client interferes at 30 seconds.  We also
 have 2 clients write to decoupled namespaces and merge their updates 90
 seconds. The 
 
-\subsubsection{Benefits of Isolated Subtree Policies}
+\subsection{Scaling Concurrent Merges}
 
-\subsubsection{Cost of Merging}
-\subsubsection{Scaling Concurrent Merges}
+\subsection{Partial Directory Listings}
 
-
-
-\subsection{Isolation from Global Writes, Cost of Overwrites}
 \subsection{Cost of Nonvolatile Apply}
 % Why so slow?
 Creating many files in the same directory would touch the same object but the
 existing implementation results in this object being repeatedly pushed/pulled.
 
 
-\subsection{Partial Directory Listings}

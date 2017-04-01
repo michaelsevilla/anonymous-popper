@@ -1,24 +1,11 @@
 \section{Implementation}
 \label{sec:implementation}
 
-A programmable storage system exposes internal subsystem as building blocks for
-higher level services. This `dirty-slate' approach limits redundant code and
-leverages the robustness of the underlying storage system. Cudele uses this
-approach and re-uses some of the building blocks from the Malacology
-programmable storage system~\cite{sevilla:eurosys17} to great success and
-requires only:
-
-\begin{itemize}
-
-  \item 354 lines of library code
-
-  \item 219 lines of non-destructive metadata server code, which is not used
-  unless it is turned on
-
-  \item 4 lines of destructive client/server code to check whether a namespace
-  is decoupled
-
-\end{itemize}
+We use a ``programmable storage" approach~\cite{sevilla:eurosys17} to design
+CudeleFS; namely, we try to leverage components inside Ceph to inherit the
+robustness and correctness of the internal subsystems. In this section, we
+first describe a Ceph internal subsystem or component and then we show how we
+use it in CudeleFS.
 
 % how it works in CephFS, how I used it
 \subsection{Metadata Store}
