@@ -1,13 +1,6 @@
 \section{Methodology: Global Namespace with Per-Subtree Consistency/Durability}
 \label{sec:methodology-decoupled-namespaces}
 
-\begin{figure}[tb]
-\centering
-\includegraphics[width=90mm]{figures/fig-decouple.png}
-\caption{Applications decouple the namespace, write updates to a local journal,
-and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
-\end{figure}
-
 In this section we describe CudeleFS, our file system that lets administrators
 assign consistency and durability semantics to subtrees in the global
 namespace. A \textbf{mechanism} is an abstraction and basic building block for
@@ -55,6 +48,13 @@ structures, the formats for persisting events (similar to TableFS's
 SSTables~\cite{ren:atc2013-tablefs}), and the functions for replaying events
 onto the internal namespace data structures.  
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=90mm]{figures/fig-decouple.png}
+\caption{Applications decouple the namespace, write updates to a local journal,
+and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
+\end{figure}
+
 % - how it makes no gaurantees
 \subsubsection{Changes to Metadata Server} the ``Volatile Apply" mechanism
 takes an in-memory journal on the client and applies the updates directly to
@@ -83,43 +83,8 @@ the metadata store need to be read from and written back to the object store.
 %store from the client.  Next, we discuss how these mechanisms can be composed
 %to get different consistency and durability semantics. 
 
-\begin{table}
-\begin{tabular}{ r | l }
-  Mechanism         & Description \\\hline
-  RPCs              & round trip remote procedure calls \\
-  Stream            & stream journal into object store \\
-  Create            & events appended to in-memory journal \\
-  Volatile Apply    & apply to metadata store in obj store \\
-  Nonvolatile Apply & apply to metadata store in memory \\
-  Local Persist     & journal saved to client's disk \\
-  Global Persist    & journal saved in object store \\
-\end{tabular}
-\caption{Cudele's mechanisms are composed together to form consistency and
-durability semantics.\label{table:mechanisms}} 
-\end{table}
-
 \subsection{Defining Policies in Cudele}
 \label{sec:setting-policies-with-cudele}
-
-\begin{table}[t]
-\begin{center}
-\caption{Future programmers can explore the consistency (C) and
-durability (D) spectrums by composing Cudele mechanisms. 
-\label{table:spectrum}}
-\begin{tabular}{ l | l | l | l }
-  C \(\rightarrow\) &&& \\  
-  D \(\downarrow\)  	     & invisible         & weak        & strong  \\\hline
-  none                       & create            & create          & RPCs    \\
-                             &                   & +volatile apply &         \\\hdashline
-  local                      & create            & create          & RPCs    \\
-                             & +local persist    & +local persist  & +local  \\
-                             &                   & +volatile apply &  persist\\\hdashline
-  global                     & create            & create          & RPCs    \\
-                             & +global persist   & +global persist & +stream \\
-                             &                   & +volatile apply &         \\
-\end{tabular}
-\end{center}
-\end{table}
 
 % describe table
 The spectrum of consistency and durability guarantees that adminstrators can
@@ -160,6 +125,41 @@ they are safely saved in the object store. If a failure occurs during ``global
 persist" or if we inject a new policy that chanages a subtree from ``local
 persist" to ``global persist", CudeleFS no guarantee until the mechanisms are
 complete.
+
+\begin{table}
+\begin{tabular}{ r | l }
+  Mechanism         & Description \\\hline
+  RPCs              & round trip remote procedure calls \\
+  Stream            & stream journal into object store \\
+  Create            & events appended to in-memory journal \\
+  Volatile Apply    & apply to metadata store in obj store \\
+  Nonvolatile Apply & apply to metadata store in memory \\
+  Local Persist     & journal saved to client's disk \\
+  Global Persist    & journal saved in object store \\
+\end{tabular}
+\caption{Cudele's mechanisms are composed together to form consistency and
+durability semantics.\label{table:mechanisms}} 
+\end{table}
+
+\begin{table}[t]
+\begin{center}
+\caption{Future programmers can explore the consistency (C) and
+durability (D) spectrums by composing Cudele mechanisms. 
+\label{table:spectrum}}
+\begin{tabular}{ l | l | l | l }
+  C \(\rightarrow\) &&& \\  
+  D \(\downarrow\)  	     & invisible         & weak        & strong  \\\hline
+  none                       & create            & create          & RPCs    \\
+                             &                   & +volatile apply &         \\\hdashline
+  local                      & create            & create          & RPCs    \\
+                             & +local persist    & +local persist  & +local  \\
+                             &                   & +volatile apply &  persist\\\hdashline
+  global                     & create            & create          & RPCs    \\
+                             & +global persist   & +global persist & +stream \\
+                             &                   & +volatile apply &         \\
+\end{tabular}
+\end{center}
+\end{table}
 
 \subsection{Cudele Namespace API}
 \label{sec:cudele-namespace-api}
@@ -205,38 +205,6 @@ existing CephFS implementation. To implement DeltaFS on CudeleFS, the user
 would use the configuration from Listing~\ref{src:deltafs}. BatchFS's merging
 back into the global namespace can be achieved with the configuration in
 Listing~\ref{src:batchfs}.
-
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing DeltaFS with CudeleFS.}
-\label{src:deltafs}
-\end{listing}
-
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create+volatile_apply"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing BatchFS with CudeleFS.}
-\label{src:batchfs}
-\end{listing}
 
 %\begin{listing}
 %\begin{minted}[frame=single,
