@@ -5,3 +5,8 @@ paper.bbl
 paper.blg
 paper.log
 .ipynb_checkpoints
+*.sw?
+paper/_minted-paper/
+paper/build.log
+paper/paper.out
+paper/paper.synctex.gz
