@@ -1,30 +1,161 @@
 \section{Implementation}
 \label{sec:implementation}
 
-% Outline of the section
-Each section below corresponds to the labeled arrows in
-Figure~\ref{fig:decouple}. This implementation decouples policies from
-mechanisms allowing applications to choose the consistency and durability
-semantics they need.
+A programmable storage system exposes internal subsystem as building blocks for
+higher level services. This `dirty-slate' approach limits redundant code and
+leverages the robustness of the underlying storage system. Cudele uses this
+approach and re-uses some of the building blocks from the Malacology
+programmable storage system~\cite{sevilla:eurosys17} to great success and
+requires only:
 
-% Programmability
-Of the 6 mechanisms in Figure~\ref{fig:decouple} 4 had to implemented and only
-1 required changes to the underlying storage system itself.  ``RPCs" and
-``Stream" can be achieved with configuration settings 
-.  ``Global Persist", ``Local Persist",
-``Nonvolatile Apply", and ``Create" are implemented as a library and they do
-not require modifications to the storage system. ``Volatile Apply" requires
-changes to the metadata server to inject updates back into the global
-namespace. 
+\begin{itemize}
 
-\subsection{No Changes: RPCs, Stream}
-\label{sec:no-changes-rpcs-stream}
+  \item 354 lines of library code
 
-RPCs is the default behavior of CephFS.  Using existing configuration settings
-({\it e.g.}, metadata cache size, logging on/off, etc.) in Ceph we can turn
-``Stream" on and off.  If it is off, then the metadata servers will not save
-journals in the object store and the daemons that apply the journal to the
-metadata store will never run. 
+  \item 219 lines of non-destructive metadata server code, which is not used
+  unless it is turned on
+
+  \item 4 lines of destructive client/server code to check whether a namespace
+  is decoupled
+
+\end{itemize}
+
+% how it works in CephFS, how I used it
+\subsection{Metadata Store}
+\label{sec:metadata-store}
+
+% how it works in CephFS
+In CephFS, the metadata store is a data structure that represents the file
+system namespace. This data structure is stored in two places: in memory ({\it
+i.e.} in the collective memory of the metadata server cluster) and as objects
+in the object store. In the object store, directories and their inodes are
+stored together in objects to improve the performance of scans.  The metadata
+store data structure is structured as a tree of directory fragments making it
+easier to read and traverse.\\
+
+% how i used it
+\noindent\textbf{Cudele}: uses the metadata store format to write objects
+formatted like the journal into the object store. By writing with the same
+format, the metadata servers can read and use the recovery code to materialize
+the updates from a client's decoupled namespace ({\it i.e.} merge).
+
+\subsection{Journal}
+\label{sec:journal}
+
+The journal is the second way that CephFS represents the file system namespace;
+it is a log of metadata updates that can materialize the namespace when the
+updates are replayed onto the metadata store. The journal is a ``pile system";
+writes are fast but reads are slow because state must be reconstructed.
+Specifically, reads are slow because there is more state to read, it is
+unorganized, and many of the updates may be redundant.\\
+
+\noindent\textbf{Cudele}: uses the journal subsystems within the metadata
+server to replay updates onto the in-memory metadata store.  When the clients
+are ready to merge their updates back into the global namespace, they pass a
+binary file of  metadata updates to the metadata server. The metadata server
+uses its recovery code to ``replay" the updates. 
+
+\subsection{Journal Tool}
+\label{sec:journal-tool}
+
+The journal tool is used for disaster recovery and lets administrators view and
+modify the journal. It can read the journal, export the journal as a file,
+erase events, and apply updates to the metadata store.  To apply journal
+updates to the metadata store, the journal tool reads the journal from object
+store objects and replays the updates on the metadata store in the object
+store.\\
+
+\noindent\textbf{Cudele}: using the journal tool, clients can materialize the
+journal in memory and append events to their own copy. When they are done they
+export their journal to a binary file. Clients also use the journal tool to
+save their updates to disk or to the object store.
+
+
+% Journal import
+%The journal tool imports journals from binary files stored on disk.  First the
+%header of the dump is sanity checked and written into RADOS to the ``header"
+%object.  The ``header" object has metadata about the journal as well as the
+%locations of all the journal pointers (e.g., where the tail of the journal is,
+%where we are currently trimming, etc.).  Then the journal events are cleaned
+%(erasing trailing events that are not part of the header) and written as
+%objects into RADOS.  Note that while the journal is in RADOS, the metadata
+%servers do do not have the namespace reconstructed in memory so the metadata
+%cluster will not service requests relating to the journal of imported events.
+%To construct the namespace in the collective memory of the metadata servers we
+%need to first construct the namespace in RADOS. The journal tool can explicitly
+%do this by  applying the journal to the metadata store in RAODS. This will pull
+%the objects containing journal segments and replay them on the metadata store.
+%Finally, we delete the journal in RADOS and restart the metadata servers so
+%they rebuild their caches.
+
+% Journal export
+%First the
+%journal is scanned for the header and then journal is recovered. To recover the
+%journal the ``header" object is read off disk and then objects are probed in
+%order and starting from the write position saved in the header. Probing will
+%update the write position if it finds objects with data in them. 
+
+% Journal export
+%When exporting a journal of events, the journal tool first scans the journal to
+%check for corruption. Then it recovers the journal by reading the ``header"
+%object out of RADOS.  After reading the header, the journal tool can pull
+%journal segments from RADOS because it knows how many objects to pull and how
+%far to seek within those objects.
+
+%% The data structures
+%The metadata that the event touches, including inodes, paths, and timestamps,
+%are stored as metablobs. Each piece of metadata inside a metablob is called a
+%dirlump. A dump has a section for lumps (dirfrag, dirlump), roots (dentries),
+%table client transactions (tid, version), renamed directory fragments (maps,
+%versions, alloc/preallocated inodes), inodes starting a truncate, inodes
+%finishing a truncate, destroyed inodes, and client requests. Unfortunately for
+%me (and you since you are reading this paper), this does not make any sense.
+%
+%Each directory fragment has an associated directory lump, which is just a bunch
+%of metadata. The most interesting part of the dirlump is the fullbits array,
+%which has a dentry OR inode. To walk the tree, iterate over all the dirlumps
+%and then all the full bits, saving off the children and inode locations. The
+%children tell us which dentry names an inode has and the inode locations map
+%the parent inode to its child inode and dentry.  
+
+\subsection{Inode Cache}
+\label{sec:inode-cache}
+
+In CephFS, the inode cache reduces the number of RPCs between clients and
+metadata servers. Without contention clients can resolve metadata reads locally
+thus reducing operations like \texttt{lookup()}.  For example, if a client or
+metadata server is not caching the directory inode, all creates within that
+directory will result in a lookup and a create request. If the directory inode
+is cached then only the create needs to be sent.  The size of the inode cache
+is configurable so as not to saturate the memory on the metadata server --
+inodes in CephFS are about 1400
+bytes\footnote{http://docs.ceph.com/docs/jewel/dev/mds\_internals/data-structures/}.
+The inode cache has code for manipulating inode numbers, such as pre-allocating
+inodes to clients.\\
+
+\noindent\textbf{Cudele}: uses the internal inode cache code to allocate inodes
+to clients that decouple parts of the namespace and to skip inodes used by the
+client at merge time.
+
+\subsection{Large Inodes}
+\label{sec:large-inodes}
+
+In CephFS, inodes store policies for policies, like how the file is striped
+across the object store or for managing subtrees for load balancing. These
+policies adhere to logical partitionings of metadata or data, like Ceph pools and file
+system namespace subtrees. To implement this, the namespace data structure has
+the ability to recursively apply policies to subtrees and to isolate subtrees
+from each other.  \\
+
+\noindent\textbf{Cudele}: uses the large inodes to store consistency and
+durability policies in the directory inode. This approach uses the File Type
+interface from the Malacology programmable store
+system~\cite{sevilla:eurosys17} and it tells clients how to access the
+underlying metadata. The underlying implementation stores executable code in
+the inode that calls the different Cudele mechanisms. Of course, there are many
+security and access control aspects of this approach but that is beyond the
+scope of this paper.
+
 
 % General information about the journal
 %The journal segments are saved as objects in RADOS.  The journal has 4
@@ -54,35 +185,14 @@ metadata store will never run.
 %directory entries (for directories) and parent inodes to child inodes/directory
 %entries.
 
-\subsection{Library: Create, Local/Global Persist, Nonvolatile Apply}
-\label{sec:library-create-local-global-persist}
 %Reads/Writes Journal Events}
 
 % How it works
-For these mechanisms, Cudele provides a library for clients to link into.  For
-``Create", clients write to an in-memory journal and updates are merged into
-the global namespace by replaying them onto the metadata store either in the
-metadata servers or the object store.  For ``Local Persist", clients write
-serialized log events to a file on local disk and for ``Global Persist",
-clients push the journal into the objects store. The overheads for both ``Local
-Persist" and ``Global Persist" is the write bandwidth of the local disk and
-object store, respectively. Finally, for ``Nonvolatile Apply" the journal
-updates are replayed onto the metadata store in the object store and the
-metadata servers are restarted.
-
-% Level of intrusion
-These implementations required no changes to Ceph because the metadata servers
-know how to read the events the library is writing into the object store.  By
-re-using the journal subsystem to implement the namespace decoupling, Cudele
-leverages the write/read optimized data structures, the formats for persisting
-events (similar to TableFS's SSTables~\cite{ren:atc2013-tablefs}), and the
-functions for replaying events onto the internal namespace data structures.  
-
 % Why we re-use stuff
 %Step 3 is the most complicated and requires understanding how the snapshot is
 %materialized in memory. 
 %
-%\subsubsection{Operating on Snapshots} 
+%\subsection{Operating on Snapshots} 
 %
 %Our first implementation attempted to re-create journal events using the same
 %libraries that the metadata server uses. To construct a \texttt{mkdir} we tried
@@ -116,26 +226,6 @@ functions for replaying events onto the internal namespace data structures.
 %Faced with these challenges we landed on our final implementation: load the
 %snapshot into the the data structures used to examine and replay journals, edit
 %those data structures, and write them out to disk as binary.
-
-\subsection{Storage System Changes: Volatile Apply}
-
-% - how it makes no gaurantees
-The ``Volatile Apply" mechanism takes an in-memory journal on the client and
-applies the updates directly to the in-memory namespace maintained by the
-metadata servers. We say volatile because -- in exchange for peak performance
--- Cudele makes no consistency or durability guarantees while the mechanism is
-executing.  If a concurrent update from a client occurs there is no rule for
-resolving conflicts and if the client or metadata server crashes there may be
-no way to recover. 
-
-% difference between apply and volatile apply
-In contrast, ``Nonvolatile Apply" uses the the object store to merge the journal of updates
-from the client to the metadata server. ``Nonvolatile Apply" is safer but
-has a performance overhead because objects in the metadata store need to be
-read from and written back to the object store.  ``Volatile Apply" was already implemented
-by the journal tool: it reads the journal from the object store, adds events to
-the journal, and writes the metadata updates out to the metadata store in the
-object store. 
 
 % - how it actually works
 % - bugs I fixed in the last couple of commits
