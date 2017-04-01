@@ -6,8 +6,8 @@ costly -- and often uneccessary -- for their applications.  Unfortunately,
 designing near-POSIX file systems excludes applications that rely on strong
 consistency or durability, forcing developers to re-write their applications or
 deploy them on a different system.  We present a file system and API that
-lets clients to specify their consistency/durability requirements and assign
-them to subtrees in the namespace, allowing administrators to optimize subtrees
+lets clients specify their consistency/durability requirements and assign
+them to subtrees in the namespace, allowing users to optimize subtrees
 within the same namespace for different workloads.  We draw conclusions about
 the performance impact of unexplored consistency/durability metadata designs
 and show that strong consistency can cause a 104\(\times\) slow down while merging

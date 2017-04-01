@@ -33,8 +33,8 @@ semantics in the file system because weaker guarantees are sufficient for their
 applications. For example, batch style jobs often do not need the strong
 consistency that the file system provides, so
 BatchFS~\cite{zheng:pdsw2014-batchfs} and DeltaFS~\cite{zheng:pdsw2015-deltafs}
-do more client side processing and merge updates when the job is done. HPC
-developers are turning to this non-POSIX solution because their applications
+do more client-side processing and merge updates when the job is done. HPC
+developers are turning to these non-POSIX solutions because their applications
 are well-understood ({\it e.g.}, well-defined read/write phases,
 synchronization only needed during certain phases, workflows describing
 computation, etc.) and because they wreak havoc on file systems designed for
@@ -53,8 +53,8 @@ prevents other clients from interferring with the decoupled directory.  This
 delayed merge ({\it i.e.} a form of eventual consistency) and relaxed
 durability improves performance and scalability by avoiding the costs of RPCs,
 synchronization, false sharing, and serialization.  The consistency and
-durability semantics for these systems is shown in the table in
-Figure~\ref{fig:subtree-policies} . While the performance benefits are obvious
+durability semantics for these systems is shown in
+Figure~\ref{fig:subtree-policies} (table) . While the performance benefits are obvious
 for these users, applications that rely on the file system's guarantees must be
 deployed on an entirely different system or re-written to coordinate strong
 consistency/durability themselves.
@@ -74,7 +74,7 @@ consistency/durability themselves.
 %\label{table:namespaces}} \end{table}
 
 % What did we do
-We propose subtree policies, an interface that lets future programmers control
+We propose a subtree policy API that lets future programmers control
 the consistency and durability for subtrees in the file system namespace. For performance, one
 subtree can adopt weaker consistency semantics while another subtree can retain
 the rigidity of POSIX's strong consistency. Figure~\ref{fig:subtree-policies}
@@ -96,20 +96,19 @@ that can be custom fit to an application. Our contributions:
   \item an API for programming consistency/durability policies and assigning
   them to subtrees in the file system namespace.
 
-  \item a comparison of the strategies used in recently proposed research systems against
-  previously unexplored metadata designs.
+  \item an apples-to-apples comparison of the strategies used in recently proposed research systems against
+  previously unexplored metadata designs, all implemented using Cudele.
 
 \end{enumerate}
 
 % Results
 Our results confirm the assertions of ``clean-state" research systems that
-decouple namespaces; specifically that the technique drastically improve
+decouple namespaces; specifically that the technique drastically improves
 performance (104\(\times\) speed up) but we go a step further by quantifying
 the costs of merging updates (7\(\times\) slow down) and maintaining durability
 (\(10\times\) slow down). We also show the effect of having a metadata specific
 file format in systems that are based on in-memory data structures.
-Section~\ref{sec:related-work} places Cudele in the context of other related
-work. Section~\ref{sec:posix-overheads} quantifies the cost of POSIX
+Section~\ref{sec:posix-overheads} quantifies the cost of POSIX
 consistency and system-defined durability and
 Section~\ref{sec:methodology-decoupled-namespaces} presents the Cudele
 prototype and API. Section~\ref{sec:implementation} describes Cudele's
@@ -117,4 +116,6 @@ mechanisms and shows how re-using internal subsystems results in an
 implementation of less than 500 lines of code. The evaluation in
 Section~\ref{sec:evaluation} quantifies the overheads and performance gains of
 explored and previously unexplored metadata designs.
+Section~\ref{sec:related-work} places Cudele in the context of other related
+work.
 

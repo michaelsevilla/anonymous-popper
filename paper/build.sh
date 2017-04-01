@@ -9,7 +9,7 @@ docker run \
   --name latex \
   --entrypoint=/bin/bash \
   -v `pwd`/:/mnt \
-  ivotron/texlive_v2:latest -c \
+  ivotron/texlive:latest -c \
     "cd /mnt ; \
      pdflatex -synctex=1 -interaction=nonstopmode -shell-escape paper && \
      bibtex paper && \

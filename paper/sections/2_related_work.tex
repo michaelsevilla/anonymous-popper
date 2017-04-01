@@ -33,7 +33,7 @@ because servers can keep more inodes in the cache which results in less RPCs.
 Alternatively, ShardFS replicates directory state so servers do not need to
 contact peers for path traversal; it does well for read workloads because all
 file operations only require 1 RPC and for weak scaling because requests will
-never incurr extra RPCs due to a full cache.  CephFS employs both techniques to
+never incur extra RPCs due to a full cache.  CephFS employs both techniques to
 a lesser extent; directories can be replicated or sharded but the caching and
 replication policies do not change depending on the balancing technique.
 Despite the performance benefits these techniques add complexity and jeopardize
@@ -76,7 +76,7 @@ maintains client sessions and inode caches for capabilities (which in turn make
 metadata access faster). When metadata is exchanged between metadata servers
 these sessions/caches must be flushed and new statistics exchanged with a
 scatter-gather process; this halts updates on the directories and blocks until
-the authoratitive metadata server responds.  These protocols are discusssed in
+the authoritative metadata server responds.  These protocols are discussed in
 more detail in the next section but their inclusion here is a testament to the
 complexity of migrating metadata.
 
@@ -133,7 +133,7 @@ High performance computing has unique requirements for file systems ({\it
 e.g.}, fast creates) and well-defined workloads ({\it e.g.}, workflows) that
 make relaxing POSIX sensible.  BatchFS assumes the application coordinates
 accesses to the namespace, so the clients can batch local operations and merge
-with a global namespace image lazily. Similarily, DeltaFS eliminates RPC
+with a global namespace image lazily. Similarly, DeltaFS eliminates RPC
 traffic using subtree snapshots for non-conflicting workloads and middleware
 for conflicting workloads. MarFS gives administrators the ability to lock
 ``project directories" and allocate GPFS clusters for demanding metadata
@@ -162,7 +162,7 @@ and DeltaFS never merges back into the global namespace. The merging for
 BatchFS is done by an auxiliary metadata server running on the client and
 conflicts are resolved by the application. Although DeltaFS never explicitly
 merges, applications needing some degree of ground truth can either manage
-consistency thesmelves on a read or add a bolt-on service to manage the
+consistency themselves on a read or add a bolt-on service to manage the
 consistency.
 
 For (2), if the client fails and stays down, all metadata operations on the
