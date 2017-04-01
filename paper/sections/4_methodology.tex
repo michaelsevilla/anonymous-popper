@@ -19,14 +19,14 @@ Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
 which daemon(s) they are performed by.  Table~\ref{table:mechanisms} has a
 description of what each mechanism does.  Of the 6 mechanisms in
 Figure~\ref{fig:decouple} only 4 had to implemented and just 1 required changes to
-the underlying storage system itself.  
+the underlying storage system itself.
 
 \subsubsection{No Changes} ``RPCs" and ``Stream" are part of the default CephFS
 implementation; they are used to get strong consistency and global durability,
 respectively.  Using existing configuration settings in Ceph we can turn
 ``Stream" on and off.  If it is off, then the metadata servers will not save
 journals in the object store and the daemons that apply the journal to the
-metadata store will never run. 
+metadata store will never run.
 
 \subsubsection{Library} for ``Create", ``Nonvolatile Apply", ``Local/Global
 Persist", CudeleFS provides a library for clients to link into and all
@@ -46,7 +46,7 @@ into the object store.  By re-using the journal subsystem to implement the
 namespace decoupling, Cudele leverages the write/read optimized data
 structures, the formats for persisting events (similar to TableFS's
 SSTables~\cite{ren:atc2013-tablefs}), and the functions for replaying events
-onto the internal namespace data structures.  
+onto the internal namespace data structures.
 
 \begin{figure}[tb]
 \centering
@@ -62,7 +62,7 @@ the in-memory namespace maintained by the metadata servers. We say volatile
 because -- in exchange for peak performance -- Cudele makes no consistency or
 durability guarantees while ``Volatile Apply" is executing.  If a concurrent
 update from a client occurs there is no rule for resolving conflicts and if the
-client or metadata server crashes there may be no way to recover. 
+client or metadata server crashes there may be no way to recover.
 
 % difference between apply and volatile apply
 In contrast, ``Nonvolatile Apply" uses the the object store to apply the
@@ -87,7 +87,7 @@ the metadata store need to be read from and written back to the object store.
 \label{sec:setting-policies-with-cudele}
 
 % describe table
-The spectrum of consistency and durability guarantees that adminstrators can
+The spectrum of consistency and durability guarantees that administrators can
 construct is shown in Table~\ref{table:spectrum}. The columns are the different
 consistency semantics and the rows cover the spectrum of durability guarantees.
 For consistency: ``invisible" means the system does not handle merging updates
@@ -122,7 +122,7 @@ guaranteed until all mechanisms in the cell are complete. The compositions
 should be considered atomic and there are no guarantees while transitioning
 between policies. For example, updates are not deemed globally consistent until
 they are safely saved in the object store. If a failure occurs during ``global
-persist" or if we inject a new policy that chanages a subtree from ``local
+persist" or if we inject a new policy that changes a subtree from ``local
 persist" to ``global persist", CudeleFS no guarantee until the mechanisms are
 complete.
 
