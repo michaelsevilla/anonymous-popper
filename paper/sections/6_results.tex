@@ -228,16 +228,58 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
 %lient 0: creates, client 1 create(s)
 
 \subsection{Benefits of Isolated Subtree Policies}
+
+\begin{listing}[tb]
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "RPCs"
+    "durability": "stream"
+}
+\end{minted}
+\caption{Existing CephFS on Cudele with blocking.}
+\label{src:block}
+\end{listing}
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-allow-block.png}
+\caption{
+[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-blockallow.ipynb}{source}]
+Using the ``allow" and ``block" API, users can isolate directories from
+interferring clients. Performance with blocking turned is the same as
+``isolated" from Figure~\ref{fig:interfere-b}.
+\label{fig:slowdown-allow-block}}
+\end{figure}
+
 % setup: 2cs sep dirs, 2cs DN, 1c malicious write
-In this section, we show the isolation benefits of subtree policies.  We repeat
-the experiment from Figure~\ref{fig:interfere-b}, where clients write to their
-own private directories and another client interferes at 30 seconds.  We also
-have 2 clients write to decoupled namespaces and merge their updates 90
-seconds.
+Next we show how CudeleFS can be programmed to block interferring clients. We
+use the same problematic workload from Figure~\ref{fig:interfere-b}, where
+clients write to their own private directories and another client interferes at
+30 seconds.  We also have another client write to a decoupled namespace and
+merge its updates at 90 seconds.  We equip each client directory with the
+configuration in Listing~\ref{src:block}.  Each directory functions with RPCs
+and stream enabled -- which is the default implementation of CephFS. The only
+difference is that we enable blocking on each subtree so while the tree behaves
+like CephFS, all interferring operations will be returned with \texttt{-EBUSY}.
+Note that IndexFS does a similar operation with leases except clients block.
 
-% No interference from decoupled client merging
+% results
+The benefits of this isolations are shown next to the bars from
+Figure~\ref{fig:interfere-b} in Figure~\ref{fig:slowdown-allow-block}. Because
+\{``allow", ``block"\} has the same performance as \{``interfere",
+``isolated"\}, we draw the following three conclusions: (1) clients that use the
+API to block interferring clients  get the same performance as isolated
+clients, (2) there is a neglible effect on performance for the extra work the
+metadata server does to return \texttt{-EBUSY}, and (3) merging updates from
+the decoupled client has a neglible effect on performance.\\
 
-% Little affect from returning EBUSY
+\noindent\textbf{Takeaway}: the API is sufficient for isolating performance
+when applications require it. This is a way of controlling consistency.
 
 \subsection{Scaling Concurrent Merges}
 

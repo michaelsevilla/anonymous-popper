@@ -17,58 +17,37 @@ subtrees.
 % describe the figure
 Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
 which daemon(s) they are performed by.  Table~\ref{table:mechanisms} has a
-description of what each mechanism does.  Of the 6 mechanisms in
-Figure~\ref{fig:decouple} only 4 had to implemented and just 1 required changes to
-the underlying storage system itself.
+description of what each mechanism does.  Decoupled clients use the ``Create"
+mechanism to append metadata updates to a local, in-memory journal. Once the
+job is complete, the system calls CudeleFS mechanisms to achieve the desired
+consistency/durability semantics.  CudeleFS provides a library for clients to
+link into and all operations are performed by the client.  
 
-\subsubsection{No Changes} ``RPCs" and ``Stream" are part of the default CephFS
-implementation; they are used to get strong consistency and global durability,
-respectively.  Using existing configuration settings in Ceph we can turn
-``Stream" on and off.  If it is off, then the metadata servers will not save
-journals in the object store and the daemons that apply the journal to the
-metadata store will never run.
-
-\subsubsection{Library} for ``Create", ``Nonvolatile Apply", ``Local/Global
-Persist", CudeleFS provides a library for clients to link into and all
-operations are performed by the client.  Decoupled clients use the ``Create"
-mechanism to append metadata updates to a local, in-memory journal.  For
-``Local Persist", clients write serialized log events to a file on local disk
-and for ``Global Persist", clients push the journal into the objects store. The
-overheads for both ``Local Persist" and ``Global Persist" is the write
-bandwidth of the local disk and object store, respectively.  ``Nonvolatile
+\subsubsection{Mechanisms Used for Consistency} ``RPCs" send remote procedure
+calls for every metadata operation from the client to the metadata server,
+assuming the request cannot be satisified by the inode cache. This mechanism is
+part of the default CephFS implementation and is the strongest form of
+consistency because clients see metadata updates right away.  ``Nonvolatile
 Apply" replays the client's journal onto the metadata cluster's metadata store.
 The client's in-memory journal is written into the object store and the
 metadata servers are restarted. When the metadata servers re-initialize, they
 notice new journal updates in the object store and replay the events onto their
-in-memory metadata stores.  These implementations required no changes to CephFS
-because the metadata servers know how to read the events the library is writing
-into the object store.  By re-using the journal subsystem to implement the
-namespace decoupling, Cudele leverages the write/read optimized data
-structures, the formats for persisting events (similar to TableFS's
-SSTables~\cite{ren:atc2013-tablefs}), and the functions for replaying events
-onto the internal namespace data structures.
-
-\begin{figure}[tb]
-\centering
-\includegraphics[width=90mm]{figures/fig-decouple.png}
-\caption{Applications decouple the namespace, write updates to a local journal,
-and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
-\end{figure}
-
-% - how it makes no gaurantees
-\subsubsection{Changes to Metadata Server} the ``Volatile Apply" mechanism
-takes an in-memory journal on the client and applies the updates directly to
-the in-memory namespace maintained by the metadata servers. We say volatile
-because -- in exchange for peak performance -- Cudele makes no consistency or
-durability guarantees while ``Volatile Apply" is executing.  If a concurrent
-update from a client occurs there is no rule for resolving conflicts and if the
-client or metadata server crashes there may be no way to recover.
+in-memory metadata stores.  ``Volatile Apply" takes an in-memory journal on the
+client and applies the updates directly to the in-memory namespace maintained
+by the metadata servers. We say volatile because -- in exchange for peak
+performance -- CudeleFS makes no consistency or durability guarantees while
+``Volatile Apply" is executing.  If a concurrent update from a client occurs
+there is no rule for resolving conflicts and if the client or metadata server
+crashes there may be no way to recover.
 
 % difference between apply and volatile apply
-In contrast, ``Nonvolatile Apply" uses the the object store to apply the
-journal of updates from the client onto the metadata servers' metadata store.
-``Nonvolatile Apply" is safer but has a performance overhead because objects in
-the metadata store need to be read from and written back to the object store.
+The biggest difference between ``Volatile Apply" and ``Nonvolatile Apply" is
+the medium they use to communciate. ``Volatile Apply" applies updates directly
+to the metadata servers' metadata store while ``Nonvolatile Apply" uses the
+object store to communicate the journal of updates from the client to the
+metadata servers.  ``Nonvolatile Apply" is safer but has a large performance
+overhead because objects in the metadata store need to be read from and written
+back to the object store.
 
 %The metadata store and journal
 %are different ways of representing the namespace.  Cudele presents 6
@@ -83,8 +62,60 @@ the metadata store need to be read from and written back to the object store.
 %store from the client.  Next, we discuss how these mechanisms can be composed
 %to get different consistency and durability semantics. 
 
+\subsubsection{Mechanisms Used for Durability} ``Stream" is one of the
+mechanisms used by default in CephFS.  Using existing configuration settings in
+Ceph we can turn ``Stream" on and off.  If it is off, then the metadata servers
+will not save journals in the object store and the daemons that apply the
+journal to the metadata store will never run.  For ``Local Persist", clients
+write serialized log events to a file on local disk and for ``Global Persist",
+clients push the journal into the objects store. The overheads for both ``Local
+Persist" and ``Global Persist" is the write bandwidth of the local disk and
+object store, respectively.  These persist mechanisms are part a library that
+links into the client.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=90mm]{figures/fig-decouple.png}
+\caption{Applications decouple the namespace, write updates to a local journal,
+and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
+\end{figure}
+
 \subsection{Defining Policies in Cudele}
 \label{sec:setting-policies-with-cudele}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing DeltaFS with CudeleFS.}
+\label{src:deltafs}
+\end{listing}
+
+\begin{listing}
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create+volatile_apply"
+    "durability": "local_persist"
+}
+\end{minted}
+\caption{Implementing BatchFS with CudeleFS.}
+\label{src:batchfs}
+\end{listing}
+
+
 
 % describe table
 The spectrum of consistency and durability guarantees that administrators can
@@ -143,9 +174,6 @@ durability semantics.\label{table:mechanisms}}
 
 \begin{table}[t]
 \begin{center}
-\caption{Future programmers can explore the consistency (C) and
-durability (D) spectrums by composing Cudele mechanisms. 
-\label{table:spectrum}}
 \begin{tabular}{ l | l | l | l }
   C \(\rightarrow\) &&& \\  
   D \(\downarrow\)  	     & invisible         & weak        & strong  \\\hline
@@ -158,6 +186,10 @@ durability (D) spectrums by composing Cudele mechanisms.
                              & +global persist   & +global persist & +stream \\
                              &                   & +volatile apply &         \\
 \end{tabular}
+
+\caption{Future programmers can explore the consistency (C) and
+durability (D) spectrums by composing Cudele mechanisms. 
+\label{table:spectrum}}
 \end{center}
 \end{table}
 
@@ -220,4 +252,5 @@ Listing~\ref{src:batchfs}.
 %\end{minted}
 %\caption{Existing CephFS on Cudele.}
 %\label{src:batchfs}
+
 %\end{listing}

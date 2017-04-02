@@ -3,9 +3,14 @@
 
 We use a programmable storage approach~\cite{sevilla:eurosys17} to design
 CudeleFS; namely, we try to leverage components inside Ceph to inherit the
-robustness and correctness of the internal subsystems. In this section, we
-first describe a Ceph internal subsystem or component and then we show how we
-use it in CudeleFS.
+robustness and correctness of the internal subsystems. Using this `dirty-slate'
+approach, we only had to implement 4 of the 6 mechanisms from
+Figure~\ref{fig:decouple} and just 1 required changes to the underlying storage
+system itself.  In this section, we first describe a Ceph internal subsystem or
+component and then we show how we use it in CudeleFS.
+
+%- no change (rpcs, stream)s, library(create, nonvolatile apply, local/global
+%persist),  change to metadata server (nonvolatile apply)
 
 % how it works in CephFS, how I used it
 \subsection{Metadata Store}
@@ -21,10 +26,18 @@ store data structure is structured as a tree of directory fragments making it
 easier to read and traverse.\\
 
 % how i used it
-\noindent\textbf{Cudele}: uses the metadata store format to write objects
+\noindent\textbf{CudeleFS}: uses the metadata store format to write objects
 formatted like the journal into the object store. By writing with the same
 format, the metadata servers can read and use the recovery code to materialize
-the updates from a client's decoupled namespace ({\it i.e.} merge).
+the updates from a client's decoupled namespace ({\it i.e.} merge).  These
+implementations required no changes to CephFS because the metadata servers know
+how to read the events the library is writing into the object store.  By
+re-using the journal subsystem to implement the namespace decoupling, Cudele
+leverages the write/read optimized data structures, the formats for persisting
+events (similar to TableFS's SSTables~\cite{ren:atc2013-tablefs}), and the
+functions for replaying events onto the internal namespace data structures.\\
+
+\noindent\textbf{Used to Implement}: RPCs, Stream, Volatile Apply
 
 \subsection{Journal}
 \label{sec:journal}
@@ -36,11 +49,13 @@ writes are fast but reads are slow because state must be reconstructed.
 Specifically, reads are slow because there is more state to read, it is
 unorganized, and many of the updates may be redundant.\\
 
-\noindent\textbf{Cudele}: uses the journal subsystems within the metadata
+\noindent\textbf{CudeleFS}: uses the journal subsystems within the metadata
 server to replay updates onto the in-memory metadata store.  When the clients
 are ready to merge their updates back into the global namespace, they pass a
 binary file of  metadata updates to the metadata server. The metadata server
-uses its recovery code to ``replay" the updates. 
+uses its recovery code to ``replay" the updates.\\
+
+\noindent\textbf{Used to Implement}: RPCs, Stream, Volatile Apply, Local/Persist
 
 \subsection{Journal Tool}
 \label{sec:journal-tool}
@@ -52,42 +67,12 @@ updates to the metadata store, the journal tool reads the journal from object
 store objects and replays the updates on the metadata store in the object
 store.\\
 
-\noindent\textbf{Cudele}: using the journal tool, clients can materialize the
+\noindent\textbf{CudeleFS}: using the journal tool, clients can materialize the
 journal in memory and append events to their own copy. When they are done they
 export their journal to a binary file. Clients also use the journal tool to
-save their updates to disk or to the object store.
+save their updates to disk or to the object store.\\
 
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,fontsize=\footnotesize,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing DeltaFS with CudeleFS.}
-\label{src:deltafs}
-\end{listing}
-
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,fontsize=\footnotesize,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create+volatile_apply"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing BatchFS with CudeleFS.}
-\label{src:batchfs}
-\end{listing}
+\noindent\textbf{Used to Implement}: Create, Volatile/Nonvolatile Apply
 
 
 % Journal import
@@ -154,7 +139,9 @@ inodes to clients.\\
 
 \noindent\textbf{Cudele}: uses the internal inode cache code to allocate inodes
 to clients that decouple parts of the namespace and to skip inodes used by the
-client at merge time.
+client at merge time.\\
+
+\noindent\textbf{Used to Implement}: Nonvolatile Apply, Create
 
 \subsection{Large Inodes}
 \label{sec:large-inodes}
