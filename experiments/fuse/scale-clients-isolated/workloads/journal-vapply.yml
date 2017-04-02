@@ -33,4 +33,6 @@
   - name: merge it
     shell: docker exec ceph-{{ ansible_hostname }}-mds ceph daemon mds.{{ ansible_hostname }} merge /etc/ceph/events.bin
     register: results
+    ignore_errors: true
   - local_action: lineinfile dest="{{ output }}" line="v.apply,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+    ignore_errors: true
