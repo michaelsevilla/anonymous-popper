@@ -135,7 +135,7 @@ make relaxing POSIX sensible.  BatchFS assumes the application coordinates
 accesses to the namespace, so the clients can batch local operations and merge
 with a global namespace image lazily. Similarly, DeltaFS eliminates RPC
 traffic using subtree snapshots for non-conflicting workloads and middleware
-for conflicting workloads. MarFS gives administrators the ability to lock
+for conflicting workloads. MarFS gives users the ability to lock
 ``project directories" and allocate GPFS clusters for demanding metadata
 workloads. TwoTiers eliminates high-latencies by storing metadata in a flash
 tier; apps lock the namespace so that metadata can be accessed more quickly.

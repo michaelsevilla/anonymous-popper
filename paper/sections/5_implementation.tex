@@ -26,18 +26,14 @@ store data structure is structured as a tree of directory fragments making it
 easier to read and traverse.\\
 
 % how i used it
-\noindent\textbf{CudeleFS}: uses the metadata store format to write objects
-formatted like the journal into the object store. By writing with the same
-format, the metadata servers can read and use the recovery code to materialize
-the updates from a client's decoupled namespace ({\it i.e.} merge).  These
-implementations required no changes to CephFS because the metadata servers know
-how to read the events the library is writing into the object store.  By
-re-using the journal subsystem to implement the namespace decoupling, Cudele
-leverages the write/read optimized data structures, the formats for persisting
-events (similar to TableFS's SSTables~\cite{ren:atc2013-tablefs}), and the
-functions for replaying events onto the internal namespace data structures.\\
+\noindent\textbf{CudeleFS}: the ``RPCs" mechanism uses the metadata store to
+service requests. Using code designed for recovery, ``Nonvolatile Apply" and
+``Volatile Apply" replay updates onto the metadata store in memory and in the
+object store, respectively.  When the clients are ready to merge their updates
+back into the global namespace, they pass a binary file of  metadata updates to
+the metadata server. 
 
-\noindent\textbf{Used to Implement}: RPCs, Stream, Volatile Apply
+%\noindent\textbf{Used to Implement}: RPCs, Stream, Volatile Apply
 
 \subsection{Journal}
 \label{sec:journal}
@@ -49,13 +45,18 @@ writes are fast but reads are slow because state must be reconstructed.
 Specifically, reads are slow because there is more state to read, it is
 unorganized, and many of the updates may be redundant.\\
 
-\noindent\textbf{CudeleFS}: uses the journal subsystems within the metadata
-server to replay updates onto the in-memory metadata store.  When the clients
-are ready to merge their updates back into the global namespace, they pass a
-binary file of  metadata updates to the metadata server. The metadata server
-uses its recovery code to ``replay" the updates.\\
-
-\noindent\textbf{Used to Implement}: RPCs, Stream, Volatile Apply, Local/Persist
+\noindent\textbf{CudeleFS}: the journal format is used by ``Stream", ``Create",
+``Local Persist", and ``Global Persist".  ``Stream" is the default
+implementation for achieving global durability in CephFS but the rest of the
+mechanisms are implemeted by writing with the journal format.  By writing with
+the same format, the metadata servers can read and use the recovery code to
+materialize the updates from a client's decoupled namespace ({\it i.e.} merge).
+These implementations required no changes to CephFS because the metadata
+servers know how to read the events the library is writing.  By re-using the
+journal subsystem to implement the namespace decoupling, CudeleFS leverages the
+write/read optimized data structures, the formats for persisting events
+(similar to TableFS's SSTables~\cite{ren:atc2013-tablefs}), and the functions
+for replaying events onto the internal namespace data structures.
 
 \subsection{Journal Tool}
 \label{sec:journal-tool}
@@ -67,13 +68,10 @@ updates to the metadata store, the journal tool reads the journal from object
 store objects and replays the updates on the metadata store in the object
 store.\\
 
-\noindent\textbf{CudeleFS}: using the journal tool, clients can materialize the
-journal in memory and append events to their own copy. When they are done they
-export their journal to a binary file. Clients also use the journal tool to
-save their updates to disk or to the object store.\\
-
-\noindent\textbf{Used to Implement}: Create, Volatile/Nonvolatile Apply
-
+\noindent\textbf{CudeleFS}: the external library the clients link into is based
+on the journal tool. It already had functions for importing, exporting, and
+modifying the updates in the journal so we re-purposed that code to implement
+``Create", ``Volatile Apply", and ``Nonvolatile Apply".  
 
 % Journal import
 %The journal tool imports journals from binary files stored on disk.  First the
@@ -127,7 +125,7 @@ save their updates to disk or to the object store.\\
 
 In CephFS, the inode cache reduces the number of RPCs between clients and
 metadata servers. Without contention clients can resolve metadata reads locally
-thus reducing operations like \texttt{lookup()}.  For example, if a client or
+thus reducing the number of operations ({\it e.g.}, \texttt{lookup()}s).  For example, if a client or
 metadata server is not caching the directory inode, all creates within that
 directory will result in a lookup and a create request. If the directory inode
 is cached then only the create needs to be sent.  The size of the inode cache
@@ -137,16 +135,14 @@ bytes\footnote{http://docs.ceph.com/docs/jewel/dev/mds\_internals/data-structure
 The inode cache has code for manipulating inode numbers, such as pre-allocating
 inodes to clients.\\
 
-\noindent\textbf{Cudele}: uses the internal inode cache code to allocate inodes
-to clients that decouple parts of the namespace and to skip inodes used by the
-client at merge time.\\
-
-\noindent\textbf{Used to Implement}: Nonvolatile Apply, Create
+\noindent\textbf{Cudele}: ``Nonvolatile Apply" uses the internal inode cache
+code to allocate inodes to clients that decouple parts of the namespace and to
+skip inodes used by the client at merge time.\\
 
 \subsection{Large Inodes}
 \label{sec:large-inodes}
 
-In CephFS, inodes store policies for policies, like how the file is striped
+In CephFS, inodes already store policies, like how the file is striped
 across the object store or for managing subtrees for load balancing. These
 policies adhere to logical partitionings of metadata or data, like Ceph pools and file
 system namespace subtrees. To implement this, the namespace data structure has
@@ -158,10 +154,9 @@ durability policies in the directory inode. This approach uses the File Type
 interface from the Malacology programmable store
 system~\cite{sevilla:eurosys17} and it tells clients how to access the
 underlying metadata. The underlying implementation stores executable code in
-the inode that calls the different Cudele mechanisms. Of course, there are many
+the inode that calls the different CudeleFS mechanisms. Of course, there are many
 security and access control aspects of this approach but that is beyond the
 scope of this paper.
-
 
 % General information about the journal
 %The journal segments are saved as objects in RADOS.  The journal has 4

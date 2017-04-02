@@ -1,7 +1,7 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-We evaluate Cudele on a 15 node cluster, partitioned into 8 object storage
+We evaluate CudeleFS on a 15 node cluster, partitioned into 8 object storage
 servers, 3 metadata servers, and 2 monitor servers. The object storage servers
 double as clients which is fine because clients are CPU and memory bound while
 object storage servers are disk IO bound. All daemons run as a single process
@@ -34,14 +34,14 @@ to an experiment and its artifacts.
 %905.70\(\times\) slowdown for 100K files.}\label{fig:global-v-decoupled}
 %\end{figure*}
 
-\subsection{Cudele Mechanism Performance}
+\subsection{CudeleFS Mechanism Performance}
 
 \begin{figure}[tb]
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/slowdown-mechanisms.png}
 \caption{
 [\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-decoupled.ipynb}{source}]
-The performance of the Cudele mechanisms normalized to the runtime of the
+The performance of the CudeleFS mechanisms normalized to the runtime of the
 create mechanism. The runtime of the create mechanism is the time it takes to
 write 100 file creates to the client's in-memory journal of metadata
 updates.\label{fig:slowdown-mechanisms}}
@@ -79,7 +79,7 @@ through the object store (``nonvolatile apply") is \(10\times\) slower.
 % v_apply vs. apply/persist: communicating through RADOS
 \subsubsection{Overhead of ``nonvolatile apply"} The cost of ``nonvolatile
 apply" is much larger than all the other mechanisms.  That mechanism was not
-implemented as part of Cudele -- it was a debugging and recovery tool packaged
+implemented as part of CudeleFS -- it was a debugging and recovery tool packaged
 with CephFS. It works by iterating over the updates in the journal and pulling
 all objects that {\it may} be affected by the update.  This means that two
 objects are repeatedly pulled, updated, and pushed: the object that houses the
@@ -144,7 +144,7 @@ compositions from the mechanisms in Table~\ref{table:spectrum}:
 % Final file system metadata states are equivalent No guarantees while
 % transitioning mechanisms
 We compare these semantics because the final metadata states are equivalent.
-Cudele makes no guarantees during execution of the mechanisms or when
+CudeleFS makes no guarantees during execution of the mechanisms or when
 transitioning semantics -- the semantics are guaranteed {\it once the mechanism
 completes}. So if servers fail during a mechanism, metadata or data may be
 lost.
@@ -241,7 +241,7 @@ SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
     "durability": "stream"
 }
 \end{minted}
-\caption{Existing CephFS on Cudele with blocking.}
+\caption{Existing CephFS on CudeleFS with blocking.}
 \label{src:block}
 \end{listing}
 

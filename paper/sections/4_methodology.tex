@@ -1,161 +1,12 @@
 \section{Methodology: Global Namespace with Per-Subtree Consistency/Durability}
 \label{sec:methodology-decoupled-namespaces}
 
-In this section we describe CudeleFS, our file system that lets administrators
-assign consistency and durability semantics to subtrees in the global
-namespace. A \textbf{mechanism} is an abstraction and basic building block for
-constructing consistency and durability guarantees. CudeleFS exposes these
-mechanisms and the administrator composes them together to construct
-\textbf{policies}. These policies are assigned to subtrees and they dictate how
-the file system should handle operations within that subtree.  Below, we
-describe the mechanisms, the policies, and the API for assigning policies to
-subtrees.
-
-\subsection{Cudele's Mechanisms}
-\label{sec:cudeles-mechanisms}
-
-% describe the figure
-Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in Cudele and
-which daemon(s) they are performed by.  Table~\ref{table:mechanisms} has a
-description of what each mechanism does.  Decoupled clients use the ``Create"
-mechanism to append metadata updates to a local, in-memory journal. Once the
-job is complete, the system calls CudeleFS mechanisms to achieve the desired
-consistency/durability semantics.  CudeleFS provides a library for clients to
-link into and all operations are performed by the client.  
-
-\subsubsection{Mechanisms Used for Consistency} ``RPCs" send remote procedure
-calls for every metadata operation from the client to the metadata server,
-assuming the request cannot be satisified by the inode cache. This mechanism is
-part of the default CephFS implementation and is the strongest form of
-consistency because clients see metadata updates right away.  ``Nonvolatile
-Apply" replays the client's journal onto the metadata cluster's metadata store.
-The client's in-memory journal is written into the object store and the
-metadata servers are restarted. When the metadata servers re-initialize, they
-notice new journal updates in the object store and replay the events onto their
-in-memory metadata stores.  ``Volatile Apply" takes an in-memory journal on the
-client and applies the updates directly to the in-memory namespace maintained
-by the metadata servers. We say volatile because -- in exchange for peak
-performance -- CudeleFS makes no consistency or durability guarantees while
-``Volatile Apply" is executing.  If a concurrent update from a client occurs
-there is no rule for resolving conflicts and if the client or metadata server
-crashes there may be no way to recover.
-
-% difference between apply and volatile apply
-The biggest difference between ``Volatile Apply" and ``Nonvolatile Apply" is
-the medium they use to communciate. ``Volatile Apply" applies updates directly
-to the metadata servers' metadata store while ``Nonvolatile Apply" uses the
-object store to communicate the journal of updates from the client to the
-metadata servers.  ``Nonvolatile Apply" is safer but has a large performance
-overhead because objects in the metadata store need to be read from and written
-back to the object store.
-
-%The metadata store and journal
-%are different ways of representing the namespace.  Cudele presents 6
-%mechanisms: RPCs, Stream, Create, Volatile Apply, Local Persist, and Global
-%Persist. ``RPCs" does round trip remote procedure calls to establish
-%consistency; it is the default implementation for complying with POSIX in
-%CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
-%into the object store. ``Create" allows clients to append metadata events to an
-%in-memory journal. ``Volatile apply" 
-% ``Local Persist" takes the in-memory journal and writes it to the
-%client's disk. ``Global Persist" saves the journal as a an object in the object
-%store from the client.  Next, we discuss how these mechanisms can be composed
-%to get different consistency and durability semantics. 
-
-\subsubsection{Mechanisms Used for Durability} ``Stream" is one of the
-mechanisms used by default in CephFS.  Using existing configuration settings in
-Ceph we can turn ``Stream" on and off.  If it is off, then the metadata servers
-will not save journals in the object store and the daemons that apply the
-journal to the metadata store will never run.  For ``Local Persist", clients
-write serialized log events to a file on local disk and for ``Global Persist",
-clients push the journal into the objects store. The overheads for both ``Local
-Persist" and ``Global Persist" is the write bandwidth of the local disk and
-object store, respectively.  These persist mechanisms are part a library that
-links into the client.
-
 \begin{figure}[tb]
 \centering
 \includegraphics[width=90mm]{figures/fig-decouple.png}
 \caption{Applications decouple the namespace, write updates to a local journal,
 and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
 \end{figure}
-
-\subsection{Defining Policies in Cudele}
-\label{sec:setting-policies-with-cudele}
-
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,fontsize=\footnotesize,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing DeltaFS with CudeleFS.}
-\label{src:deltafs}
-\end{listing}
-
-\begin{listing}
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,fontsize=\footnotesize,
-               tabsize=4]{js}
-{     
-    "allocated_inodes": "100000"
-    "interfere_policy": "block"
-    "consistency": "create+volatile_apply"
-    "durability": "local_persist"
-}
-\end{minted}
-\caption{Implementing BatchFS with CudeleFS.}
-\label{src:batchfs}
-\end{listing}
-
-
-
-% describe table
-The spectrum of consistency and durability guarantees that administrators can
-construct is shown in Table~\ref{table:spectrum}. The columns are the different
-consistency semantics and the rows cover the spectrum of durability guarantees.
-For consistency: ``invisible" means the system does not handle merging updates
-into a global namespace and it is assumed that middleware or the application
-manages consistency lazily; ``weak" merges updates at some time in the
-future ({\it e.g.}, when the system has time, when number of updates reaches a
-certain threshold, when the client is done writing, etc.); and updates in
-``strong" consistency are seen immediately by all clients. For durability,
-``none" means that updates are volatile and will be lost on a failure. Stronger
-guarantees are made with ``local", which means updates will be retained if the
-client node recovers, and ``global", where all updates are always recoverable.
-
-% which system they represent and which are impossible
-Existing, state-of-the-art systems in HPC can be represented by the cells in
-Table~\ref{table:spectrum}.  POSIX-compliant systems like CephFS and IndexFS
-have global consistency and durability; DeltaFS uses ``invisible" consistency
-and ``local" durability and BatchFS uses ``weak" consistency and ``local"
-durability.  To compose the mechanisms administrators inject which mechanisms
-(described in Section~\S\ref{sec:cudeles-mechanisms}) to run and which to use
-in parallel using a domain specific language. 
-
-% what is impossible
-Although we can achieve all permutations of the different guarantees in
-Table~\ref{table:spectrum}, not all of them make sense. For example, it
-makes little sense to do \texttt{creates+RPCs} since both mechanisms do the same
-thing or \texttt{stream+save} since ``global" durability is stronger and has
-more overhead than ``local" durability. 
-
-% talk of eventual consistency
-The consistency and durability properties in Table~\ref{table:spectrum} are not
-guaranteed until all mechanisms in the cell are complete. The compositions
-should be considered atomic and there are no guarantees while transitioning
-between policies. For example, updates are not deemed globally consistent until
-they are safely saved in the object store. If a failure occurs during ``global
-persist" or if we inject a new policy that changes a subtree from ``local
-persist" to ``global persist", CudeleFS no guarantee until the mechanisms are
-complete.
 
 \begin{table}
 \begin{tabular}{ r | l }
@@ -172,6 +23,80 @@ complete.
 durability semantics.\label{table:mechanisms}} 
 \end{table}
 
+In this section we describe CudeleFS, our file system that lets users
+assign consistency and durability semantics to subtrees in the global
+namespace. A \textbf{mechanism} is an abstraction and basic building block for
+constructing consistency and durability guarantees. CudeleFS exposes these
+mechanisms and the user composes them together to construct
+\textbf{policies}. These policies are assigned to subtrees and they dictate how
+the file system should handle operations within that subtree.  Below, we
+describe the mechanisms, the policies, and the API for assigning policies to
+subtrees.
+
+\subsection{Cudele's Mechanisms}
+\label{sec:cudeles-mechanisms}
+
+% describe the figure
+Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in CudeleFS and
+which daemon(s) they are performed by.  Table~\ref{table:mechanisms} has a
+description of what each mechanism does.  Decoupled clients use the ``Create"
+mechanism to append metadata updates to a local, in-memory journal. Once the
+job is complete, the system calls CudeleFS mechanisms to achieve the desired
+consistency/durability semantics.  CudeleFS provides a library for clients to
+link into and all operations are performed by the client.  
+
+\subsubsection{Mechanisms Used for Consistency} ``RPCs" send remote procedure
+calls for every metadata operation from the client to the metadata server,
+assuming the request cannot be satisified by the inode cache. This mechanism is
+part of the default CephFS implementation and is the strongest form of
+consistency because clients see metadata updates right away.  ``Nonvolatile
+Apply" replays the client's journal onto the metadata cluster's metadata store.
+The client's in-memory journal is written into the object store and the
+metadata servers are restarted. When the metadata servers re-initialize, they
+notice new journal updates in the object store and replay the events onto their
+in-memory metadata stores.  ``Volatile Apply" takes the client's in-memory journal on the
+client and applies the updates directly to the in-memory metadata store maintained
+by the metadata servers. We say volatile because -- in exchange for peak
+performance -- CudeleFS makes no consistency or durability guarantees while
+``Volatile Apply" is executing.  If a concurrent update from a client occurs
+there is no rule for resolving conflicts and if the client or metadata server
+crashes there may be no way to recover.
+
+% difference between apply and volatile apply
+The biggest difference between ``Volatile Apply" and ``Nonvolatile Apply" is
+the medium they use to communciate. ``Volatile Apply" applies updates directly
+to the metadata servers' metadata store while ``Nonvolatile Apply" uses the
+object store to communicate the journal of updates from the client to the
+metadata servers.  ``Nonvolatile Apply" is safer but has a large performance
+overhead because objects in the metadata store need to be read from and written
+back to the object store.
+
+%The metadata store and journal
+%are different ways of representing the namespace.  CudeleFS presents 6
+%mechanisms: RPCs, Stream, Create, Volatile Apply, Local Persist, and Global
+%Persist. ``RPCs" does round trip remote procedure calls to establish
+%consistency; it is the default implementation for complying with POSIX in
+%CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
+%into the object store. ``Create" allows clients to append metadata events to an
+%in-memory journal. ``Volatile apply" 
+% ``Local Persist" takes the in-memory journal and writes it to the
+%client's disk. ``Global Persist" saves the journal as a an object in the object
+%store from the client.  Next, we discuss how these mechanisms can be composed
+%to get different consistency and durability semantics. 
+
+\subsubsection{Mechanisms Used for Durability} ``Stream" is one of the
+mechanisms used by default in CephFS.  Using existing configuration settings in
+Ceph we can turn ``Stream" on and off.  If it is off, then the metadata servers
+will not save journals in the object store. For ``Local Persist", clients write
+serialized log events to a file on local disk and for ``Global Persist",
+clients push the journal into the objects store. The overheads for both ``Local
+Persist" and ``Global Persist" is the write bandwidth of the local disk and
+object store, respectively.  These persist mechanisms are part of the library that
+links into the client.
+
+\subsection{Defining Policies in Cudele}
+\label{sec:setting-policies-with-cudele}
+
 \begin{table}[t]
 \begin{center}
 \begin{tabular}{ l | l | l | l }
@@ -187,46 +112,95 @@ durability semantics.\label{table:mechanisms}}
                              &                   & +volatile apply &         \\
 \end{tabular}
 
-\caption{Future programmers can explore the consistency (C) and
-durability (D) spectrums by composing Cudele mechanisms. 
+\caption{Users can explore the consistency (C) and
+durability (D) spectrums by composing CudeleFS mechanisms. 
 \label{table:spectrum}}
 \end{center}
 \end{table}
 
-\subsection{Cudele Namespace API}
-\label{sec:cudele-namespace-api}
+
+
+% describe table
+The spectrum of consistency and durability guarantees that users can
+construct is shown in Table~\ref{table:spectrum}. The columns are the different
+consistency semantics and the rows cover the spectrum of durability guarantees.
+For consistency: ``invisible" means the system does not handle merging updates
+into a global namespace and it is assumed that middleware or the application
+manages consistency lazily; ``weak" merges updates at some time in the
+future ({\it e.g.}, when the system has time, when the number of updates reaches a
+certain threshold, when the client is done writing, etc.); and updates in
+``strong" consistency are seen immediately by all clients. For durability,
+``none" means that updates are volatile and will be lost on a failure. Stronger
+guarantees are made with ``local", which means updates will be retained if the
+client node recovers, and ``global", where all updates are always recoverable.
+
+% which system they represent and which are impossible
+Existing, state-of-the-art systems in HPC can be represented by the cells in
+Table~\ref{table:spectrum}.  POSIX-compliant systems like CephFS and IndexFS
+have global consistency and durability ~\footnote{This is the normal case.
+IndexFS also has bulk merge which would transition the system into ``weak
+consistency"}; DeltaFS uses ``invisible" consistency and ``local" durability
+and BatchFS uses ``weak" consistency and ``local" durability. These systems
+have other features that could push them into different semantics but we assign
+labels here based on the points emphasized in the papers.  To compose the
+mechanisms users inject which mechanisms to run and which to use in parallel
+using a domain specific language.  Although we can achieve all permutations of
+the different guarantees in Table~\ref{table:spectrum}, not all of them make
+sense. For example, it makes little sense to do \texttt{creates+RPCs} since
+both mechanisms do the same thing or \texttt{stream+save} since ``global"
+durability is stronger and has more overhead than ``local" durability. 
+
+% talk of eventual consistency
+The consistency and durability properties in Table~\ref{table:spectrum} are not
+guaranteed until all mechanisms in the cell are complete. The compositions
+should be considered atomic and there are no guarantees while transitioning
+between policies. For example, updates are not deemed to have ``global" durability until
+they are safely saved in the object store. If a failure occurs during ``global
+persist" or if we inject a new policy that changes a subtree from ``local
+persist" to ``global persist", CudeleFS makes no guarantee until the mechanisms are
+complete.
+
+\subsection{CudeleFS Namespace API}
+\label{sec:cudelefs-namespace-api}
+
+
 
 % the interface
-The interface for setting the subtree policies is with \{path,
-\(<\)block\(|\)overwrite\(>\), pre-allocated inodes\} tuples. For example:
-
-\texttt{(msevilla/mydir, policies.yml)}
-
-would decouple the path \texttt{msevilla/mydir} and would apply the policies in
-\texttt{policies.yml}. The policies file supports the following values:
+Users control consistency and durability for subtrees by contacting the monitor
+daemon with a directory path and presesenting a policies configuration file.
+For example, (msevilla/mydir, policies.yml) would decouple the path
+``msevilla/mydir" and would apply the policies in ``policies.yml".  The
+policies file supports the following parameters (default values are in parenthesis):
 
 \begin{itemize}
 
-  \item \texttt{allocated\_inodes}: the number of inodes to allocate to the
-  decoupled namespace (default 100)
+  \item \texttt{consistency}: which consistency model to use (\texttt{RPCs})
 
-  \item \texttt{interfere\_callback}: how to handle a request from another
-  client targeted at the now decoupled subtree (default \texttt{overwrite})
+  \item \texttt{durability}: which durability model to use (\texttt{stream})
 
-  \item \texttt{consistency\_callback}: which consistency model to use (default
-  \texttt{RPCs})
+  \item \texttt{allocated\_inodes}: the number of inodes to provision to the
+  decoupled namespace (100)
 
-  \item \texttt{durability\_callback}: which durability model to use (default
-  \texttt{stream})
+  \item \texttt{interfere\_policy}: how to handle a request from another
+  client targeted at this subtree (\texttt{allow}))
 
 \end{itemize}
 
+The ``Consistency" and ``Durability" parameters are set to the CudeleFS
+mechanisms; they can be composed (\(+\)) or run in parallel (\(|\|\)).
+``Allocated Inodes" is a way for the application to specify how many files it
+intends to create. It is a contract so that the file system can provision
+enough resources for the incumbent merge and so it can give valid inodes to
+other clients. The inodes can be used anywhere within the decoupled namespace
+({i.e.} at any depth in the subtree).
+
 % description
+``Interfere Policy" has two settings: \texttt{block} and \texttt{allow}.
 For \texttt{block}, any requests to this part of the namespace returns with
 ``Device is busy", which will spare the metadata server from wasting resources
 for updates that may get overwritten. If the application does not mind losing
 updates, for example it wants approximations for results that take too long to
-compute, it can select \texttt{overwrite}. In this case, metadata will be
+compute, it can select \texttt{allow}. In this case, metadata from the interferring client will be
 written and the computation from the decoupled namespace will take priority at
 merge time because the results are more accurate.
 
@@ -234,23 +208,35 @@ merge time because the results are more accurate.
 Given these default values decoupling the namespace with an empty policies file
 would give the application 100 inodes but the subtree would behave like the
 existing CephFS implementation. To implement DeltaFS on CudeleFS, the user
-would use the configuration from Listing~\ref{src:deltafs}. BatchFS's merging
-back into the global namespace can be achieved with the configuration in
-Listing~\ref{src:batchfs}.
+would use the configuration:
 
-%\begin{listing}
-%\begin{minted}[frame=single,
-%               framesep=3mm,
-%               xleftmargin=21pt,
-%               tabsize=4]{js}
-%{     
-%    "allocated_inodes": "-"
-%    "interfere_policy": "-"
-%    "consistency": "RPCs"
-%    "durability": "stream"
-%}
-%\end{minted}
-%\caption{Existing CephFS on Cudele.}
-%\label{src:batchfs}
+\begin{listing}[h]
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create"
+    "durability": "local_persist"
+}
+\end{minted}
+\end{listing}
 
-%\end{listing}
+BatchFS merges updates into the global namespace after the job is complete.
+This can be achieved with by composing two mechanisms: 
+
+\begin{listing}[h]
+\begin{minted}[frame=single,
+               framesep=3mm,
+               xleftmargin=21pt,fontsize=\footnotesize,
+               tabsize=4]{js}
+{     
+    "allocated_inodes": "100000"
+    "interfere_policy": "block"
+    "consistency": "create+volatile_apply"
+    "durability": "local_persist"
+}
+\end{minted}
+\end{listing}
