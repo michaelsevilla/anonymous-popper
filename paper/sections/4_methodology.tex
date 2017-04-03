@@ -19,7 +19,7 @@ and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
   Local Persist     & journal saved to client's disk \\
   Global Persist    & journal saved in object store \\
 \end{tabular}
-\caption{Cudele's mechanisms are composed together to form consistency and
+\caption{The CudeleFS mechanisms are composed together to form consistency and
 durability semantics.\label{table:mechanisms}} 
 \end{table}
 
@@ -33,8 +33,8 @@ the file system should handle operations within that subtree.  Below, we
 describe the mechanisms, the policies, and the API for assigning policies to
 subtrees.
 
-\subsection{Cudele's Mechanisms}
-\label{sec:cudeles-mechanisms}
+\subsection{The CudeleFS Mechanisms}
+\label{sec:the-cudelesfs-mechanisms}
 
 % describe the figure
 Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in CudeleFS and
@@ -94,7 +94,7 @@ Persist" and ``Global Persist" is the write bandwidth of the local disk and
 object store, respectively.  These persist mechanisms are part of the library that
 links into the client.
 
-\subsection{Defining Policies in Cudele}
+\subsection{Defining Policies in CudeleFS}
 \label{sec:setting-policies-with-cudele}
 
 \begin{table}[t]

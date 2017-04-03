@@ -135,7 +135,7 @@ bytes\footnote{http://docs.ceph.com/docs/jewel/dev/mds\_internals/data-structure
 The inode cache has code for manipulating inode numbers, such as pre-allocating
 inodes to clients.\\
 
-\noindent\textbf{Cudele}: ``Nonvolatile Apply" uses the internal inode cache
+\noindent\textbf{CudeleFS}: ``Nonvolatile Apply" uses the internal inode cache
 code to allocate inodes to clients that decouple parts of the namespace and to
 skip inodes used by the client at merge time.\\
 
@@ -149,7 +149,7 @@ system namespace subtrees. To implement this, the namespace data structure has
 the ability to recursively apply policies to subtrees and to isolate subtrees
 from each other.  \\
 
-\noindent\textbf{Cudele}: uses the large inodes to store consistency and
+\noindent\textbf{CudeleFS}: uses the large inodes to store consistency and
 durability policies in the directory inode. This approach uses the File Type
 interface from the Malacology programmable store
 system~\cite{sevilla:eurosys17} and it tells clients how to access the

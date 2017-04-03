@@ -96,41 +96,10 @@ journal segments, RADOS also stores per-directory objects. \label{fig:journal}}
       \caption{Inode Cache}
       \label{fig:slowdown-journal-c}
   \end{subfigure}
-  \caption{The overhead of the file system metadata journal. The segment size
+  \caption{The overhead of global durability in CephFS. The segment size
   is the threshold that the metadata server starts
   trimming.\label{fig:slowdown-journal}}
 \end{figure*}
-
-% what is durability
-While durability is not specified by POSIX, users expect that files they create
-or modify survive failures.  We define three types of durability: global,
-local, and none.  Global
-durability means that the client or server can fail at any time and metadata
-will not be lost. Local durability means that metadata can be lost if the
-client or server stays down after a failure. None means that metadata is volatile
-and that the system provides no guarantees when clients or servers fail. 
-None is different than local durability because regardless of the type failure,
-metadata will be lost when components die in a None configuration.\\
-
-% - sequential IO, trim redundant operations
-\noindent\textbf{CephFS Design}: a journal of metadata updates that streams into
-the resilient object store, similar to LFS~\cite{rosenblum:acm1992-LFS} and
-WAFL~\cite{hitz:wtec1994-WAFL}, grows to large extents which
-allows to (1) sequentially write into the object store and (2) provide the ability for daemons to
-trim redundant or irrelevant journal entries.  The journal is striped over
-objects where multiple journal updates can reside on the same object. There are
-two tunables for controlling the journal: the segment size and the number of
-parallel segments that can be written in parallel. Unless the journal saturates 
-memory or CPU resources, larger values for these tunables results in better
-performance.
-
-% purpose of the journal
-As shown in Figure~\ref{fig:journal}, in addition to the metadata journal,
-CephFS also stores metadata in RADOS, where directories
-and their file inodes are stored as objects.  The metadata server applies the
-updates in the journal to this metadata store when the journal reaches a certain
-size. The metadata store is optimized for recovery ({\it i.e.} reading) while
-the metadata journal is write-optimized.
 
 % Effects on performance
 Figure~\ref{fig:slowdown-journal} shows that journaling metadata updates into
@@ -189,10 +158,8 @@ buffering writes, changing the file size, and performing lazy IO.
       \caption{Different interferring requests}
       \label{fig:interfere-c}
   \end{subfigure}
-  \caption{When a client create stream is ``isolated" lookups resolve
-  locally; but when a second client ``interferes" by creating in the same
-  directory, the directory inode capability is revoked forcing all clients to
-  centralize lookups at the metadata server.
+  \caption{The overhead of strong consistency in CephFS. When a second client
+  ``interferes", capabilities are revoked and metadata servers do more work.
   \label{fig:interfere}}
 \end{figure*}
 

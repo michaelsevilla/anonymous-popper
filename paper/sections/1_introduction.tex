@@ -80,7 +80,7 @@ subtree can adopt weaker consistency semantics while another subtree can retain
 the rigidity of POSIX's strong consistency. Figure~\ref{fig:subtree-policies}
 shows an example setup where a single global namespace has directories for
 applications designed for different, state-of-the-art HPC architectures.  We
-present Cudele, a prototype programmable file system that supports different
+present CudeleFS, a prototype programmable file system that supports different
 degrees of consistency and durability by exposing mechanisms used within the
 file system as a client library.  CudeleFS supports 3 forms of consistency
 (invisible, weak, and strong) and 3 degrees of durability (none, local, and
@@ -97,7 +97,7 @@ that can be custom fit to an application. Our contributions:
   them to subtrees in the file system namespace.
 
   \item an apples-to-apples comparison of the strategies used in recently proposed research systems against
-  previously unexplored metadata designs, all implemented using Cudele.
+  previously unexplored metadata designs, all implemented using CudeleFS.
 
 \end{enumerate}
 
@@ -110,8 +110,8 @@ the costs of merging updates (7\(\times\) slow down) and maintaining durability
 file format in systems that are based on in-memory data structures.
 Section~\ref{sec:posix-overheads} quantifies the cost of POSIX
 consistency and system-defined durability and
-Section~\ref{sec:methodology-decoupled-namespaces} presents the Cudele
-prototype and API. Section~\ref{sec:implementation} describes Cudele's
+Section~\ref{sec:methodology-decoupled-namespaces} presents the CudeleFS
+prototype and API. Section~\ref{sec:implementation} describes the CudeleFS
 mechanisms and shows how re-using internal subsystems results in an
 implementation of less than 500 lines of code. The evaluation in
 Section~\ref{sec:evaluation} quantifies the overheads and performance gains of

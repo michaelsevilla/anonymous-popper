@@ -10,7 +10,7 @@ processors with 8GB of RAM. There are three daemons per object storage server
 (one for each disk formatted with XFS) and they share an SSD for the journal.
 The nodes are running Ubuntu 12.04.4, kernel version 3.2.0-63 but all
 experiments run in Docker containers; this makes it easier to tear down and
-re-initialize ({\it e.g.}, dropping the kernel cache) for the cluster between
+re-initialize the cluster ({\it e.g.}, dropping the kernel cache) between
 experiments.
 
 This paper adheres to The Popper
@@ -56,28 +56,30 @@ In-memory client journal scales with the number of
 updates.\label{fig:behavior-journal-size}}
 \end{figure}
 
-Figure~\ref{fig:slowdown-mechanisms} shows the runtime of the Cudele
+Figure~\ref{fig:slowdown-mechanisms} shows the runtime of the CudeleFS
 mechanisms, normalized to the time it takes to write 100K file create updates
-to the client's in-memory journal ({\it i.e.} the create mechanism). Bars above
-\(10^0\) are slower than the create mechanism and bars below are faster.
-``Stream" is an approximation of the overhead and is calculated by subtracting
-the runtime of the job with the journal turned off from the runtime with the
-journal turned on. All the slowdowns and speedups reported are for the 100K
-file create job, the largest workoad we tested.
+to the client's in-memory journal ({\it i.e.} the ``Create" mechanism). Bars
+above \(10^0\) are slower than the ``Create" mechanism and bars below are
+faster.  ``Stream" is an approximation of the overhead and is calculated by
+subtracting the runtime of the job with the journal turned off from the runtime
+with the journal turned on. All the slowdowns and speedups reported are for the
+100K file create job, the largest workoad we tested\footnote{We stopped testing
+at 100K because this is the maximum recommended size of a directory in CephFS;
+preliminary experiemnts with larger directory sizes show memory problems.}.
 
 % RPCs vs. apply: calls to metadata server vs. RADOS
-\subsubsection{Overhead of RPCs} ``RPCs" is \(66\times\) slower than ``volatile
-apply" because sending individual metadata updates over the network is costly.
-While ``RPCs" sends a request for every file create, ``nonvolatile apply"
+\subsubsection{Overhead of RPCs} ``RPCs" is \(66\times\) slower than ``Volatile
+Apply" because sending individual metadata updates over the network is costly.
+While ``RPCs" sends a request for every file create, ``Nonvolatile Apply"
 writes all the updates to the in-memory journal and applies them to the
 in-memory data structures in the metadata server. While communicating the
 decoupled namespace directly to the metadata server is faster, communicating
-through the object store (``nonvolatile apply") is \(10\times\) slower.
+through the object store (``Nonvolatile Apply") is \(10\times\) slower.
 
 % TODO: why is apply so slow.  
 % apply: no CephFS changes, pulls/pushes same RADOS obj.
 % v_apply vs. apply/persist: communicating through RADOS
-\subsubsection{Overhead of ``nonvolatile apply"} The cost of ``nonvolatile
+\subsubsection{Overhead of ``Nonvolatile Apply"} The cost of ``Nonvolatile
 apply" is much larger than all the other mechanisms.  That mechanism was not
 implemented as part of CudeleFS -- it was a debugging and recovery tool packaged
 with CephFS. It works by iterating over the updates in the journal and pulling
@@ -85,14 +87,14 @@ all objects that {\it may} be affected by the update.  This means that two
 objects are repeatedly pulled, updated, and pushed: the object that houses the
 experiment directory and the object that contains the root directory ({\it
 i.e.} \texttt{/}).  The cost of communcating through the object store is shown
-by comparing the runtime of ``volatile apply" + ``global persist" to
-``nonvolatile apply". These two operations end up with the same final metadata
-state but using ``nonvolatile apply" is clearly inferior.
+by comparing the runtime of ``Volatile apply" + ``Global persist" to
+``Nonvolatile Apply". These two operations end up with the same final metadata
+state but using ``Nonvolatile Apply" is clearly inferior.
 
 % persist vs. save: one disk vs. many
-\subsubsection{Parallelism of the Object Store} Comparing ``local" and ``global
+\subsubsection{Parallelism of the Object Store} Comparing ``Local" and ``Global
 persist" demonstrates the bandwidth advantages of storing the journal in a
-distributed object store. As the journal size increases, the ``global persist"
+distributed object store. For 100K file creates, the ``Global Persist"
 performance is \(1.5\times\) faster because the object store is leveraging the
 collective bandwidth of the disks in the cluster. This benefit comes from the
 object store itself but should be acknowledged when making decisions for the
@@ -104,7 +106,12 @@ amount of storage per journal update (\(y\) axis) for the range of file creates
 we tested (\(x\) axis). The increase in file size is linear with the number of
 metadata creates and suggests that updates for a million files would be
 \(2.5\text{KB}*1\text{ million files} = 2.38\text{GB}\). Transfer times for
-files this large on an HPC network are reasonable.
+payloads of this size on an HPC network are reasonable.\\
+
+\noindent\textbf{Takeaway}: the CudeleFS mechansisms have overheads and costs
+that can differ {\it by order of magnitude}. CudeleFS gives users the ability
+to compose these mechanisms based on their application's correctness
+requirements and performance goals.
 
 \subsection{Weak vs. Strong Consistency}
 \begin{figure}[tb]
@@ -115,31 +122,14 @@ overhead compared to the decoupled namespace strategy of ``Weak
 Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
 
-Figure~\ref{fig:slowdown-strong-weak} shows the runtimes of weak and
-strong consistency based systems implemented on Cudele, normalized to the
-runtime of the create mechanism (again, just creating files in the client's
-in-memory journal). We scaled the number of files up to 100K which is the
-maximum size of a directory by default in CephFS. We use the following
-compositions from the mechanisms in Table~\ref{table:spectrum}: 
-
-\begin{itemize}
-  \item Strong Consistency
-  \begin{itemize}
-    \item[]  \texttt{RPCs} \(+\) \texttt{stream}
-  \end{itemize}
-  \item Strong Consistency, No Fault Tolerance
-  \begin{itemize}
-    \item[] \texttt{RPCs}
-  \end{itemize}
-  \item Weak Consistency
-  \begin{itemize}
-    \item[] \texttt{creates} \(+\) \texttt{local persist}
-  \end{itemize}
-  \item Weak Consistency, No Fault Tolerance
-  \begin{itemize}
-    \item[] \texttt{creates} \(+\) \texttt{local persist} \(+\) \texttt{volatile apply}
-  \end{itemize}
-\end{itemize}
+Figure~\ref{fig:slowdown-strong-weak} shows the runtimes of systems employing
+weak and strong consistency, normalized to the runtime of the ``Create"
+mechanism (again, just creating files in the client's in-memory journal).  We
+use the following compositions from the mechanisms in
+Table~\ref{table:spectrum}:  Strong Consistency = ``RPCs" + ``Stream"; Strong
+Consistency, No Fault Tolerance = ``RPCs"; Weak Consistency = ``Creates" +
+``Local Persist"; and Weak Consistency, No Fault Tolerance = ``Creates" +
+``Local Persist" + ``Volatile Apply".
 
 % Final file system metadata states are equivalent No guarantees while
 % transitioning mechanisms
@@ -161,11 +151,11 @@ traditional namespaces that use RPCs. Compared to the baseline the slowdown is
 
 % POSIX (no stream) vs. POSIX: cost of durability < consistency
 \subsubsection{Durability \(<<\) Consistency} The \(1.15\times\) overhead of
-``Strong Consistency" compared to ``Strong Consistency, No Fault Tolerance" for
+Strong Consistency compared to Strong Consistency, No Fault Tolerance for
 100K files is neglible. It suggests that the overhead of consistency is much
 larger than the overhead of durability. This conclusion should be stronger as
 we scale the number of files because the cost of streaming the journal into the
-object store is constant. We omit the same analysis for ``Weak Consistency"
+object store is constant. We omit the same analysis for Weak Consistency
 because the runtimes are so short that the normalized slowdowns are misleading.
 
 % Weak Consistency benefit not due to metadata format
@@ -173,7 +163,11 @@ because the runtimes are so short that the normalized slowdowns are misleading.
 all schemes we argue that the performance gain for decoupled namespaces comes
 from relaxing the consistency guarantees and not from the metadata formats, as
 was argued in previous work outlining the benefit of
-SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.
+SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.\\
+
+\noindent\textbf{Takeaway}: CudeleFS shows the true benefit of eventual
+consistency, where we see over a \(100\times\) slowdown for achieving strong
+consistency, in the worst case.
 
 %\section{notes}
 %Linking clients into our custom libcephfs
@@ -259,7 +253,7 @@ interferring clients. Performance with blocking turned is the same as
 % setup: 2cs sep dirs, 2cs DN, 1c malicious write
 Next we show how CudeleFS can be programmed to block interferring clients. We
 use the same problematic workload from Figure~\ref{fig:interfere-b}, where
-clients write to their own private directories and another client interferes at
+clients write to their own private directories and another client interferes with a stream of creates at
 30 seconds.  We also have another client write to a decoupled namespace and
 merge its updates at 90 seconds.  We equip each client directory with the
 configuration in Listing~\ref{src:block}.  Each directory functions with RPCs
@@ -269,25 +263,20 @@ like CephFS, all interferring operations will be returned with \texttt{-EBUSY}.
 Note that IndexFS does a similar operation with leases except clients block.
 
 % results
-The benefits of this isolations are shown next to the bars from
-Figure~\ref{fig:interfere-b} in Figure~\ref{fig:slowdown-allow-block}. Because
-\{``allow", ``block"\} has the same performance as \{``interfere",
-``isolated"\}, we draw the following three conclusions: (1) clients that use the
-API to block interferring clients  get the same performance as isolated
-clients, (2) there is a neglible effect on performance for the extra work the
-metadata server does to return \texttt{-EBUSY}, and (3) merging updates from
-the decoupled client has a neglible effect on performance.\\
+To show the benefits of this isolations, our results in
+Figure~\ref{fig:slowdown-allow-block} are plotted alongside the bars from
+Figure~\ref{fig:interfere-b}. Because ``allow"/``interfere and
+``block"/``isolated" have the same performance we draw the following three
+conclusions: (1) clients that use the API to block interferring clients  get
+the same performance as isolated clients, (2) there is a neglible effect on
+performance for the extra work the metadata server does to return
+\texttt{-EBUSY}, and (3) merging updates from the decoupled client has a
+neglible effect on performance.\\
 
-\noindent\textbf{Takeaway}: the API is sufficient for isolating performance
-when applications require it. This is a way of controlling consistency.
+\noindent\textbf{Takeaway}: the API lets users isolate directories when
+applications need better and more reliable performance. This is a way of
+controlling consistency.
 
 \subsection{Scaling Concurrent Merges}
 
 \subsection{Partial Directory Listings}
-
-\subsection{Cost of Nonvolatile Apply}
-% Why so slow?
-Creating many files in the same directory would touch the same object but the
-existing implementation results in this object being repeatedly pushed/pulled.
-
-
