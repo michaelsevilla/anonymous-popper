@@ -38,6 +38,32 @@ are stressing the servers more.
 \subsection{Durability}
 \label{sec:durability}
 
+\begin{figure*}[t]
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-journal.png}
+      \caption{Runtime normalized to no journal} \label{fig:overhead-a}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/behavior-interfere.png}
+      \caption{Interference forces \texttt{lookup()}s}
+      \label{fig:overhead-b}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere.png}
+      \caption{Interference hurts variability}
+      \label{fig:overhead-c}
+  \end{subfigure}
+  \caption{The overhead of global durability and strong consistency in CephFS.
+  (a) shows the effect of different journal segment sizes, which are streamed
+  into the object store for fault tolerance. (b) and (c) show that when a second
+  client ``interferes", capabilities are revoked and metadata servers do more
+  work.  \label{fig:overhead}}
+\end{figure*}
+
 % what is durability
 While durability is not specified by POSIX, users expect that files they create
 or modify survive failures.  We define three types of durability: global,
@@ -71,45 +97,20 @@ the metadata journal is write-optimized.
 
 \begin{figure}[tb] \centering
 \includegraphics[width=1\linewidth]{./figures/journal.png} 
-\caption{CephFS uses a journal to stage updates and tracks dirty metadata in
-the collective memory of the metadata servers. Each metadata server maintains its own journal, which is
-broken up into 4MB segments. These segments are pushed into RADOS and deleted
-when that particular segment is trimmed from the end of the log. In addition to
-journal segments, RADOS also stores per-directory objects. \label{fig:journal}}
+\caption{CephFS has two views of the file system namespace: a journal of
+metadata updates and a metadata store. For fault tolerance, they are stored in
+the object store as segments and fragments, respectively.
+\label{fig:journal}}
 \end{figure}
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-journal.png}
-      \caption{Journal Segment Size} \label{fig:slowdown-journal-a}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/behavior-journal.png}
-      \caption{180MB Segment vs. No Journal}
-      \label{fig:slowdown-journal-b}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-cache.png}
-      \caption{Inode Cache}
-      \label{fig:slowdown-journal-c}
-  \end{subfigure}
-  \caption{The overhead of global durability in CephFS. The segment size
-  is the threshold that the metadata server starts
-  trimming.\label{fig:slowdown-journal}}
-\end{figure*}
 
 % Effects on performance
-Figure~\ref{fig:slowdown-journal} shows that journaling metadata updates into
-the object store has an overhead. Figure~\ref{fig:slowdown-journal-a} shows the
+Figure~\ref{fig:overhead-a} shows the
 effect of journaling of different journal segment sizes; the larger the segment
 size the bigger that the writes into the object store are. The trade-off for
 better performance is memory consumption because larger segments take up
-more space for buffering. Figure~\ref{fig:slowdown-journal-b} shows how
+more space for buffering. When journaling is on, 
 the metadata server periodically stops serving requests to flush ({\it i.e.}
-apply journal updates to) to the metadata store.  The journal overhead is
+apply journal updates) to the metadata store.  The journal overhead is
 sufficient enough to slow down metadata throughput but not so much as to
 overwhelm the bandwidth of the object store. We measured our peak bandwidth to
 be 100MB/s, which is the speed of our network link.\\
@@ -138,31 +139,6 @@ consistent. To reduce the number of RPCs needed for consistency, clients can
 obtain capabilities for reading, creating and updating inodes, as well as caching reads,
 buffering writes, changing the file size, and performing lazy IO.
 
-\begin{figure*}[t]
-  \centering
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/behavior-interfere.png}
-      \caption{Inteference forces \texttt{lookup()}s}
-      \label{fig:interfere-a}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere.png}
-      \caption{Interference hurts performance}
-      \label{fig:interfere-b}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-      \centering
-      \includegraphics[width=1.0\linewidth]{graphs/slowdown-interfere-types.png}
-      \caption{Different interferring requests}
-      \label{fig:interfere-c}
-  \end{subfigure}
-  \caption{The overhead of strong consistency in CephFS. When a second client
-  ``interferes", capabilities are revoked and metadata servers do more work.
-  \label{fig:interfere}}
-\end{figure*}
-
 % inode cache - reduces RPCs (lookups for create, readdirs for stats)
 To keep track of the read caching and write buffering capabilities, the clients
 and metadata servers agree on the state of each inode using an inode cache.  If
@@ -174,7 +150,7 @@ client immediately reads all the inodes in the cache ({\it i.e.} \texttt{ls
 
 % benefits PROBLEM -- IS THIS THE METADATA PROTOCOL OR JUST THE OVERLOADEDNESS?
 The benefits of caching the directory inode when creating files is shown in
-Figure~\ref{fig:interfere-a}.  If only one client is creating files in a
+Figure~\ref{fig:overhead-b}.  If only one client is creating files in a
 directory (``isolated" curve on \(y1\) axis) then that client can lookup the
 existence of new files locally before issuing a create request to the metadata
 server. If another client starts creating files in the same directory
@@ -183,19 +159,14 @@ read caching and the first client must send \texttt{lookup()}s to the metadata
 server (``interfere" curve on \(y2\) axis). These extra requests increase the
 throughput of the ``interfere" curve because the metadata server can handle the
 extra load but the overall performance decreases.  This degradation is shown in
-Figure~\ref{fig:interfere-b}, where we scale the number of clients and show
-increased runtime and variability. The performance is compared to a single
-isolated client and the error bar is the standard deviation of the runtime of
+Figure~\ref{fig:overhead-c}, where we scale the number of clients and show
+increased variability. The performance is compared to a single
+isolated client and the \(y\) axis the standard deviation of the runtime of
 all clients.  For the ``interfere" bars, each client creates files in private
 directories and at 30 seconds we launch another process that creates files in
 those directories.  For less than 7 clients, the runtime and deviation is worse
 when clients interfere. At 7 clients, the metadata server is overloaded so the
-directory caching in the ``isolated" bars has no benefit. Zooming in on runs
-with 7 clients in Figure~\ref{fig:interfere-c} we see how different
-interfering operations affect performance, again when compared to the
-performance of a single isolate client.  ``create" has little effect but
-``stat" and ``create many" cause noticeable slowdowns because of the extra work
-they impose on the metadata server.\\
+directory caching in the ``isolated" bars has no benefit.\\
 
 % TODO: what is the cost of trimming the cache?
 % TODO: does CephFS still cache inodes when I turn off caching? Why is still keeping inodes in memory? Gah!

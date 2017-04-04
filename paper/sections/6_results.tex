@@ -42,9 +42,8 @@ to an experiment and its artifacts.
 \caption{
 [\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-decoupled.ipynb}{source}]
 The performance of the CudeleFS mechanisms normalized to the runtime of the
-create mechanism. The runtime of the create mechanism is the time it takes to
-write 100 file creates to the client's in-memory journal of metadata
-updates.\label{fig:slowdown-mechanisms}}
+``Append Client Journal" mechanism (the runtime of writing \(n\) file creates
+to the client's in-memory journal).  \label{fig:slowdown-mechanisms}}
 \end{figure}
 
 \begin{figure}[tb]
@@ -57,15 +56,27 @@ updates.\label{fig:behavior-journal-size}}
 \end{figure}
 
 Figure~\ref{fig:slowdown-mechanisms} shows the runtime of the CudeleFS
-mechanisms, normalized to the time it takes to write 100K file create updates
-to the client's in-memory journal ({\it i.e.} the ``Create" mechanism). Bars
-above \(10^0\) are slower than the ``Create" mechanism and bars below are
-faster.  ``Stream" is an approximation of the overhead and is calculated by
-subtracting the runtime of the job with the journal turned off from the runtime
-with the journal turned on. All the slowdowns and speedups reported are for the
-100K file create job, the largest workoad we tested\footnote{We stopped testing
-at 100K because this is the maximum recommended size of a directory in CephFS;
-preliminary experiemnts with larger directory sizes show memory problems.}.
+mechanisms, normalized to the time it takes to write \(n\) file create updates
+to the client's in-memory journal ({\it i.e.} the ``Append Client Journal""
+mechanism). Bars above \(10^0\) are slower than the ``Append Client Journal""
+mechanism and bars below are faster.  ``Stream" is an approximation of the
+overhead and is calculated by subtracting the runtime of the job with the
+journal turned off from the runtime with the journal turned on.  The largest
+workoad we tested is 100K file creates in the same directory.  This is the
+maximum recommended size of a directory in CephFS; preliminary experiemnts with
+larger directory sizes show memory problems.
+
+\subsubsection{Poorly Scaling Data Structures} Despite doing the same amount of
+work, mechanisms that rely on poorly scaling data structures have large
+slowdowns for the larger number of creates. For example, ``RPCs" which relies
+on the internal CephFS directory structures, goes from a \(40\times\) slowdown
+for 10K files to a \(90\times\) slowdown for 100K files. It is a well-known
+problem that directory data structures do not scale when creating files in the
+same directory~\cite{ren:sc2014-indexfs} and any mechanism that uses these data
+structures will experience similar slowdowns. Other mechanisms that write
+events to a journal ({\it e.g.} the persists, ``Volatile Apply") experience a
+much less drastic slowdown because the journal data structure does not need to
+be scanned for every operation.
 
 % RPCs vs. apply: calls to metadata server vs. RADOS
 \subsubsection{Overhead of RPCs} ``RPCs" is \(66\times\) slower than ``Volatile
@@ -123,12 +134,12 @@ Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
 
 Figure~\ref{fig:slowdown-strong-weak} shows the runtimes of systems employing
-weak and strong consistency, normalized to the runtime of the ``Create"
+weak and strong consistency, normalized to the runtime of the ``Append Client Journal""
 mechanism (again, just creating files in the client's in-memory journal).  We
 use the following compositions from the mechanisms in
 Table~\ref{table:spectrum}:  Strong Consistency = ``RPCs" + ``Stream"; Strong
-Consistency, No Fault Tolerance = ``RPCs"; Weak Consistency = ``Creates" +
-``Local Persist"; and Weak Consistency, No Fault Tolerance = ``Creates" +
+Consistency, No Fault Tolerance = ``RPCs"; Weak Consistency = ``Append Client Journal"s" +
+``Local Persist"; and Weak Consistency, No Fault Tolerance = ``Append Client Journal"s" +
 ``Local Persist" + ``Volatile Apply".
 
 % Final file system metadata states are equivalent No guarantees while

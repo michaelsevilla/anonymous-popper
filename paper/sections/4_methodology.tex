@@ -13,7 +13,7 @@ and delay metadata updates using the CudeleFS Mechanisms }\label{fig:decouple}
   Mechanism         & Description \\\hline
   RPCs              & round trip remote procedure calls \\
   Stream            & stream journal into object store \\
-  Create            & events appended to in-memory journal \\
+  Append Client Journal & events appended to in-memory journal \\
   Volatile Apply    & apply to metadata store in obj store \\
   Nonvolatile Apply & apply to metadata store in memory \\
   Local Persist     & journal saved to client's disk \\
@@ -39,7 +39,7 @@ subtrees.
 % describe the figure
 Figure~\ref{fig:decouple} shows the mechanisms (labeled arrows) in CudeleFS and
 which daemon(s) they are performed by.  Table~\ref{table:mechanisms} has a
-description of what each mechanism does.  Decoupled clients use the ``Create"
+description of what each mechanism does.  Decoupled clients use the ``Append Client Journal""
 mechanism to append metadata updates to a local, in-memory journal. Once the
 job is complete, the system calls CudeleFS mechanisms to achieve the desired
 consistency/durability semantics.  CudeleFS provides a library for clients to
@@ -77,7 +77,7 @@ back to the object store.
 %Persist. ``RPCs" does round trip remote procedure calls to establish
 %consistency; it is the default implementation for complying with POSIX in
 %CephFS. ``Stream" has the metadata servers stream a journal of metadata updates
-%into the object store. ``Create" allows clients to append metadata events to an
+%into the object store. ``Append Client Journal"" allows clients to append metadata events to an
 %in-memory journal. ``Volatile apply" 
 % ``Local Persist" takes the in-memory journal and writes it to the
 %client's disk. ``Global Persist" saves the journal as a an object in the object
@@ -102,12 +102,12 @@ links into the client.
 \begin{tabular}{ l | l | l | l }
   C \(\rightarrow\) &&& \\  
   D \(\downarrow\)  	     & invisible         & weak        & strong  \\\hline
-  none                       & create            & create          & RPCs    \\
+  none                       & append client journal            & append client journal          & RPCs    \\
                              &                   & +volatile apply &         \\\hdashline
-  local                      & create            & create          & RPCs    \\
+  local                      & append client journal            & append client journal          & RPCs    \\
                              & +local persist    & +local persist  & +local  \\
                              &                   & +volatile apply &  persist\\\hdashline
-  global                     & create            & create          & RPCs    \\
+  global                     & append client journal            & append client journal          & RPCs    \\
                              & +global persist   & +global persist & +stream \\
                              &                   & +volatile apply &         \\
 \end{tabular}
@@ -146,7 +146,7 @@ labels here based on the points emphasized in the papers.  To compose the
 mechanisms users inject which mechanisms to run and which to use in parallel
 using a domain specific language.  Although we can achieve all permutations of
 the different guarantees in Table~\ref{table:spectrum}, not all of them make
-sense. For example, it makes little sense to do \texttt{creates+RPCs} since
+sense. For example, it makes little sense to do \texttt{append client journal+RPCs} since
 both mechanisms do the same thing or \texttt{stream+save} since ``global"
 durability is stronger and has more overhead than ``local" durability. 
 
@@ -218,7 +218,7 @@ would use the configuration:
 {     
     "allocated_inodes": "100000"
     "interfere_policy": "block"
-    "consistency": "create"
+    "consistency": "append_client_journal"
     "durability": "local_persist"
 }
 \end{minted}
@@ -235,7 +235,7 @@ This can be achieved with by composing two mechanisms:
 {     
     "allocated_inodes": "100000"
     "interfere_policy": "block"
-    "consistency": "create+volatile_apply"
+    "consistency": "append_client_journal+volatile_apply"
     "durability": "local_persist"
 }
 \end{minted}
