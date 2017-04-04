@@ -1,0 +1,42 @@
+- hosts: clients
+  become: True
+  tasks:
+
+  - fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ site }}/summary.txt"
+
+  - name: create all the directories for the clients
+    shell: mkdir /scale-clients/dir-{{ ansible_hostname }}
+
+- include: decouple.yml
+
+- hosts: clients
+  become: True
+  tasks:
+
+  - name: add events to the in memory journal and save to a file
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --persist true --decoupled_dir dir-{{ ansible_hostname }} --file /etc/ceph/events-{{ ansible_hostname }}.bin
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="save,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: move that file to the control server
+    fetch: src="/etc/ceph/events-{{ ansible_hostname }}.bin" dest="/tmp/events-{{ ansible_hostname }}.bin" flat=yes
+
+- hosts: mdss[0]
+  become: True
+  tasks:
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ site }}/summary.txt"
+
+  - name: move that file to the metadata server
+    copy: dest="/etc/ceph/events-{{ item }}.bin" src="/tmp/events-{{ item }}.bin"
+    with_items: groups.clients
+    register: results
+  - local_action: lineinfile dest="{{ output }}" line="copy,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
+
+  - name: merge it
+    shell: docker exec ceph-{{ ansible_hostname }}-mds ceph daemon mds.{{ ansible_hostname }} merge /etc/ceph/events-{{ item }}.bin
+    register: results
+    with_items: groups.clients
+  - debug: var=results
+  - local_action: lineinfile dest="{{ output }}" line="v.apply,{{ ansible_date_time.time }},{{ results.delta }}" create="yes"
