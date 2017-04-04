@@ -14,7 +14,8 @@ the file system that uses the Ceph's object store ({\it i.e.} RADOS) to store
 its data and metadata. We choose CephFS because it is an open-source production
 quality system. This file system is an implementation of one set of design
 decisions and our goal is to highlight the effect that those decisions have on
-performance.
+performance. During this process we discovered, based on the analysis and
+breakdown of costs, that durability and consistency have high overhead.
 
 To show how the file system behaves under high metadata load we use a
 create-heavy workload. Create-heavy workloads are studied the most in HPC

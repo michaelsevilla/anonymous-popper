@@ -51,7 +51,7 @@ to the client's in-memory journal).  \label{fig:slowdown-mechanisms}}
 \includegraphics[width=1.0\linewidth]{graphs/behavior-journal-size.png}
 \caption{
 [\href{https://...}{source}]
-In-memory client journal scales with the number of
+The size of the client's journal scales with the number of
 updates.\label{fig:behavior-journal-size}}
 \end{figure}
 
@@ -77,7 +77,7 @@ structures will experience similar slowdowns. Other mechanisms that write
 events to a journal ({\it e.g.} the persists, ``Volatile Apply") experience a
 much less drastic slowdown because the journal data structure does not need to
 be scanned for every operation. Events are written to the end of the journal without
-even checking the validity ({e.g.}, if the file already exists for a create),
+even checking the validity ({\it e.g.}, if the file already exists for a create),
 which is another form of relaxed consistency because the file system assumes the
 application has resolved conflicting updates in a different way.
 
@@ -177,9 +177,7 @@ because the runtimes are so short that the normalized slowdowns are misleading.
 % Weak Consistency benefit not due to metadata format
 \subsubsection{Metadata Formats} Because the metadata formats are the same for
 all schemes we argue that the performance gain for decoupled namespaces comes
-from relaxing the consistency guarantees and not from the metadata formats, as
-was argued in previous work outlining the benefit of
-SSTables~\cite{ren:atc2013-tablefs, ren:sc2014-indexfs}.\\
+from relaxing the consistency guarantees and not from the metadata formats.\\
 
 \noindent\textbf{Takeaway}: CudeleFS shows the true benefit of eventual
 consistency, where we see over a \(100\times\) slowdown for achieving strong
@@ -245,7 +243,7 @@ consistency, in the worst case.
 \caption{
 [\href{https://...}{source}]
 Using the ``allow" and ``block" API, users can isolate directories from
-interfering clients. Performance with blocking turned is the same as
+interfering clients. Variance with blocking turned on is the same as
 ``isolated" from Figure~\ref{fig:overhead-b}.
 \label{fig:slowdown-allow-block}}
 \end{figure}
@@ -279,7 +277,7 @@ Note that IndexFS does a similar operation with leases except clients block.
 % results
 To show the benefits of this isolations, our results in
 Figure~\ref{fig:slowdown-allow-block} are plotted alongside the variance bars from
-Figure~\ref{fig:interfere-b}. Because ``allow"/``interfere and
+Figure~\ref{fig:overhead-b}. Because ``allow"/``interfere and
 ``block"/``isolated" have the same variability we draw the following three
 conclusions: (1) clients that use the API to block interfering clients  get
 the same performance as isolated clients, (2) there is a negligible effect on
@@ -291,11 +289,47 @@ negligible effect on performance.\\
 applications need better and more reliable performance. This is a way of
 controlling consistency.
 
-\subsection{Scaling Concurrent Merges}
+\subsection{Scaling Serialized Merges}
 
-Figure~\ref{boner} scales the number of merges and shows linear performance.
-The performance is linear for two reasons: (1) the merges are serialized and
-(2) applying the updates to the in-memory metadata store does not touch data
-structures that scale poorly. CudeleFS serializes merge requests 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/merge-a.png}
+      \caption{Merging journals serially.} \label{fig:merge-a}
+  \end{subfigure}\\
+  ~
+  \begin{subfigure}[b]{\linewidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{graphs/merge-b.png}
+      \caption{Merging a journal w/ 100K create updates.}
+      \label{fig:merge-b}
+  \end{subfigure}
+  \caption{Merging updates has linear scalability.\label{fig:merge}}
+\end{figure}
 
-\subsection{Partial Directory Listings}
+CudeleFS serializes merge requests at the metadata server before applying the
+updates to the in-memory metadata store. Merging concurrently is an
+optimization for future work, but merges for the largest journal size we tested
+were quite fast.  Furthermore, since we place no restrictions on the validity
+of metadata inserted into the journal, we can avoid touching poorly scaling
+data structures. In other words, we can scale linearly if we weaken our
+consistency by never checking for the existence of files before creating files.
+
+Figure~\ref{fig:merge-a} demonstrates this scalability by showing the runtime
+(\(y\) axis) of merging journals of different sizes (\(x\) axis). The variance
+of the runtime is over 20 serial merges, each hitting a different directory in
+the namespace.  The runtime scales linearly and with low variance because the
+``Create" mechanism that was used to create the journal only appends
+\texttt{open()} requests to the journal. When the updates are merged by the
+metadata server into the in-memory metadata store they never scan growing data
+structures. Had we implemented the ``Create" mechanism to include
+\texttt{lookup()} commands before \texttt{open()} requests, we would have seen
+the poor scaling that we see with the ``RPCs" mechanism.
+Figure~\ref{fig:merge-b} confirms that we do not touch a poorly scaling data
+structure because the runtimes do not increase as we add more metadata. \\
+
+\noindent\textbf{Takeaway}: the weakest form of consistency for creating files
+({\it i.e.} not checking data structures for the validity of an update or
+existence of a file) shows linear scalability and stable performance.
+
