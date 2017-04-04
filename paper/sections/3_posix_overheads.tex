@@ -80,7 +80,7 @@ metadata will be lost when components die in a None configuration.\\
 the resilient object store. Similar to LFS~\cite{rosenblum:acm1992-LFS} and
 WAFL~\cite{hitz:wtec1994-WAFL} the metadata journal is designed to grow to large which
 ensures (1) sequential writes into the object store and (2) the ability for daemons to
-trim redundant or irrelevent journal entries.  The journal is striped over
+trim redundant or irrelevant journal entries.  The journal is striped over
 objects where multiple journal updates can reside on the same object. There are
 two tunables for controlling the journal: the segment size and the number of
 parallel segments that can be written in parallel. Unless the journal saturates 
@@ -158,10 +158,10 @@ server. If another client starts creating files in the same directory
 read caching and the first client must send \texttt{lookup()}s to the metadata
 server (``interfere" curve on \(y2\) axis). These extra requests increase the
 throughput of the ``interfere" curve because the metadata server can handle the
-extra load but the overall performance decreases.  This degradation is shown in
+extra load but performance suffers.  This degradation is shown in
 Figure~\ref{fig:overhead-c}, where we scale the number of clients and show
-increased variability. The performance is compared to a single
-isolated client and the \(y\) axis the standard deviation of the runtime of
+increased variability. The results are normalized to a single
+isolated client and the \(y\) axis is the standard deviation of the runtime of
 all clients.  For the ``interfere" bars, each client creates files in private
 directories and at 30 seconds we launch another process that creates files in
 those directories.  For less than 7 clients, the runtime and deviation is worse

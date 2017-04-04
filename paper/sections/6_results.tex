@@ -57,13 +57,13 @@ updates.\label{fig:behavior-journal-size}}
 
 Figure~\ref{fig:slowdown-mechanisms} shows the runtime of the CudeleFS
 mechanisms, normalized to the time it takes to write \(n\) file create updates
-to the client's in-memory journal ({\it i.e.} the ``Append Client Journal""
-mechanism). Bars above \(10^0\) are slower than the ``Append Client Journal""
+to the client's in-memory journal ({\it i.e.} the ``Append Client Journal"
+mechanism). Bars above \(10^0\) are slower than the ``Append Client Journal"
 mechanism and bars below are faster.  ``Stream" is an approximation of the
 overhead and is calculated by subtracting the runtime of the job with the
 journal turned off from the runtime with the journal turned on.  The largest
-workoad we tested is 100K file creates in the same directory.  This is the
-maximum recommended size of a directory in CephFS; preliminary experiemnts with
+workload we tested is 100K file creates in the same directory.  This is the
+maximum recommended size of a directory in CephFS; preliminary experiments with
 larger directory sizes show memory problems.
 
 \subsubsection{Poorly Scaling Data Structures} Despite doing the same amount of
@@ -97,7 +97,7 @@ with CephFS. It works by iterating over the updates in the journal and pulling
 all objects that {\it may} be affected by the update.  This means that two
 objects are repeatedly pulled, updated, and pushed: the object that houses the
 experiment directory and the object that contains the root directory ({\it
-i.e.} \texttt{/}).  The cost of communcating through the object store is shown
+i.e.} \texttt{/}).  The cost of communicating through the object store is shown
 by comparing the runtime of ``Volatile apply" + ``Global persist" to
 ``Nonvolatile Apply". These two operations end up with the same final metadata
 state but using ``Nonvolatile Apply" is clearly inferior.
@@ -119,7 +119,7 @@ metadata creates and suggests that updates for a million files would be
 \(2.5\text{KB}*1\text{ million files} = 2.38\text{GB}\). Transfer times for
 payloads of this size on an HPC network are reasonable.\\
 
-\noindent\textbf{Takeaway}: the CudeleFS mechansisms have overheads and costs
+\noindent\textbf{Takeaway}: the CudeleFS mechanisms have overheads and costs
 that can differ {\it by order of magnitude}. CudeleFS gives users the ability
 to compose these mechanisms based on their application's correctness
 requirements and performance goals.
@@ -133,13 +133,13 @@ overhead compared to the decoupled namespace strategy of ``Weak
 Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
 
-Figure~\ref{fig:slowdown-strong-weak} shows the runtimes of systems employing
-weak and strong consistency, normalized to the runtime of the ``Append Client Journal""
+Figure~\ref{fig:slowdown-strong-weak} shows the runtime of systems employing
+weak and strong consistency, normalized to the runtime of the ``Append Client Journal"
 mechanism (again, just creating files in the client's in-memory journal).  We
 use the following compositions from the mechanisms in
 Table~\ref{table:spectrum}:  Strong Consistency = ``RPCs" + ``Stream"; Strong
-Consistency, No Fault Tolerance = ``RPCs"; Weak Consistency = ``Append Client Journal"s" +
-``Local Persist"; and Weak Consistency, No Fault Tolerance = ``Append Client Journal"s" +
+Consistency, No Fault Tolerance = ``RPCs"; Weak Consistency = ``Append Client Journal" +
+``Local Persist"; and Weak Consistency, No Fault Tolerance = ``Append Client Journal" +
 ``Local Persist" + ``Volatile Apply".
 
 % Final file system metadata states are equivalent No guarantees while
@@ -163,7 +163,7 @@ traditional namespaces that use RPCs. Compared to the baseline the slowdown is
 % POSIX (no stream) vs. POSIX: cost of durability < consistency
 \subsubsection{Durability \(<<\) Consistency} The \(1.15\times\) overhead of
 Strong Consistency compared to Strong Consistency, No Fault Tolerance for
-100K files is neglible. It suggests that the overhead of consistency is much
+100K files is negligible. It suggests that the overhead of consistency is much
 larger than the overhead of durability. This conclusion should be stronger as
 we scale the number of files because the cost of streaming the journal into the
 object store is constant. We omit the same analysis for Weak Consistency
@@ -234,10 +234,27 @@ consistency, in the worst case.
 
 \subsection{Benefits of Isolated Subtree Policies}
 
+\begin{figure}[tb]
+\centering
+\includegraphics[width=1.0\linewidth]{graphs/slowdown-allow-block.png}
+\caption{
+[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-blockallow.ipynb}{source}]
+Using the ``allow" and ``block" API, users can isolate directories from
+interfering clients. Performance with blocking turned is the same as
+``isolated" from Figure~\ref{fig:overhead-b}.
+\label{fig:slowdown-allow-block}}
+\end{figure}
+
+% setup: 2cs sep dirs, 2cs DN, 1c malicious write
+Next we show how CudeleFS can be programmed to block interfering clients. We
+use the same problematic workload from Figure~\ref{fig:overhead-b}, where
+clients write to their own private directories and another client interferes with a stream of creates at
+30 seconds.  We also have another client write to a decoupled namespace and
+merge its updates at 90 seconds.  We equip each client directory with the
+configuration:
+
 \begin{listing}[tb]
-\begin{minted}[frame=single,
-               framesep=3mm,
-               xleftmargin=21pt,
+\begin{minted}[xleftmargin=21pt,
                tabsize=4]{js}
 {     
     "allocated_inodes": "100000"
@@ -246,43 +263,24 @@ consistency, in the worst case.
     "durability": "stream"
 }
 \end{minted}
-\caption{Existing CephFS on CudeleFS with blocking.}
-\label{src:block}
 \end{listing}
 
-\begin{figure}[tb]
-\centering
-\includegraphics[width=1.0\linewidth]{graphs/slowdown-allow-block.png}
-\caption{
-[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-blockallow.ipynb}{source}]
-Using the ``allow" and ``block" API, users can isolate directories from
-interferring clients. Performance with blocking turned is the same as
-``isolated" from Figure~\ref{fig:interfere-b}.
-\label{fig:slowdown-allow-block}}
-\end{figure}
-
-% setup: 2cs sep dirs, 2cs DN, 1c malicious write
-Next we show how CudeleFS can be programmed to block interferring clients. We
-use the same problematic workload from Figure~\ref{fig:interfere-b}, where
-clients write to their own private directories and another client interferes with a stream of creates at
-30 seconds.  We also have another client write to a decoupled namespace and
-merge its updates at 90 seconds.  We equip each client directory with the
-configuration in Listing~\ref{src:block}.  Each directory functions with RPCs
-and stream enabled -- which is the default implementation of CephFS. The only
+Each directory functions with ``RPCs"
+and ``Stream" enabled -- which is the default implementation of CephFS. The only
 difference is that we enable blocking on each subtree so while the tree behaves
-like CephFS, all interferring operations will be returned with \texttt{-EBUSY}.
+like CephFS, all interfering operations will be returned with \texttt{-EBUSY}.
 Note that IndexFS does a similar operation with leases except clients block.
 
 % results
 To show the benefits of this isolations, our results in
-Figure~\ref{fig:slowdown-allow-block} are plotted alongside the bars from
+Figure~\ref{fig:slowdown-allow-block} are plotted alongside the variance bars from
 Figure~\ref{fig:interfere-b}. Because ``allow"/``interfere and
-``block"/``isolated" have the same performance we draw the following three
-conclusions: (1) clients that use the API to block interferring clients  get
-the same performance as isolated clients, (2) there is a neglible effect on
+``block"/``isolated" have the same variability we draw the following three
+conclusions: (1) clients that use the API to block interfering clients  get
+the same performance as isolated clients, (2) there is a negligible effect on
 performance for the extra work the metadata server does to return
 \texttt{-EBUSY}, and (3) merging updates from the decoupled client has a
-neglible effect on performance.\\
+negligible effect on performance.\\
 
 \noindent\textbf{Takeaway}: the API lets users isolate directories when
 applications need better and more reliable performance. This is a way of

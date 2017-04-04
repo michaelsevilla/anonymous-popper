@@ -59,7 +59,7 @@ a threshold.  There is a wide range of policies and it is difficult to maneuver
 tunables and hard-coded design decisions.
 
 % addressing inconsistency
-In addition to the policies, distributing metadata across a cluster requiress
+In addition to the policies, distributing metadata across a cluster requires
 distributed transactions and cache coherence protocols to ensure strong
 consistency ({e.g.}, POSIX).  For example, ShardFS pessimistically replicates
 directory state and uses optimistic concurrency control for conflicts; namely
@@ -138,7 +138,7 @@ traffic using subtree snapshots for non-conflicting workloads and middleware
 for conflicting workloads. MarFS gives users the ability to lock
 ``project directories" and allocate GPFS clusters for demanding metadata
 workloads. TwoTiers eliminates high-latencies by storing metadata in a flash
-tier; apps lock the namespace so that metadata can be accessed more quickly.
+tier; applications lock the namespace so that metadata can be accessed more quickly.
 Unfortunately, decoupling the namespace has costs: (1) merging metadata state
 back into the global namespace is slow; (2) failures are local to the failing
 node; and (3) the systems are not backwards compatible. 
