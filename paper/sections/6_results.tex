@@ -16,7 +16,7 @@ experiments.
 This paper adheres to The Popper
 Convention\footnote{\url{http://falsifiable.us}}~\cite{jimenez_popper_2016}, so
 experiments presented here are available in the repository for this
-article\footnote{\url{https://github.com/michaelsevilla/cudele-popper/}}.
+article\footnote{Links have been removed for double-blind submission}.
 Experiments can be examined in more detail, or even re-run, by visiting the
 \texttt{[source]} link next to each figure. That link points to a Jupyter
 notebook that shows the analysis and source code for that graph, which points
@@ -40,7 +40,7 @@ to an experiment and its artifacts.
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/slowdown-mechanisms.png}
 \caption{
-[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-decoupled.ipynb}{source}]
+[\href{https://...}{source}]
 The performance of the CudeleFS mechanisms normalized to the runtime of the
 ``Append Client Journal" mechanism (the runtime of writing \(n\) file creates
 to the client's in-memory journal).  \label{fig:slowdown-mechanisms}}
@@ -50,7 +50,7 @@ to the client's in-memory journal).  \label{fig:slowdown-mechanisms}}
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/behavior-journal-size.png}
 \caption{
-[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-decoupled.ipynb}{source}]
+[\href{https://...}{source}]
 In-memory client journal scales with the number of
 updates.\label{fig:behavior-journal-size}}
 \end{figure}
@@ -59,7 +59,7 @@ Figure~\ref{fig:slowdown-mechanisms} shows the runtime of the CudeleFS
 mechanisms, normalized to the time it takes to write \(n\) file create updates
 to the client's in-memory journal ({\it i.e.} the ``Append Client Journal"
 mechanism). Bars above \(10^0\) are slower than the ``Append Client Journal"
-mechanism and bars below are faster.  ``Stream" is an approximation of the
+mechanism.  ``Stream" is an approximation of the
 overhead and is calculated by subtracting the runtime of the job with the
 journal turned off from the runtime with the journal turned on.  The largest
 workload we tested is 100K file creates in the same directory.  This is the
@@ -76,7 +76,10 @@ same directory~\cite{ren:sc2014-indexfs} and any mechanism that uses these data
 structures will experience similar slowdowns. Other mechanisms that write
 events to a journal ({\it e.g.} the persists, ``Volatile Apply") experience a
 much less drastic slowdown because the journal data structure does not need to
-be scanned for every operation.
+be scanned for every operation. Events are written to the end of the journal without
+even checking the validity ({e.g.}, if the file already exists for a create),
+which is another form of relaxed consistency because the file system assumes the
+application has resolved conflicting updates in a different way.
 
 % RPCs vs. apply: calls to metadata server vs. RADOS
 \subsubsection{Overhead of RPCs} ``RPCs" is \(66\times\) slower than ``Volatile
@@ -120,7 +123,7 @@ metadata creates and suggests that updates for a million files would be
 payloads of this size on an HPC network are reasonable.\\
 
 \noindent\textbf{Takeaway}: the CudeleFS mechanisms have overheads and costs
-that can differ {\it by order of magnitude}. CudeleFS gives users the ability
+that can differ {\it by orders of magnitude}. CudeleFS gives users the ability
 to compose these mechanisms based on their application's correctness
 requirements and performance goals.
 
@@ -128,7 +131,9 @@ requirements and performance goals.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/slowdown-strong-v-weak.png}
-\caption{The RPC per metadata update of ``Strong Consistency" has a large
+\caption{
+[\href{https://...}{source}]
+The RPC per metadata update of ``Strong Consistency" has a large
 overhead compared to the decoupled namespace strategy of ``Weak
 Consistency".\label{fig:slowdown-strong-weak}}
 \end{figure}
@@ -238,7 +243,7 @@ consistency, in the worst case.
 \centering
 \includegraphics[width=1.0\linewidth]{graphs/slowdown-allow-block.png}
 \caption{
-[\href{https://github.com/michaelsevilla/cudele-popper/blob/master/viz-blockallow.ipynb}{source}]
+[\href{https://...}{source}]
 Using the ``allow" and ``block" API, users can isolate directories from
 interfering clients. Performance with blocking turned is the same as
 ``isolated" from Figure~\ref{fig:overhead-b}.
@@ -287,5 +292,10 @@ applications need better and more reliable performance. This is a way of
 controlling consistency.
 
 \subsection{Scaling Concurrent Merges}
+
+Figure~\ref{boner} scales the number of merges and shows linear performance.
+The performance is linear for two reasons: (1) the merges are serialized and
+(2) applying the updates to the in-memory metadata store does not touch data
+structures that scale poorly. CudeleFS serializes merge requests 
 
 \subsection{Partial Directory Listings}
