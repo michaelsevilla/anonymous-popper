@@ -10,7 +10,7 @@ SRL_ANSIBLE="$RUN -v `pwd`/site:/root $ANSIBLE"
 
 for nclients in 7; do
   site="nojournal-cache"
-  for run in `seq 3 5`; do
+  for run in `seq 0 6`; do
     for job in "creates" "creates-touchstream" "creates-stat" "creates-touch"; do
       # configure ceph and setup results directory
       results="$job-$nclients/run$run"
@@ -22,9 +22,9 @@ for nclients in 7; do
       cp inventory/${nclients}client site/roles/ceph-ansible/hosts
 
       # cleanup and start ceph
-      for k in `seq 0 3`; do
-        $SRL_ANSIBLE cleanup.yml || true
-      done
+      #for k in `seq 0 3`; do
+      #  $SRL_ANSIBLE cleanup.yml || true
+      #done
       $SRL_ANSIBLE cleanup.yml
       $CEPH_ANSIBLE ceph.yml cephfs.yml
       $SRL_ANSIBLE ceph_pgs.yml ceph_monitor.yml ceph_wait.yml

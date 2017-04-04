@@ -1,0 +1,52 @@
+- hosts: clients[0]
+  become: True
+  tasks:
+  - fail: msg="Uh oh. Please define nfiles"
+    when: nfiles is not defined
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ site }}/summary.txt"
+
+  - name: create all the directories for the clients
+    shell: mkdir /scale-clients/dir-{{ item }}
+    ignore_errors: true
+    with_items: groups.clients
+
+
+- include: decouple.yml
+
+- hosts: clients
+  become: True
+  tasks:
+
+  - name: move that file to the client
+    copy: dest="/etc/ceph/docreates.sh" src="docreates.sh" mode=777
+
+  - name: crawl the start inode map and save the value if its you
+    shell: docker exec cephfs cephfs-journal-tool event create summary --nfiles {{ nfiles }} --persist true --decoupled_dir dir-{{ ansible_hostname }} --file /etc/ceph/events-{{ ansible_hostname }}.bin --start_ino {{ (item.stdout | from_json).start }}
+    when: item.item.client_metadata.hostname == ansible_hostname 
+    with_items: hostvars[groups.mdss[0]]['results']['results']
+    register: results
+
+- hosts: clients
+  become: True
+  serial: 1 # to avoid memory overload
+  tasks:
+
+  - name: move that file to the control server
+    fetch: src="/etc/ceph/events-{{ ansible_hostname }}.bin" dest="events-{{ ansible_hostname }}.bin" flat=yes
+
+- hosts: mdss[0]
+  become: True
+  tasks:
+  - set_fact: output="{{ playbook_dir|dirname }}/results/{{ site }}/summary.txt"
+
+  - name: move that file to the metadata server
+    copy: dest="/etc/ceph/events-{{ item }}.bin" src="events-{{ item }}.bin"
+    with_items: groups.clients
+
+#  - name: merge it
+#    shell: docker exec ceph-{{ ansible_hostname }}-mds ceph daemon mds.{{ ansible_hostname }} merge /etc/ceph/events-{{ item }}.bin
+#    register: results
+#    with_items: groups.clients
+#  - debug: var=results
+#  - local_action: lineinfile dest="{{ output }}" line="v.apply,{{ item.cmd }},{{ ansible_date_time.time }},{{ item.delta }}" create="yes"
+#    with_items: results.results

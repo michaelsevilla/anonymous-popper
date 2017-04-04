@@ -1,0 +1,7 @@
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-0.bin,00:26:42,0:00:03.085238
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-1.bin,00:26:42,0:00:02.970420
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-40.bin,00:26:42,0:00:03.117606
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-14.bin,00:26:42,0:00:02.810783
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-24.bin,00:26:42,0:00:02.924576
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-27.bin,00:26:42,0:00:03.546267
+v.apply,docker exec ceph-issdm-12-mds ceph daemon mds.issdm-12 merge /etc/ceph/events-issdm-29.bin,00:26:42,0:00:02.863922

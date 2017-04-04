@@ -1,0 +1,22 @@
+2017-04-02 06:23:29  /entrypoint.sh: static: does not generate config
+HEALTH_WARN too few PGs per OSD (10 < min 30)
+2017-04-02 06:23:30  /entrypoint.sh: static: does not generate admin key
+2017-04-02 06:23:30  /entrypoint.sh: SUCCESS
+2017-04-02 06:23:30.765051 7fa68db97300  0 set uid:gid to 64045:64045 (ceph:ceph)
+2017-04-02 06:23:30.765095 7fa68db97300  0 ceph version 9.0.0-18993-g11a2122 (11a2122891eabb0d29c573ba1bc816c13c1a9064), process ceph-mds, pid 87
+starting mds.issdm-18 at -
+2017-04-02 06:23:30.767122 7fa68db97300  0 pidfile_write: ignore empty --pid-file
+2017-04-02 06:24:26.103021 7fa68659f700  0 mds.1.cache creating system inode with ino:101
+2017-04-02 06:24:26.103164 7fa68659f700  0 mds.1.cache creating system inode with ino:60a
+2017-04-02 06:24:26.103410 7fa68659f700  0 mds.1.cache creating system inode with ino:60b
+2017-04-02 06:24:26.103505 7fa68659f700  0 mds.1.cache creating system inode with ino:60c
+2017-04-02 06:24:26.103780 7fa68659f700  0 mds.1.cache creating system inode with ino:60d
+2017-04-02 06:24:26.103894 7fa68659f700  0 mds.1.cache creating system inode with ino:60e
+2017-04-02 06:24:26.104012 7fa68659f700  0 mds.1.cache creating system inode with ino:60f
+2017-04-02 06:24:26.104121 7fa68659f700  0 mds.1.cache creating system inode with ino:610
+2017-04-02 06:24:26.104217 7fa68659f700  0 mds.1.cache creating system inode with ino:611
+2017-04-02 06:24:26.104325 7fa68659f700  0 mds.1.cache creating system inode with ino:612
+2017-04-02 06:24:26.104438 7fa68659f700  0 mds.1.cache creating system inode with ino:613
+2017-04-02 06:24:27.468442 7fa689520700  0 -- 192.168.140.230:6800/227826207 >> 192.168.140.188:6800/617646676 conn(0x7fa69720e000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG_AUTH pgs=0 cs=0 l=0).handle_connect_msg accept connect_seq 0 vs existing csq=0 existing_state=STATE_CONNECTING_WAIT_CONNECT_REPLY
+2017-04-02 06:24:27.468601 7fa689520700  0 -- 192.168.140.230:6800/227826207 >> 192.168.140.188:6800/617646676 conn(0x7fa69720e000 :6800 s=STATE_ACCEPTING_WAIT_CONNECT_MSG pgs=0 cs=0 l=0).fault with nothing to send and in the half  accept state just closed
+2017-04-02 06:39:29.718915 7fa689520700  0 -- 192.168.140.230:6800/227826207 >> 192.168.140.248:6800/2613966248 conn(0x7fa697264000 :-1 s=STATE_OPEN pgs=9 cs=1 l=0).fault with nothing to send, going to standby

@@ -10,7 +10,7 @@
   become: True
   tasks:
   - pause: seconds={{ drop_delay }}
-  - shell: for i in `seq 0 1000`; do docker exec cephfs touch /cephfs/testdir/nfiles-{{ nfiles }}-{{ item }}/#test-dir.0/mdtest_tree.0/file-$i.txt; done
+  - shell: for i in `seq 0 1000`; do docker exec cephfs touch {{ mount_point }}/testdir/nfiles-{{ nfiles }}-{{ item }}/#test-dir.0/mdtest_tree.0/file-$i.txt; done
     with_items:
     - "{{ groups['clients'] }}"
 

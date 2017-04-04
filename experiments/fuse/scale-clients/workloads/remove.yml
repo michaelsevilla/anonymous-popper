@@ -2,7 +2,7 @@
   become: True
   tasks:
   - name: delete files... aye
-    shell: docker exec cephfs rm -r /cephfs/testdir
+    shell: docker exec cephfs rm -r {{ mount_point }}/testdir
     ignore_errors: True
     register: results
   - local_action: >

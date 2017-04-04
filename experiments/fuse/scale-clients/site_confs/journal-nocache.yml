@@ -65,3 +65,4 @@ ceph_client_docker_image_tag: ec12610
 # experiment stuff #
 repetitions: 3
 ####################
+mount_point: /newmount

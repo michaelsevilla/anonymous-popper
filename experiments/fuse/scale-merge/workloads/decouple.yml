@@ -1,0 +1,21 @@
+---
+- hosts: mdss
+  tasks:
+    - set_fact:
+        mds: docker exec ceph-{{ ansible_hostname }}-mds ceph daemon mds.{{ ansible_hostname }} 
+
+    - name: decouple
+      shell: "{{ mds }} decouple dir-{{ item }} 0 100"
+      with_items: groups.clients
+      register: results
+    - debug: var=results
+
+    - name: get the client ids
+      shell: "{{ mds }} session ls"
+      register: result
+
+    - name: get some json
+      shell: "{{ mds }} decouple dir-{{ (item).client_metadata.hostname }} {{ (item).id}} {{ nfiles }}"
+      with_items: "{{ result.stdout | from_json }}"
+      register: results
+    - debug: var=results

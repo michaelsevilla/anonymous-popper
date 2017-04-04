@@ -9,7 +9,7 @@
   become: True
   tasks:
   - pause: seconds={{ drop_delay }}
-  - shell: "docker exec cephfs ls -alhR /cephfs/testdir/ | wc -l"
+  - shell: "docker exec cephfs ls -alhR {{ mount_point }}/testdir/ | wc -l"
     register: results
   - local_action: >
       copy content={{ results }} 

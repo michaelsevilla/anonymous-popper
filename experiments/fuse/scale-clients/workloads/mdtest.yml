@@ -7,11 +7,11 @@
   ignore_errors: True
 
 - name: remove old testdir
-  shell: docker exec cephfs mv /cephfs/testdir /cephfs/testdir-nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}
+  shell: docker exec cephfs mv {{ mount_point }}/testdir {{ mount_point }}/testdir-nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}
   ignore_errors: True
 
 - name: create the test directory
-  shell: docker exec cephfs mkdir /cephfs/testdir
+  shell: docker exec cephfs mkdir {{ mount_point }}/testdir
   ignore_errors: True
     
 - name: sleep 
@@ -23,6 +23,6 @@
            --name=client \
            --volumes-from cephfs \
            michaelsevilla/mdtest \
-           -F -C -n {{ nfiles }} -d /cephfs/testdir/nfiles-{{ nfiles }}-{{ ansible_hostname }}
+           -F -C -n {{ nfiles }} -d {{ mount_point }}/testdir/nfiles-{{ nfiles }}-{{ ansible_hostname }}
 
 #-F -C -n {{ nfiles }} -d /cephfs/testdir/nfiles-{{ nfiles }}-{{ ansible_date_time.date }}-{{ ansible_date_time.time }}-{{ ansible_hostname }}-client{{ item }}
