@@ -85,3 +85,9 @@
 [submodule "experiments/fuse/scale-clients-isolated/site/roles/srl-ansible"]
 	path = experiments/fuse/scale-clients-isolated/site/roles/srl-ansible
 	url = https://github.com/systemslab/srl-roles.git
+[submodule "experiments/ipdps/microbenchmark/site/roles/ceph-ansible"]
+	path = experiments/ipdps/microbenchmark/site/roles/ceph-ansible
+	url = https://github.com/michaelsevilla/ceph-ansible.git
+[submodule "experiments/ipdps/microbenchmark/site/roles/srl-ansible"]
+	path = experiments/ipdps/microbenchmark/site/roles/srl-ansible
+	url = https://github.com/systemslab/srl-roles.git

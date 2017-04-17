@@ -22,8 +22,8 @@ for m in \
    "tmp/graphite/whisper/issdm-18/mds_server/req_create.wsp" \
    "tmp/graphite/whisper/issdm-18/mds_server/req_lookup.wsp" \
    ; do
-  ../../../../../visualize.sh ${m}
-  sed -i "s/:/,/g" `basename ${m}`.out
+  ../../../../visualize.sh ${m}
+  #sed -i "s/:/,/g" `basename ${m}`.out
 done
 
 for osd in 0 1 14 24 27 29 34 40; do
